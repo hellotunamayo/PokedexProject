@@ -24,11 +24,23 @@ struct PokemonDetailData: Codable {
     let id: Int
     let height: Int
     let name: String
+//    let names: [PokemonNameData] // pokemon-spicies 로 받아와야 함... 나중에...
     let cries: PokemonCries
     let sprites: PokemonSprite
     let stats: [PokemonStat]
     let types: [PokemonTypeData]
 }
+
+//MARK: pokemon-spicies 로 받아와야 함...
+//struct PokemonNameData: Codable {
+//    let language: PokemonNameLanguage
+//    let name: String
+//}
+//
+//struct PokemonNameLanguage: Codable {
+//    let name: String
+//    let url: String
+//}
 
 struct PokemonTypeData: Codable {
     let slot: Int

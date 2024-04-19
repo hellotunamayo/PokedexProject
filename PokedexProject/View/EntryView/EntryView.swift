@@ -31,7 +31,7 @@ struct EntryView: View {
                                             .clipShape(.circle)
                                             .overlay{
                                                 Circle()
-                                                    .stroke(Color("grayColor"))
+                                                    .stroke(Color("pokeGray"))
                                                     .frame(width: 40, height: 40)
                                                     .foregroundStyle(Color.clear)
                                             }
@@ -53,7 +53,7 @@ struct EntryView: View {
                                 ZStack {
                                     Capsule()
                                         .frame(width: 40, height: 40)
-                                        .foregroundStyle(Color("grayC인ㅆolor"))
+                                        .foregroundStyle(Color("pokeGray"))
                                     
                                     Text("\(i + 1)")
                                         .font(Font.caption)
