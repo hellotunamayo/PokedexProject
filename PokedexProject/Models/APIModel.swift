@@ -27,6 +27,17 @@ struct PokemonDetailData: Codable {
     let cries: PokemonCries
     let sprites: PokemonSprite
     let stats: [PokemonStat]
+    let types: [PokemonTypeData]
+}
+
+struct PokemonTypeData: Codable {
+    let slot: Int
+    let type: PokemonType
+}
+
+struct PokemonType: Codable {
+    let name: String
+    let url: String
 }
 
 struct PokemonStat: Codable {
@@ -53,9 +64,13 @@ struct PokemonCries: Codable {
 struct PokemonSprite: Codable {
     let frontDefault: String
     let backDefault: String
+    let frontShiny: String
+    let backShiny: String
     
     enum CodingKeys: String, CodingKey {
         case frontDefault = "front_default"
         case backDefault = "back_default"
+        case frontShiny = "front_shiny"
+        case backShiny = "back_shiny"
     }
 }
