@@ -39,10 +39,9 @@ struct PokemonDetailGraphView: View {
                 
                 ZStack {
                     Rectangle()
-                        .foregroundStyle(Color(uiColor:UIColor(red: 220/255,
-                                                               green: 220/255,
-                                                               blue: 220/255,
-                                                               alpha: 0.3)))
+                        .foregroundStyle(
+                            calculateGraphWidth(maxWidth: .infinity, status: CGFloat(pokeStats[i].baseStat)).1.opacity(0.1)
+                        )
                         .overlay{
                             GeometryReader { proxy in
                                 let graphValue = calculateGraphWidth(maxWidth: proxy.frame(in: .local).width,
@@ -63,8 +62,7 @@ struct PokemonDetailGraphView: View {
                     Text("\(pokeStats[i].baseStat)")
                         .fontWeight(.semibold)
                         .font(Font.footnote)
-                        .foregroundStyle(Color.white)
-                        .blendMode(.difference)
+                        .foregroundStyle(Color("textColor"))
                         .frame(minWidth: 100, maxWidth: .infinity)
                 }
             }
@@ -87,13 +85,13 @@ struct PokemonDetailGraphView: View {
         if 0..<0.2 ~= percentage {
             color = Color(UIColor(red: 230/255, green: 64/255, blue: 38/255, alpha: 1))
         } else if 0.2..<0.4 ~= percentage {
-            color = Color(UIColor(red: 240/255, green: 137/255, blue: 19/255, alpha: 1))
+            color = Color(UIColor(red: 220/255, green: 110/255, blue: 19/255, alpha: 1))
         } else if 0.4..<0.6 ~= percentage {
-            color = Color(UIColor(red: 240/255, green: 210/255, blue: 19/255, alpha: 1))
+            color = Color(UIColor(red: 220/255, green: 170/255, blue: 19/255, alpha: 1))
         } else if 0.6..<0.8 ~= percentage {
-            color = Color(UIColor(red: 101/255, green: 200/255, blue: 19/255, alpha: 1))
+            color = Color(UIColor(red: 90/255, green: 180/255, blue: 19/255, alpha: 1))
         } else {
-            color = Color(UIColor(red: 19/255, green: 240/255, blue: 140/255, alpha: 1))
+            color = Color(UIColor(red: 19/255, green: 190/255, blue: 140/255, alpha: 1))
         }
         
         return (maxWidth * modifier, color)
