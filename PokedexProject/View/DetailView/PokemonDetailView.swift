@@ -19,11 +19,10 @@ struct PokemonDetailView: View {
         GridItem(.flexible(minimum: 30, maximum: 300))
     ]
     
-    //for graph animation
-    @State private var graphWidth: [CGFloat] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     //for いろち
     @State private var showingIrochiPortrait: Bool = false
     
+    //audio player
     @State var audioPlayer: AVAudioPlayer!
     
     var body: some View {
@@ -48,6 +47,7 @@ struct PokemonDetailView: View {
             //Content
             VStack {
                 HStack {
+                    //MARK: 도감넘버
                     Rectangle()
                         .frame(width: 90, height: 30)
                         .foregroundStyle(Color.black)
@@ -60,9 +60,12 @@ struct PokemonDetailView: View {
                         }
                         .padding(.top, 30)
                     
+                    //MARK: 타입
                     Rectangle()
                         .frame(width: 80, height: 30)
-                        .foregroundStyle(Color(uiColor: getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "Unknown").1))
+                        .foregroundStyle(
+                            Color(getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "Unknown").typeColor)
+                        )
                         .clipShape(.capsule)
                         .overlay {
                             Text(String(viewModel.pokemonData?.types[0].type.name ?? "Unknown").uppercased())
@@ -76,12 +79,14 @@ struct PokemonDetailView: View {
 //                    Image(systemName: getPokemonTypeImage(type: viewModel.pokemonData?.types[0].type.name ?? "Unknown"))
                 }
                 
-                
+                //MARK: 이름, 울음소리, 이로치전환
                 HStack {
+                    //이름
                     Text(String(viewModel.pokemonData?.name.capitalized ?? ""))
                         .fontWeight(.bold)
                         .font(Font.system(size: 30))
-                        
+                    
+                    //울음소리
                     Button(action: {
                         Task {
                             if let latestCry = viewModel.pokemonData?.cries.latest {
@@ -99,6 +104,7 @@ struct PokemonDetailView: View {
                             .offset(x: 5, y: 2)
                     })
                     
+                    //이로치 전환
                     Button(action: {
                         showingIrochiPortrait.toggle()
                     }, label: {
@@ -112,56 +118,13 @@ struct PokemonDetailView: View {
                 }
                 .padding(.bottom, 10)
                 
+                //디바이더
                 Divider()
                     .padding(.bottom, 10)
                 
+                //MARK: 포켓몬 능력치
                 if let pokeStats = viewModel.pokemonData?.stats {
-                    LazyVGrid(columns: gridItem){
-                        ForEach(0..<pokeStats.count, id: \.self) { i in
-                            HStack {
-                                if pokeStats[i].stat.name == "hp" {
-                                    Text(String(pokeStats[i].stat.name).uppercased())
-                                        .fontWeight(.bold)
-                                } else {
-                                    Text(String(pokeStats[i].stat.name).capitalized)
-                                        .fontWeight(.bold)
-                                }
-                                Spacer()
-                            }
-                            .padding(.bottom, 10)
-                            
-                            ZStack {
-                                Rectangle()
-                                    .foregroundStyle(Color(uiColor:UIColor(red: 220/255,
-                                                                           green: 220/255,
-                                                                           blue: 220/255,
-                                                                           alpha: 0.3)))
-                                    .overlay{
-                                        GeometryReader { proxy in
-                                            let graphValue = calculateGraphWidth(maxWidth: proxy.frame(in: .local).width,
-                                                                                 status: CGFloat(pokeStats[i].baseStat))
-                                            Rectangle()
-                                                .foregroundStyle(graphValue.1)
-                                                .frame(width: graphWidth[i],
-                                                       height: proxy.frame(in: .local).height)
-                                                .onAppear {
-                                                    withAnimation(.easeOut(duration: 0.7).delay(0.3)) {
-                                                        graphWidth[i] = graphValue.0
-                                                    }
-                                                }
-                                        }
-                                    }
-                                    .clipShape(.capsule)
-                                
-                                Text("\(pokeStats[i].baseStat)")
-                                    .fontWeight(.semibold)
-                                    .font(Font.footnote)
-                                    .foregroundStyle(Color.white)
-                                    .blendMode(.difference)
-                                    .frame(minWidth: 100, maxWidth: .infinity)
-                            }
-                        }
-                    }
+                    PokemonDetailListView(pokeStats: pokeStats)
                     .padding(.horizontal, 30)
                 } else {
                     ProgressView()
@@ -187,26 +150,10 @@ struct PokemonDetailView: View {
         .ignoresSafeArea()
     }
     
-    func calculateGraphWidth(maxWidth: CGFloat, status: CGFloat) -> (CGFloat, Color) {
-        let modifier: CGFloat = status / CGFloat(255.0)
-        var color: Color
-        
-        let percentage = Double(status) / 200
-        if 0..<0.2 ~= percentage {
-            color = Color(UIColor(red: 230/255, green: 64/255, blue: 38/255, alpha: 1))
-        } else if 0.2..<0.4 ~= percentage {
-            color = Color(UIColor(red: 240/255, green: 137/255, blue: 19/255, alpha: 1))
-        } else if 0.4..<0.6 ~= percentage {
-            color = Color(UIColor(red: 240/255, green: 210/255, blue: 19/255, alpha: 1))
-        } else if 0.6..<0.8 ~= percentage {
-            color = Color(UIColor(red: 101/255, green: 200/255, blue: 19/255, alpha: 1))
-        } else {
-            color = Color(UIColor(red: 19/255, green: 240/255, blue: 140/255, alpha: 1))
-        }
-        
-        return (maxWidth * modifier, color)
-    }
-    
+}
+
+extension PokemonDetailView {
+    //오디오 플레이백
     func playDecodedOGGFromDownloadedLocation(localFileLocation localURLString: String) async throws -> () {
         let url = try await viewModel.downloadFromURL(urlString: localURLString)
         let oggDecoder = OGGDecoder()
@@ -232,8 +179,8 @@ struct PokemonDetailView: View {
         }
     }
     
-    //MARK: 책갈피 됨
-    func getPokemonTypeImageAndColor(type: String) -> (String, UIColor) {
+    /// 포켓몬 타입 별 아이콘과 타입 별 색상을 튜플로 리턴
+    func getPokemonTypeImageAndColor(type: String) -> (typeIconName: String, typeColor: UIColor) {
         
         //나중에 이걸로 바꾸자 https://github.com/duiker101/pokemon-type-svg-icons
         
@@ -278,7 +225,6 @@ struct PokemonDetailView: View {
                 return ("xmark", UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1))
         }
     }
-    
 }
 
 #Preview {
