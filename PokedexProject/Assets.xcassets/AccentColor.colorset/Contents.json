@@ -14,6 +14,25 @@
       "idiom" : "universal"
     },
     {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "color" : {
+        "color-space" : "display-p3",
+        "components" : {
+          "alpha" : "1.000",
+          "blue" : "0.109",
+          "green" : "0.529",
+          "red" : "0.142"
+        }
+      },
+      "display-gamut" : "sRGB",
+      "idiom" : "universal"
+    },
+    {
       "color" : {
         "color-space" : "display-p3",
         "components" : {
@@ -21,6 +40,25 @@
           "blue" : "0.109",
           "green" : "0.328",
           "red" : "0.087"
+        }
+      },
+      "display-gamut" : "display-P3",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "color" : {
+        "color-space" : "display-p3",
+        "components" : {
+          "alpha" : "1.000",
+          "blue" : "0.109",
+          "green" : "0.529",
+          "red" : "0.142"
         }
       },
       "display-gamut" : "display-P3",
