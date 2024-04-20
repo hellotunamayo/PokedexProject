@@ -126,7 +126,7 @@ struct PokemonDetailView: View {
                 
                 //MARK: 포켓몬 능력치 그래프
                 if let pokeStats = viewModel.pokemonData?.stats {
-                    PokemonDetailListView(pokeStats: pokeStats)
+                    PokemonDetailGraphView(pokeStats: pokeStats)
                     .padding(.horizontal, 30)
                 } else {
                     ProgressView()

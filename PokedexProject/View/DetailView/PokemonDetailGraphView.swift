@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PokemonDetailListView: View {
+struct PokemonDetailGraphView: View {
     
     //for graph animation
     @State private var graphWidth: [CGFloat] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
@@ -90,7 +90,7 @@ struct PokemonDetailListView: View {
 }
 
 #Preview {
-    PokemonDetailListView(pokeStats: [
+    PokemonDetailGraphView(pokeStats: [
         PokemonStat(baseStat: 50, effort: 0, stat: PokemonStatType(name: "HP", url: "")),
         PokemonStat(baseStat: 150, effort: 0, stat: PokemonStatType(name: "Sample stat", url: "")),
         PokemonStat(baseStat: 240, effort: 0, stat: PokemonStatType(name: "Another Stat", url: "")),
