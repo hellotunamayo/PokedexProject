@@ -87,5 +87,5 @@ struct EntryView: View {
 }
 
 #Preview {
-    EntryView(viewModel: EntryViewModel(limit: 10))
+    EntryView(viewModel: EntryViewModel(limit: 30))
 }

@@ -14,7 +14,11 @@ struct EntryViewCell: View {
     @State var backgroundColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
     
     var body: some View {
-        VStack {
+        ZStack {
+            Rectangle()
+                .foregroundStyle(Color(backgroundColor).opacity(0.5))
+                .rotationEffect(Angle(degrees: 45))
+                .offset(x: 110)
             GeometryReader { proxy in
                 //MARK: 포켓몬 이름
                 VStack(alignment: .leading) {
@@ -62,6 +66,7 @@ struct EntryViewCell: View {
         .frame(minWidth: 200, maxWidth: .infinity)
         .backgroundStyle(Color(backgroundColor))
         .background(Color(backgroundColor).opacity(0.3))
+        .clipShape(.rect)
         .onAppear {
             Task {
                 try await getDominantColorFromImage(urlString: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(index+1).png")
@@ -109,6 +114,6 @@ extension EntryViewCell {
 }
 
 #Preview {
-    EntryViewCell(index: 2, pokemonName: "Pikachu")
+    EntryViewCell(index: 24, pokemonName: "Pikachu")
         .frame(height: 140)
 }
