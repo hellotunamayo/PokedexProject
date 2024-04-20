@@ -64,7 +64,9 @@ struct PokemonDetailView: View {
                     Rectangle()
                         .frame(width: 80, height: 30)
                         .foregroundStyle(
-                            Color(getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "Unknown").typeColor)
+                            Color(getPokemonTypeImageAndColor(type: viewModel
+                                                                    .pokemonData?.types[0]
+                                                                    .type.name ?? "Unknown").typeColor)
                         )
                         .clipShape(.capsule)
                         .overlay {
@@ -122,7 +124,7 @@ struct PokemonDetailView: View {
                 Divider()
                     .padding(.bottom, 10)
                 
-                //MARK: 포켓몬 능력치
+                //MARK: 포켓몬 능력치 그래프
                 if let pokeStats = viewModel.pokemonData?.stats {
                     PokemonDetailListView(pokeStats: pokeStats)
                     .padding(.horizontal, 30)
@@ -152,6 +154,7 @@ struct PokemonDetailView: View {
     
 }
 
+//MARK: Functions
 extension PokemonDetailView {
     //오디오 플레이백
     func playDecodedOGGFromDownloadedLocation(localFileLocation localURLString: String) async throws -> () {
@@ -228,5 +231,6 @@ extension PokemonDetailView {
 }
 
 #Preview {
-    PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/25/"), endpoint: "https://pokeapi.co/api/v2/pokemon/25/")
+    PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/25/"),
+                                endpoint: "https://pokeapi.co/api/v2/pokemon/25/")
 }
