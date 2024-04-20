@@ -14,7 +14,7 @@ struct PokemonSpriteView: View {
         AsyncImage(url: imageUrl) { image in
             ZStack {
                 Rectangle()
-                    .fill(Color(uiColor: UIColor(red: 213/255, green: 50/255, blue: 50/255, alpha: 0.2)))
+                    .fill(Color(uiColor: UIColor(red: 213/255, green: 50/255, blue: 50/255, alpha: 0.3)))
                     .padding(.top, viewWidth / 2)
                 image
             }
@@ -22,7 +22,7 @@ struct PokemonSpriteView: View {
             ProgressView()
         }
         .frame(width: viewWidth, height: viewWidth, alignment: .center)
-        .background(Color.white)
+        .background(Color("detailViewSheetBackground"))
         .clipShape(.circle)
         .aspectRatio(contentMode: .fit)
     }

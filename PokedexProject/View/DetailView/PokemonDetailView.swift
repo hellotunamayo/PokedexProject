@@ -130,10 +130,10 @@ struct PokemonDetailView: View {
                             
                             ZStack {
                                 Rectangle()
-                                    .foregroundStyle(Color(uiColor:UIColor(red: 240/255,
-                                                                           green: 240/255,
-                                                                           blue: 240/255,
-                                                                           alpha: 1.0)))
+                                    .foregroundStyle(Color(uiColor:UIColor(red: 220/255,
+                                                                           green: 220/255,
+                                                                           blue: 220/255,
+                                                                           alpha: 0.3)))
                                     .overlay{
                                         GeometryReader { proxy in
                                             let graphValue = calculateGraphWidth(maxWidth: proxy.frame(in: .local).width,
@@ -154,7 +154,7 @@ struct PokemonDetailView: View {
                                 Text("\(pokeStats[i].baseStat)")
                                     .fontWeight(.semibold)
                                     .font(Font.footnote)
-                                    .foregroundStyle(Color.gray)
+                                    .foregroundStyle(Color.white)
                                     .blendMode(.difference)
                                     .frame(minWidth: 100, maxWidth: .infinity)
                             }
@@ -168,7 +168,7 @@ struct PokemonDetailView: View {
                 Spacer()
             }
             .frame(minWidth: 320, maxWidth: .infinity, minHeight: 700)
-            .background(Color.white)
+            .background(Color("detailViewSheetBackground"))
             .clipShape(.rect(topLeadingRadius: 50, topTrailingRadius: 50, style: .continuous))
             .onAppear {
                 Task {
@@ -245,7 +245,7 @@ struct PokemonDetailView: View {
             case "dragon":
                 return ("lizard", UIColor(red: 17/255, green: 85/255, blue: 190/255, alpha: 1))
             case "electric":
-                return ("battery.100.bolt", UIColor(red: 238/255, green: 210/255, blue: 51/255, alpha: 1))
+                return ("battery.100.bolt", UIColor(red: 250/255, green: 170/255, blue: 51/255, alpha: 1))
             case "fairy":
                 return ("ladybug", UIColor(red: 228/255, green: 120/255, blue: 226/255, alpha: 1))
             case "fighting":
@@ -280,5 +280,5 @@ struct PokemonDetailView: View {
 }
 
 #Preview {
-    EntryView(viewModel: EntryViewModel(limit: 10))
+    PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/25/"), endpoint: "https://pokeapi.co/api/v2/pokemon/25/")
 }
