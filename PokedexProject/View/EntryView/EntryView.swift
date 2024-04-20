@@ -17,10 +17,10 @@ struct EntryView: View {
         NavigationStack{
             ScrollView {
                 ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
-                    NavigationLink {
-                        PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
-                    } label: {
-                        LazyVStack {
+                    LazyVStack {
+                        NavigationLink {
+                            PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
+                        } label: {
                             HStack {
                                 AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(i+1).png")) { phase in
                                     if let image = phase.image {
@@ -70,10 +70,11 @@ struct EntryView: View {
                                     .foregroundStyle(Color("textColor"))
                             }
                             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                            
                         }
+                        .frame(minWidth: 300, maxWidth: .infinity, idealHeight: 60)
+                        .backgroundStyle(Color("backgroundColor"))
                     }
-                    .frame(minWidth: 300, maxWidth: .infinity, idealHeight: 60)
-                    .backgroundStyle(Color("backgroundColor"))
                 }
             }
             .navigationTitle("Pokemon List")
