@@ -12,6 +12,10 @@ struct PokemonDetailGraphView: View {
     //for graph animation
     @State private var graphWidth: [CGFloat] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     
+    //for animation when onappear
+    @State private var offsetY: CGFloat = 30.0
+    @State private var opacity: CGFloat = 0.0
+    
     let pokeStats: [PokemonStat]
     let gridItem: [GridItem] = [
         GridItem(.flexible(minimum: 30, maximum: 300)),
@@ -48,7 +52,7 @@ struct PokemonDetailGraphView: View {
                                     .frame(width: graphWidth[i],
                                            height: proxy.frame(in: .local).height)
                                     .onAppear {
-                                        withAnimation(.easeOut(duration: 0.7).delay(0.3)) {
+                                        withAnimation(.easeOut(duration: 0.7).delay(0.9)) {
                                             graphWidth[i] = graphValue.0
                                         }
                                     }
@@ -63,6 +67,14 @@ struct PokemonDetailGraphView: View {
                         .blendMode(.difference)
                         .frame(minWidth: 100, maxWidth: .infinity)
                 }
+            }
+        }
+        .offset(x: 0, y: offsetY)
+        .opacity(opacity)
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.3).delay(0.7)) {
+                offsetY = 0
+                opacity = 1
             }
         }
     }
