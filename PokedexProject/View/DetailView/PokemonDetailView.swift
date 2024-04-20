@@ -25,6 +25,10 @@ struct PokemonDetailView: View {
     //audio player
     @State var audioPlayer: AVAudioPlayer!
     
+    //onappear animation
+    @State var opacity: CGFloat = 0.0
+    @State var offsetY: CGFloat = 30
+    
     var body: some View {
         ScrollView {
             //Sprite View
@@ -143,6 +147,8 @@ struct PokemonDetailView: View {
                 }
             }
         }
+        .opacity(opacity)
+        .offset(x: 0, y: offsetY)
         .border(Color.black)
         .background(
             Image("detailViewBg")
@@ -150,6 +156,12 @@ struct PokemonDetailView: View {
                 .aspectRatio(contentMode: .fill)
         )
         .ignoresSafeArea()
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.25).delay(0.3)) {
+                offsetY = 0
+                opacity = 1
+            }
+        }
     }
     
 }
