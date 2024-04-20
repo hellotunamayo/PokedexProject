@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ColorKit
 
 struct EntryView: View {
     
@@ -21,60 +22,12 @@ struct EntryView: View {
                         NavigationLink {
                             PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
                         } label: {
-                            HStack {
-                                AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(i+1).png")) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 40, height: 40)
-                                            .clipShape(.circle)
-                                            .overlay{
-                                                Circle()
-                                                    .stroke(Color("pokeGray"))
-                                                    .frame(width: 40, height: 40)
-                                                    .foregroundStyle(Color.clear)
-                                            }
-                                    } else {
-                                        ProgressView()
-                                            .frame(width: 40, height: 40)
-                                            .overlay{
-                                                Circle()
-                                                    .stroke(Color(UIColor(red: 200/255,
-                                                                          green: 200/255,
-                                                                          blue: 200/255,
-                                                                          alpha: 1)))
-                                                    .frame(width: 40, height: 40)
-                                                    .foregroundStyle(Color.white)
-                                            }
-                                    }
-                                    
-                                }
-                                ZStack {
-                                    Capsule()
-                                        .frame(width: 40, height: 40)
-                                        .foregroundStyle(Color("pokeGray"))
-                                    
-                                    Text("\(i + 1)")
-                                        .font(Font.caption)
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(Color("lightGrayText"))
-                                }
-                                
-                                Text(String(viewModel.pokeList[i].name).capitalized)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color("textColor"))
-                                    .offset(x: 5, y: 0)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundStyle(Color("textColor"))
-                            }
-                            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                            
+                            EntryViewCell(index: i, pokemonName: viewModel.pokeList[i].name)
+                                .frame(height: 140)
                         }
-                        .frame(minWidth: 300, maxWidth: .infinity, idealHeight: 60)
                         .backgroundStyle(Color("backgroundColor"))
                     }
+                    .padding(.vertical, -2)
                 }
             }
             .navigationTitle("Pokemon List")
