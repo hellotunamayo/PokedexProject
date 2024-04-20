@@ -66,7 +66,7 @@ struct PokemonDetailView: View {
                     
                     //MARK: 타입
                     Rectangle()
-                        .frame(width: 80, height: 30)
+                        .frame(width: 110, height: 30)
                         .foregroundStyle(
                             Color(getPokemonTypeImageAndColor(type: viewModel
                                                                     .pokemonData?.types[0]
@@ -74,15 +74,22 @@ struct PokemonDetailView: View {
                         )
                         .clipShape(.capsule)
                         .overlay {
-                            Text(String(viewModel.pokemonData?.types[0].type.name ?? "Unknown").uppercased())
-                                .foregroundStyle(Color.white)
-                                .fontWeight(.bold)
-                                .font(.caption)
+                            HStack {
+                                Image("\(getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "Unknown").0)")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 16, height: 16, alignment: .center)
+                                    .foregroundStyle(Color.white)
+                                    .offset(x: 2)
+                                    
+                                Text(String(viewModel.pokemonData?.types[0].type.name ?? "Unknown").uppercased())
+                                    .foregroundStyle(Color.white)
+                                    .fontWeight(.bold)
+                                    .font(.caption)
+                                    .offset(x: -2)
+                            }
                         }
                         .padding(.top, 30)
-                    
-                    //TODO: 나중에 타입 이미지로 갈기
-//                    Image(systemName: getPokemonTypeImage(type: viewModel.pokemonData?.types[0].type.name ?? "Unknown"))
                 }
                 
                 //MARK: 이름, 울음소리, 이로치전환
@@ -197,47 +204,45 @@ extension PokemonDetailView {
     /// 포켓몬 타입 별 아이콘과 타입 별 색상을 튜플로 리턴
     func getPokemonTypeImageAndColor(type: String) -> (typeIconName: String, typeColor: UIColor) {
         
-        //나중에 이걸로 바꾸자 https://github.com/duiker101/pokemon-type-svg-icons
-        
         switch type {
             case "normal":
-                return ("circle.circle", UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1))
+                return (type, UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1))
             case "bug":
-                return ("ant", UIColor(red: 132/255, green: 177/255, blue: 20/255, alpha: 1))
+                return (type, UIColor(red: 132/255, green: 177/255, blue: 20/255, alpha: 1))
             case "dark":
-                return ("lightbulb.slash", UIColor(red: 71/255, green: 69/255, blue: 79/255, alpha: 1))
+                return (type, UIColor(red: 71/255, green: 69/255, blue: 79/255, alpha: 1))
             case "dragon":
-                return ("lizard", UIColor(red: 17/255, green: 85/255, blue: 190/255, alpha: 1))
+                return (type, UIColor(red: 17/255, green: 85/255, blue: 190/255, alpha: 1))
             case "electric":
-                return ("battery.100.bolt", UIColor(red: 250/255, green: 170/255, blue: 51/255, alpha: 1))
+                return (type, UIColor(red: 250/255, green: 170/255, blue: 51/255, alpha: 1))
             case "fairy":
-                return ("ladybug", UIColor(red: 228/255, green: 120/255, blue: 226/255, alpha: 1))
+                return (type, UIColor(red: 228/255, green: 120/255, blue: 226/255, alpha: 1))
             case "fighting":
-                return ("figure.handball", UIColor(red: 194/255, green: 42/255, blue: 77/255, alpha: 1))
+                return (type, UIColor(red: 194/255, green: 42/255, blue: 77/255, alpha: 1))
             case "fire":
-                return ("flame", UIColor(red: 245/255, green: 17/255, blue: 54/255, alpha: 1))
+                return (type, UIColor(red: 245/255, green: 17/255, blue: 54/255, alpha: 1))
             case "flying":
-                return ("bird", UIColor(red: 145/255, green: 173/255, blue: 233/255, alpha: 1))
+                return (type, UIColor(red: 145/255, green: 173/255, blue: 233/255, alpha: 1))
             case "ghost":
-                return ("theatermasks", UIColor(red: 76/255, green: 88/255, blue: 177/255, alpha: 1))
+                return (type, UIColor(red: 76/255, green: 88/255, blue: 177/255, alpha: 1))
             case "grass":
-                return ("leaf", UIColor(red: 88/255, green: 179/255, blue: 64/255, alpha: 1))
+                return (type, UIColor(red: 88/255, green: 179/255, blue: 64/255, alpha: 1))
             case "ground":
-                return ("globe.europe.africa", UIColor(red: 189/255, green: 174/255, blue: 117/255, alpha: 1))
+                return (type, UIColor(red: 189/255, green: 174/255, blue: 117/255, alpha: 1))
             case "ice":
-                return ("snowflake", UIColor(red: 107/255, green: 200/255, blue: 180/255, alpha: 1))
+                return (type, UIColor(red: 107/255, green: 200/255, blue: 180/255, alpha: 1))
             case "poison":
-                return ("flask", UIColor(red: 163/255, green: 74/255, blue: 199/255, alpha: 1))
+                return (type, UIColor(red: 163/255, green: 74/255, blue: 199/255, alpha: 1))
             case "psychic":
-                return ("wifi", UIColor(red: 143/255, green: 145/255, blue: 141/255, alpha: 1))
+                return (type, UIColor(red: 143/255, green: 145/255, blue: 141/255, alpha: 1))
             case "rock":
-                return ("globe", UIColor(red: 204/255, green: 102/255, blue: 58/255, alpha: 1))
+                return (type, UIColor(red: 204/255, green: 102/255, blue: 58/255, alpha: 1))
             case "steel":
-                return ("scalemass", UIColor(red: 74/255, green: 132/255, blue: 146/255, alpha: 1))
+                return (type, UIColor(red: 74/255, green: 132/255, blue: 146/255, alpha: 1))
             case "water":
-                return ("drop", UIColor(red: 71/255, green: 139/255, blue: 218/255, alpha: 1))
+                return (type, UIColor(red: 71/255, green: 139/255, blue: 218/255, alpha: 1))
             default:
-                return ("xmark", UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1))
+                return (type, UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1))
         }
     }
 }
