@@ -51,7 +51,7 @@ struct PokemonDetailGraphView: View {
                                     .frame(width: graphWidth[i],
                                            height: proxy.frame(in: .local).height)
                                     .onAppear {
-                                        withAnimation(.easeOut(duration: 0.7).delay(0.9)) {
+                                        withAnimation(.easeOut(duration: CGFloat(pokeStats[i].baseStat) * 0.004 + 0.2).delay(CGFloat.random(in: 0.6...1.0))) {
                                             graphWidth[i] = graphValue.0
                                         }
                                     }
