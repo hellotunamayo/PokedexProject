@@ -25,23 +25,11 @@ struct PokemonDetailData: Codable {
     let height: Int
     let weight: Int
     let name: String
-//    let names: [PokemonNameData] // pokemon-spicies 로 받아와야 함... 나중에...
     let cries: PokemonCries
     let sprites: PokemonSprite
     let stats: [PokemonStat]
     let types: [PokemonTypeData]
 }
-
-//MARK: pokemon-spicies 로 받아와야 함...
-//struct PokemonNameData: Codable {
-//    let language: PokemonNameLanguage
-//    let name: String
-//}
-//
-//struct PokemonNameLanguage: Codable {
-//    let name: String
-//    let url: String
-//}
 
 struct PokemonTypeData: Codable {
     let slot: Int
@@ -86,4 +74,23 @@ struct PokemonSprite: Codable {
         case frontShiny = "front_shiny"
         case backShiny = "back_shiny"
     }
+}
+
+//https://pokeapi.co/api/v2/pokemon-species/1/
+struct PokemonSpeciesData: Identifiable, Codable {
+    let id: Int
+    let baseHappiness: Int
+    let captureRate: Int
+    let name: String
+    let names: [PokemonGlobalName]
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name, names
+        case baseHappiness = "base_happiness"
+        case captureRate = "capture_rate"
+    }
+}
+
+struct PokemonGlobalName: Codable {
+    let name: String
 }

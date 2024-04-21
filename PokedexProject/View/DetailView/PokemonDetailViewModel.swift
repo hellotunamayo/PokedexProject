@@ -12,14 +12,35 @@ import Observation
 class PokemonDataViewModel {
     
     var pokemonData: PokemonDetailData?
+    var pokemonSpeciesData: PokemonSpeciesData?
     
-    func fetch(urlString: String) async throws -> () {
+    var pokemonId: Int {
+        pokemonData?.id ?? 1
+    }
+    
+    @MainActor func fetch(urlString: String) async throws -> () {
+        //fetch default data
         let url = urlString
         guard let url = URL(string: url) else { return }
         let (data, _) = try await URLSession.shared.data(from: url)
         
         let decodedData = try? JSONDecoder().decode(PokemonDetailData.self, from: data)
         pokemonData = decodedData
+        
+        //fetch spicies data
+        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
+        try await fetchSpicies(urlString: speciesURLString)
+    }
+    
+    func fetchSpicies(urlString: String) async throws -> () {
+        guard let speciesURL = URL(string: urlString) else {
+            return }
+        let(data, _) = try await URLSession.shared.data(from: speciesURL)
+        guard let decodedData = try? JSONDecoder().decode(PokemonSpeciesData.self, from: data) else {
+            print("could not decode localized data")
+            return
+        }
+        pokemonSpeciesData = decodedData
     }
     
     func downloadFromURL(urlString: String) async throws -> URL {

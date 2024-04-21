@@ -126,9 +126,9 @@
 			isa = PBXGroup;
 			children = (
 				E1D43A932BD1487600DF5ADB /* PokemonDetailViewModel.swift */,
-				E1D43A902BD1485800DF5ADB /* PokemonDetailView.swift */,
 				E1BDEB642BD35CA1004E0921 /* PokemonDetailGraphView.swift */,
 				E10EE6A12BD258F700022EE7 /* PokemonSpriteView.swift */,
+				E1D43A902BD1485800DF5ADB /* PokemonDetailView.swift */,
 			);
 			path = DetailView;
 			sourceTree = "<group>";

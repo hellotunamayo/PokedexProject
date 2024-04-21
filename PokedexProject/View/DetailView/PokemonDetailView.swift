@@ -11,6 +11,9 @@ import OggDecoder
 
 struct PokemonDetailView: View {
     
+    @State private var isModalShowing: Bool = false
+    @State private var localizedCode: Int = 8
+    
     var viewModel: PokemonDataViewModel = PokemonDataViewModel()
     let pokeData: PokemonListObject
     let endpoint: String
@@ -95,9 +98,10 @@ struct PokemonDetailView: View {
                 //MARK: 이름, 울음소리, 이로치전환
                 HStack {
                     //이름
-                    Text(String(viewModel.pokemonData?.name.capitalized ?? ""))
-                        .fontWeight(.bold)
+                    Text(String(viewModel.pokemonSpeciesData?.names[localizedCode].name.capitalized ?? ""))
+                        .fontWeight(.heavy)
                         .font(Font.system(size: 28))
+                        .baselineOffset(localizedCode < 4 || localizedCode == 10 ? -2.0 : 0.0)
                     
                     //울음소리
                     Button(action: {
@@ -134,6 +138,7 @@ struct PokemonDetailView: View {
                     .frame(width: 20, height: 3, alignment: .center)
                     .offset(y: -2)
                 
+                //MARK: 체중/신장
                 VStack {
                     HStack {
                         HStack {
@@ -215,6 +220,38 @@ struct PokemonDetailView: View {
             withAnimation(.easeOut(duration: 0.25).delay(0.3)) {
                 offsetY = 0
                 opacity = 1
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                //다국어 이름정보
+                Picker(selection: $localizedCode) {
+                    Text("English")
+                        .tag(8)
+                    Text("日本語")
+                        .tag(0)
+                    Text("한국어")
+                        .tag(2)
+                    Text("繁体字")
+                        .tag(3)
+                    Text("简体字")
+                        .tag(10)
+                    Text("Français")
+                        .tag(4)
+                    Text("Deutsch")
+                        .tag(5)
+                    Text("Español")
+                        .tag(6)
+                    Text("Italiano")
+                        .tag(7)
+                } label: {
+                    Image(systemName: "globe")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundStyle(Color("textColor"))
+                        .frame(width: 22, height: 22)
+                        .offset(x: 5, y: 2)
+                }
             }
         }
     }
