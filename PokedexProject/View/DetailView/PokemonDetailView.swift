@@ -97,7 +97,7 @@ struct PokemonDetailView: View {
                     //이름
                     Text(String(viewModel.pokemonData?.name.capitalized ?? ""))
                         .fontWeight(.bold)
-                        .font(Font.system(size: 30))
+                        .font(Font.system(size: 28))
                     
                     //울음소리
                     Button(action: {
