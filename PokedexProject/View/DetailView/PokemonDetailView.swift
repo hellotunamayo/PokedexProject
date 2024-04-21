@@ -31,7 +31,7 @@ struct PokemonDetailView: View {
     
     var body: some View {
         ScrollView {
-            //Sprite View
+            //MARK: 초상화
             HStack {
                 if let frontURL = URL(string: showingIrochiPortrait ? viewModel.pokemonData?.sprites.frontShiny ?? "" : viewModel.pokemonData?.sprites.frontDefault ?? "") {
                     PokemonSpriteView(imageUrl: frontURL, viewWidth: 100)
