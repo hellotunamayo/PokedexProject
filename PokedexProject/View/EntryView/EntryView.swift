@@ -6,51 +6,82 @@
 //
 
 import SwiftUI
-import ColorKit
+//import ColorKit
 
 struct EntryView: View {
     
     @State private var searchKeyword: String = ""
-    @State private var searchedValue: [PokemonListObject]?
+    @State private var searchedPokemon: [PokemonListObject]?
+    @State private var isSearching: Bool = false
+    
     var viewModel: EntryViewModel = EntryViewModel(limit: 649)
+    let gridItems: [GridItem] = [GridItem(.adaptive(minimum: 100, maximum: .infinity))]
     
     var body: some View {
         NavigationStack{
-            ScrollView {
-                ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
+            //MARK: 검색중 화면
+            if isSearching {
+                Button(action: {
+                    isSearching = false
+                }, label: {
+                    Text("Dismiss Search")
+                })
+                
+                List(searchedPokemon ?? [], id: \.self) { result in
                     LazyVStack {
-                        NavigationLink {
-                            PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
-                        } label: {
-                            EntryViewCell(index: i, pokemonName: viewModel.pokeList[i].name)
-                                .frame(height: 140)
+                        NavigationLink(result.name) {
+                            PokemonDetailView(pokeData: result, endpoint: result.url)
                         }
-                        .backgroundStyle(Color("backgroundColor"))
-                    }
-                    .padding(.vertical, -2)
-                }
-            }
-            .navigationTitle("Pokemon List")
-            .navigationBarTitleDisplayMode(.inline)
-        }
-        .searchable(text: $searchKeyword, placement: .automatic) {
-            NavigationStack {
-                ForEach(searchedValue ?? [], id: \.self) { value in
-                    NavigationLink("\(value.name)") {
-                        PokemonDetailView(pokeData: value, endpoint: value.url)
                     }
                 }
-            }
-        }
-        .onSubmit(of: .search) {
-            Task {
-                searchedValue = try await viewModel.search(searchKeyword: searchKeyword)
+            } else { 
+                //MARK: 비검색중 화면
+                ScrollView {
+                    ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
+                        LazyVStack {
+                            NavigationLink {
+                                PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
+                            } label: {
+                                EntryViewCell(index: i, pokemonName: viewModel.pokeList[i].name)
+                                    .frame(height: 140)
+                            }
+                            .backgroundStyle(Color("backgroundColor"))
+                        }
+                        .padding(.vertical, -4)
+                    }
+                }
+                .navigationTitle("Pokemon List")
+                .navigationBarTitleDisplayMode(.inline)
+                .searchable(text: $searchKeyword, prompt: "Find a Pokemon?")
+                .onSubmit(of: .search) {
+                    getSearchResult()
+                    isSearching = true
+                }
             }
         }
         .onAppear {
             Task{
                 try await viewModel.initialFetch()
             }
+        }
+    }
+    
+}
+
+//MARK: 함수
+extension EntryView {
+    func getSearchResult() {
+        if !searchKeyword.isEmpty {
+            var result: [PokemonListObject] = []
+            var _ = viewModel.pokeList.filter {
+                if $0.name.lowercased().localizedStandardContains(searchKeyword) { //true면
+                    result.append($0)
+                    return true
+                } else {
+                    return false
+                }
+            }
+            searchedPokemon = result
         }
     }
     
@@ -83,7 +114,6 @@ struct EntryView: View {
             throw PortraitFetchError.unknownError
         }
     }
-    
 }
 
 #Preview {
