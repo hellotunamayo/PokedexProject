@@ -18,50 +18,63 @@ struct EntryView: View {
     let gridItems: [GridItem] = [GridItem(.adaptive(minimum: 100, maximum: .infinity))]
     
     var body: some View {
-        NavigationStack{
-            //MARK: 검색중 화면
-            if isSearching {
-                Button(action: {
-                    isSearching = false
-                }, label: {
-                    Text("Dismiss Search")
-                })
+        VStack {
+            HStack {
+                Image("pokedexIcon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24, alignment: .center)
                 
-                List(searchedPokemon ?? [], id: \.self) { result in
-                    LazyVStack {
-                        NavigationLink(result.name) {
-                            PokemonDetailView(pokeData: result, endpoint: result.url)
-                        }
-                    }
-                }
-            } else { 
-                //MARK: 비검색중 화면
-                ScrollView {
-                    ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
+                Text("PokeDex Project")
+                    .font(Font.custom("Silkscreen-Regular", size: 24))
+                
+            }
+            
+            VStack {
+                if isSearching {
+                    Button(action: {
+                        isSearching = false
+                    }, label: {
+                        Text("Dismiss Search")
+                    })
+                    
+                    List(searchedPokemon ?? [], id: \.self) { result in
                         LazyVStack {
-                            NavigationLink {
-                                PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
-                            } label: {
-                                EntryViewCell(index: i, pokemonName: viewModel.pokeList[i].name)
-                                    .frame(height: 140)
+                            NavigationLink(result.name) {
+                                PokemonDetailView(pokeData: result, endpoint: result.url)
                             }
-                            .backgroundStyle(Color("backgroundColor"))
                         }
-                        .padding(.vertical, -4)
                     }
-                }
-                .navigationTitle("Pokémon List")
-                .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $searchKeyword, prompt: "Search Pokémon")
-                .onSubmit(of: .search) {
-                    getSearchResult()
-                    isSearching = true
+                } else {
+                    //MARK: 비검색중 화면
+                    ScrollView {
+                        ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
+                            LazyVStack {
+                                NavigationLink {
+                                    PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
+                                } label: {
+                                    EntryViewCell(index: i, pokemonName: viewModel.pokeList[i].name)
+                                        .frame(height: 140)
+                                }
+                                .backgroundStyle(Color("backgroundColor"))
+                            }
+                            .padding(.vertical, -4)
+                        }
+                    }
+                    .navigationTitle("")
+                    .toolbar(.hidden, for: .navigationBar)
                 }
             }
-        }
-        .onAppear {
-            Task{
-                try await viewModel.initialFetch()
+            .padding(.bottom, 0.5)
+            .searchable(text: $searchKeyword, prompt: "Search Pokémon")
+            .onSubmit(of: .search) {
+                getSearchResult()
+                isSearching = true
+            }
+            .onAppear {
+                Task{
+                    try await viewModel.initialFetch()
+                }
             }
         }
     }

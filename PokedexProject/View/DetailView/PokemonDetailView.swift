@@ -156,7 +156,6 @@ struct PokemonDetailView: View {
         }
         .opacity(opacity)
         .offset(x: 0, y: offsetY)
-        .border(Color.black)
         .background(
             Image("detailViewBg")
                 .resizable()
