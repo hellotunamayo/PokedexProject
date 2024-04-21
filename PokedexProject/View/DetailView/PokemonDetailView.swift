@@ -70,19 +70,19 @@ struct PokemonDetailView: View {
                         .foregroundStyle(
                             Color(getPokemonTypeImageAndColor(type: viewModel
                                                                     .pokemonData?.types[0]
-                                                                    .type.name ?? "Unknown").typeColor)
+                                                                    .type.name ?? "normal").typeColor)
                         )
                         .clipShape(.capsule)
                         .overlay {
                             HStack {
-                                Image("\(getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "Unknown").0)")
+                                Image("\(getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal").0)")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 16, height: 16, alignment: .center)
                                     .foregroundStyle(Color.white)
                                     .offset(x: 2)
                                     
-                                Text(String(viewModel.pokemonData?.types[0].type.name ?? "Unknown").uppercased())
+                                Text(String(viewModel.pokemonData?.types[0].type.name ?? "normal").uppercased())
                                     .foregroundStyle(Color.white)
                                     .fontWeight(.bold)
                                     .font(.caption)
