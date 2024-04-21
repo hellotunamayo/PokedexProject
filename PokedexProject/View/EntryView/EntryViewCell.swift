@@ -10,7 +10,8 @@ import SwiftUI
 struct EntryViewCell: View {
     
     @State var backgroundColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-    @State var portraitOffsetX: CGFloat = 50
+    @State var portraitOffsetX: CGFloat = 50.0
+    @State var cellOpacity: CGFloat = 0.0
     
     let index: Int
     let pokemonName: String
@@ -95,7 +96,13 @@ struct EntryViewCell: View {
                 }
             }
         }
+        .opacity(cellOpacity)
         .background(Color.black)
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.75)) {
+                cellOpacity = 1.0
+            }
+        }
     }
 
 }
