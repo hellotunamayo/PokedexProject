@@ -32,8 +32,8 @@ class EntryViewModel {
         return pokeList
     }
     
-    func search(searchKeyword: String) async throws -> [PokemonListObject] {
-        return initialFetchedResult.filter{ $0.name == searchKeyword.lowercased() }
+    func search(searchKeyword: String) -> [PokemonListObject] {
+        return initialFetchedResult.filter{ $0.name.contains(searchKeyword.lowercased()) }
     }
     
 }
