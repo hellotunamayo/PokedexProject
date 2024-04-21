@@ -85,9 +85,10 @@ struct PokemonDetailGraphView: View {
         if 0..<0.2 ~= percentage {
             color = Color(UIColor(red: 230/255, green: 60/255, blue: 0/255, alpha: 1))
         } else if 0.2..<0.4 ~= percentage {
-            color = Color(UIColor(red: 250/255, green: 200/255, blue: 0/255, alpha: 1))
-        } else if 0.4..<0.6 ~= percentage {
             color = Color(UIColor(red: 250/255, green: 170/255, blue: 0/255, alpha: 1))
+        } else if 0.4..<0.6 ~= percentage {
+            color = Color(
+                UIColor(red: 250/255, green: 220/255, blue: 0/255, alpha: 1))
         } else if 0.6..<0.8 ~= percentage {
             color = Color(UIColor(red: 90/255, green: 200/255, blue: 0/255, alpha: 1))
         } else {
