@@ -50,9 +50,9 @@ struct EntryView: View {
                         .padding(.vertical, -4)
                     }
                 }
-                .navigationTitle("Pokemon List")
+                .navigationTitle("Pokémon List")
                 .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $searchKeyword, prompt: "Find a Pokemon?")
+                .searchable(text: $searchKeyword, prompt: "Search Pokémon")
                 .onSubmit(of: .search) {
                     getSearchResult()
                     isSearching = true
