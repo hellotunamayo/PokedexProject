@@ -23,6 +23,7 @@ struct PokemonListObject: Codable, Hashable {
 struct PokemonDetailData: Codable {
     let id: Int
     let height: Int
+    let weight: Int
     let name: String
 //    let names: [PokemonNameData] // pokemon-spicies 로 받아와야 함... 나중에...
     let cries: PokemonCries
