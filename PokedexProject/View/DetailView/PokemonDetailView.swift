@@ -129,6 +129,55 @@ struct PokemonDetailView: View {
                             .offset(x: 10, y: 2)
                     })
                 }
+                
+                Rectangle()
+                    .frame(width: 20, height: 3, alignment: .center)
+                    .offset(y: -2)
+                
+                VStack {
+                    HStack {
+                        HStack {
+                            Circle()
+                                .foregroundStyle(Color.black)
+                                .frame(width: 20, height: 20, alignment: .center)
+                                .overlay {
+                                    Image(systemName: "ruler")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 12, height: 12, alignment: .center)
+                                        .foregroundStyle(Color.white)
+                                        .rotationEffect(Angle(degrees: -45))
+                                    
+                                }
+                                .offset(x: 3)
+                            
+                            Text("\(viewModel.pokemonData?.height ?? 0)ft.")
+                                .font(.system(size: 12))
+                                .fontWeight(.semibold)
+                                .padding(.vertical, 10)
+                        }
+                        
+                        HStack {
+                            Circle()
+                                .foregroundStyle(Color.black)
+                                .frame(width: 20, height: 20, alignment: .center)
+                                .overlay {
+                                    Image(systemName: "scalemass")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 11, height: 11, alignment: .center)
+                                        .foregroundStyle(Color.white)
+                                    
+                                }
+                                .offset(x: 3)
+                            
+                            Text("\(viewModel.pokemonData?.weight ?? 0)lbs.")
+                                .font(.system(size: 12))
+                                .fontWeight(.semibold)
+                                .padding(.vertical, 10)
+                        }
+                    }
+                }
                 .padding(.bottom, 10)
                 
                 //디바이더
