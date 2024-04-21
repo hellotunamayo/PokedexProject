@@ -83,15 +83,15 @@ struct PokemonDetailGraphView: View {
         
         let percentage = Double(status) / 200
         if 0..<0.2 ~= percentage {
-            color = Color(UIColor(red: 230/255, green: 64/255, blue: 38/255, alpha: 1))
+            color = Color(UIColor(red: 230/255, green: 60/255, blue: 0/255, alpha: 1))
         } else if 0.2..<0.4 ~= percentage {
-            color = Color(UIColor(red: 220/255, green: 110/255, blue: 19/255, alpha: 1))
+            color = Color(UIColor(red: 250/255, green: 200/255, blue: 0/255, alpha: 1))
         } else if 0.4..<0.6 ~= percentage {
-            color = Color(UIColor(red: 220/255, green: 170/255, blue: 19/255, alpha: 1))
+            color = Color(UIColor(red: 250/255, green: 170/255, blue: 0/255, alpha: 1))
         } else if 0.6..<0.8 ~= percentage {
-            color = Color(UIColor(red: 90/255, green: 180/255, blue: 19/255, alpha: 1))
+            color = Color(UIColor(red: 90/255, green: 200/255, blue: 0/255, alpha: 1))
         } else {
-            color = Color(UIColor(red: 19/255, green: 190/255, blue: 140/255, alpha: 1))
+            color = Color(UIColor(red: 0/255, green: 180/255, blue: 250/255, alpha: 1))
         }
         
         return (maxWidth * modifier, color)
@@ -101,9 +101,10 @@ struct PokemonDetailGraphView: View {
 
 #Preview {
     PokemonDetailGraphView(pokeStats: [
-        PokemonStat(baseStat: 50, effort: 0, stat: PokemonStatType(name: "HP", url: "")),
-        PokemonStat(baseStat: 150, effort: 0, stat: PokemonStatType(name: "Sample stat", url: "")),
-        PokemonStat(baseStat: 240, effort: 0, stat: PokemonStatType(name: "Another Stat", url: "")),
-        PokemonStat(baseStat: 100, effort: 0, stat: PokemonStatType(name: "Third Stat", url: ""))
+        PokemonStat(baseStat: 20, effort: 0, stat: PokemonStatType(name: "Lowest", url: "")),
+        PokemonStat(baseStat: 50, effort: 0, stat: PokemonStatType(name: "Second", url: "")),
+        PokemonStat(baseStat: 80, effort: 0, stat: PokemonStatType(name: "Third", url: "")),
+        PokemonStat(baseStat: 150, effort: 0, stat: PokemonStatType(name: "Fourth", url: "")),
+        PokemonStat(baseStat: 200, effort: 0, stat: PokemonStatType(name: "Fifth", url: ""))
     ])
 }
