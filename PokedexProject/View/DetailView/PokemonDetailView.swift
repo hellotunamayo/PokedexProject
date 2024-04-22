@@ -12,7 +12,7 @@ import OggDecoder
 struct PokemonDetailView: View {
     
     @State private var isModalShowing: Bool = false
-    @State private var localizedCode: Int = 8
+    @State private var localizationIndex: (nameIndex: Int, nickIndex: Int) = (8, 7)
     
     var viewModel: PokemonDataViewModel = PokemonDataViewModel()
     let pokeData: PokemonListObject
@@ -98,10 +98,10 @@ struct PokemonDetailView: View {
                 //MARK: 이름, 울음소리, 이로치전환
                 HStack {
                     //이름
-                    Text(String(viewModel.pokemonSpeciesData?.names[localizedCode].name.capitalized ?? ""))
+                    Text(String(viewModel.pokemonSpeciesData?.names[localizationIndex.nameIndex].name.capitalized ?? ""))
                         .fontWeight(.heavy)
                         .font(Font.system(size: 28))
-                        .baselineOffset(localizedCode < 4 || localizedCode == 10 ? -2.0 : 0.0)
+                        .baselineOffset(localizationIndex.nameIndex < 4 || localizationIndex.nameIndex == 10 ? -2.0 : 0.0)
                     
                     //울음소리
                     Button(action: {
@@ -134,6 +134,14 @@ struct PokemonDetailView: View {
                     })
                 }
                 
+                //MARK: 별명
+                //genera index번호가 언어별로 이름 인덱스와 다름 (나중에 확인할 것)
+                Text("\(viewModel.pokemonSpeciesData?.genera[localizationIndex.nickIndex].genus ?? "")")
+                    .font(.system(size: 12))
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.gray)
+                    .padding(EdgeInsets(top: -10, leading: 0, bottom: 10, trailing: 0))
+                
                 Rectangle()
                     .frame(width: 20, height: 3, alignment: .center)
                     .offset(y: -2)
@@ -159,7 +167,6 @@ struct PokemonDetailView: View {
                             Text("\(viewModel.pokemonData?.height ?? 0)ft.")
                                 .font(.system(size: 12))
                                 .fontWeight(.semibold)
-                                .padding(.vertical, 10)
                         }
                         
                         HStack {
@@ -179,9 +186,9 @@ struct PokemonDetailView: View {
                             Text("\(viewModel.pokemonData?.weight ?? 0)lbs.")
                                 .font(.system(size: 12))
                                 .fontWeight(.semibold)
-                                .padding(.vertical, 10)
                         }
                     }
+                    .padding(.vertical, 10)
                 }
                 .padding(.bottom, 10)
                 
@@ -189,17 +196,31 @@ struct PokemonDetailView: View {
                 Divider()
                     .padding(.bottom, 10)
                 
-                //MARK: 포켓몬 능력치 그래프
-                if let pokeStats = viewModel.pokemonData?.stats {
-                    PokemonDetailGraphView(pokeStats: pokeStats)
-                    .padding(.horizontal, 30)
-                } else {
-                    ProgressView()
+                VStack {
+                    //MARK: 포켓몬 능력치 그래프
+                    Group {
+                        Text("Basic Status")
+                            .font(.title2)
+                            .fontWeight(.black)
+                            
+                        Rectangle()
+                            .frame(width: 20, height: 3)
+                            .padding(.top, -10)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.bottom, 15)
+                    
+                    if let pokeStats = viewModel.pokemonData?.stats {
+                        PokemonDetailGraphView(pokeStats: pokeStats)
+                    } else {
+                        ProgressView()
+                    }
                 }
+                .padding(.horizontal, 30)
                 
                 Spacer()
             }
-            .frame(minWidth: 320, maxWidth: .infinity, minHeight: 700)
+            .frame(maxWidth: .infinity, minHeight: 700, maxHeight: .infinity, alignment: .leading)
             .background(Color("detailViewSheetBackground"))
             .clipShape(.rect(topLeadingRadius: 50, topTrailingRadius: 50, style: .continuous))
             .onAppear {
@@ -225,7 +246,7 @@ struct PokemonDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 //다국어 이름정보
-                Picker(selection: $localizedCode) {
+                Picker(selection: $localizationIndex.nameIndex) {
                     Text("English")
                         .tag(8)
                     Text("日本語")
@@ -251,6 +272,14 @@ struct PokemonDetailView: View {
                         .foregroundStyle(Color("textColor"))
                         .frame(width: 22, height: 22)
                         .offset(x: 5, y: 2)
+                }
+                .onChange(of: localizationIndex.nameIndex) { oldValue, newValue in
+                    switch newValue {
+                        case 0: //일본어
+                            localizationIndex.nickIndex = 0
+                        default: //그외 언어
+                            localizationIndex.nickIndex = newValue - 1
+                    }
                 }
             }
         }
