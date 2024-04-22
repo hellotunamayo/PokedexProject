@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
-import AVFoundation
-import OggDecoder
 
 struct PokemonDetailView: View {
     
     @State private var isModalShowing: Bool = false
     @State private var localizationIndex: (nameIndex: Int, nickIndex: Int) = (8, 7)
+    @State private var pokemonMoveData: [PokemonMoveData] = []
+    @State private var showingIrochiPortrait: Bool = false
+    @State private var tappedMoveIndex: Int = 0
     
     var viewModel: PokemonDataViewModel = PokemonDataViewModel()
     let pokeData: PokemonListObject
@@ -21,12 +22,6 @@ struct PokemonDetailView: View {
         GridItem(.flexible(minimum: 30, maximum: 300)),
         GridItem(.flexible(minimum: 30, maximum: 300))
     ]
-    
-    //for いろち
-    @State private var showingIrochiPortrait: Bool = false
-    
-    //audio player
-    @State var audioPlayer: AVAudioPlayer!
     
     //onappear animation
     @State var opacity: CGFloat = 0.0
@@ -48,156 +43,21 @@ struct PokemonDetailView: View {
                     ProgressView()
                 }
             }
-            .padding(.top, 80)
+            .padding(.top, 100)
             .padding(.bottom, 30)
             
             //Content
             VStack {
-                HStack {
-                    //MARK: 도감넘버
-                    Rectangle()
-                        .frame(width: 90, height: 30)
-                        .foregroundStyle(Color.black)
-                        .clipShape(.capsule)
-                        .overlay {
-                            Text("No. \(viewModel.pokemonData?.id ?? 0)")
-                                .foregroundStyle(Color.white)
-                                .fontWeight(.bold)
-                                .font(.footnote)
-                        }
-                        .padding(.top, 30)
-                    
-                    //MARK: 타입
-                    Rectangle()
-                        .frame(width: 110, height: 30)
-                        .foregroundStyle(
-                            Color(getPokemonTypeImageAndColor(type: viewModel
-                                                                    .pokemonData?.types[0]
-                                                                    .type.name ?? "normal").typeColor)
-                        )
-                        .clipShape(.capsule)
-                        .overlay {
-                            HStack {
-                                Image("\(getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal").0)")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 16, height: 16, alignment: .center)
-                                    .foregroundStyle(Color.white)
-                                    .offset(x: 2)
-                                    
-                                Text(String(viewModel.pokemonData?.types[0].type.name ?? "normal").uppercased())
-                                    .foregroundStyle(Color.white)
-                                    .fontWeight(.bold)
-                                    .font(.caption)
-                                    .offset(x: -2)
-                            }
-                        }
-                        .padding(.top, 30)
-                }
+                //MARK: 넘버, 타입, 이름, 별명, 체중, 신장
+                PokemonDetailOverviewView(localizationIndex: $localizationIndex,
+                                          showingIrochiPortrait: $showingIrochiPortrait, 
+                                          viewModel: viewModel)
                 
-                //MARK: 이름, 울음소리, 이로치전환
-                HStack {
-                    //이름
-                    Text(String(viewModel.pokemonSpeciesData?.names[localizationIndex.nameIndex].name.capitalized ?? ""))
-                        .fontWeight(.heavy)
-                        .font(Font.system(size: 28))
-                        .baselineOffset(localizationIndex.nameIndex < 4 || localizationIndex.nameIndex == 10 ? -2.0 : 0.0)
-                    
-                    //울음소리
-                    Button(action: {
-                        Task {
-                            if let latestCry = viewModel.pokemonData?.cries.latest {
-                                try await playDecodedOGGFromDownloadedLocation(localFileLocation: latestCry)
-                            } else {
-                                print("Failed to play audio")
-                            }
-                        }
-                    }, label: {
-                        Image(systemName: "play.circle")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundStyle(Color("textColor"))
-                            .frame(width: 22, height: 22)
-                            .offset(x: 5, y: 2)
-                    })
-                    
-                    //이로치 전환
-                    Button(action: {
-                        showingIrochiPortrait.toggle()
-                    }, label: {
-                        Image(systemName: showingIrochiPortrait ? "paintpalette.fill" : "paintpalette")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundStyle(Color("textColor"))
-                            .frame(width: 22, height: 22)
-                            .offset(x: 10, y: 2)
-                    })
-                }
-                
-                //MARK: 별명
-                //genera index번호가 언어별로 이름 인덱스와 다름 (나중에 확인할 것)
-                Text("\(viewModel.pokemonSpeciesData?.genera[localizationIndex.nickIndex].genus ?? "")")
-                    .font(.system(size: 12))
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.gray)
-                    .padding(EdgeInsets(top: -10, leading: 0, bottom: 10, trailing: 0))
-                
-                Rectangle()
-                    .frame(width: 20, height: 3, alignment: .center)
-                    .offset(y: -2)
-                
-                //MARK: 체중/신장
-                VStack {
-                    HStack {
-                        HStack {
-                            Circle()
-                                .foregroundStyle(Color.black)
-                                .frame(width: 20, height: 20, alignment: .center)
-                                .overlay {
-                                    Image(systemName: "ruler")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 12, height: 12, alignment: .center)
-                                        .foregroundStyle(Color.white)
-                                        .rotationEffect(Angle(degrees: -45))
-                                    
-                                }
-                                .offset(x: 3)
-                            
-                            Text("\(viewModel.pokemonData?.height ?? 0)ft.")
-                                .font(.system(size: 12))
-                                .fontWeight(.semibold)
-                        }
-                        
-                        HStack {
-                            Circle()
-                                .foregroundStyle(Color.black)
-                                .frame(width: 20, height: 20, alignment: .center)
-                                .overlay {
-                                    Image(systemName: "scalemass")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 11, height: 11, alignment: .center)
-                                        .foregroundStyle(Color.white)
-                                    
-                                }
-                                .offset(x: 3)
-                            
-                            Text("\(viewModel.pokemonData?.weight ?? 0)lbs.")
-                                .font(.system(size: 12))
-                                .fontWeight(.semibold)
-                        }
-                    }
-                    .padding(.vertical, 10)
-                }
-                .padding(.bottom, 10)
-                
-                //디바이더
                 Divider()
                     .padding(.bottom, 10)
                 
+                //MARK: 능력치
                 VStack {
-                    //MARK: 포켓몬 능력치 그래프
                     Group {
                         Text("Basic Status")
                             .font(.title2)
@@ -205,29 +65,64 @@ struct PokemonDetailView: View {
                             
                         Rectangle()
                             .frame(width: 20, height: 3)
-                            .padding(.top, -10)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom, 15)
                     
                     if let pokeStats = viewModel.pokemonData?.stats {
                         PokemonDetailGraphView(pokeStats: pokeStats)
+                            .padding(.vertical, 10)
                     } else {
                         ProgressView()
                     }
                 }
                 .padding(.horizontal, 30)
                 
-                Spacer()
+                Divider()
+                    .padding(.vertical, 10)
+                
+                //MARK: 기술일람
+                VStack {
+                    Group {
+                        Text("Moves")
+                            .font(.title2)
+                            .fontWeight(.black)
+                        
+                        Rectangle()
+                            .frame(width: 20, height: 3)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    //기술 리스트
+                    LazyVGrid(columns: gridItem) {
+                        ForEach(0..<pokemonMoveData.count, id: \.self) { i in
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(maxWidth: .infinity, minHeight: 40, maxHeight: 60, alignment: .leading)
+                                .foregroundStyle(Color(UIColor.pokeBrightGray))
+                                .overlay {
+                                    Text("\(pokemonMoveData[i].moveDetail.name.capitalized)")
+                                        .foregroundStyle(Color.black)
+                                        .fontWeight(.bold)
+                                        .font(.system(size: 14))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding()
+                                }
+                                .onTapGesture {
+                                    tappedMoveIndex = i
+                                    isModalShowing.toggle()
+                                }
+                        }
+                    }
+                    .padding(.top, 10)
+                }
+                .padding(EdgeInsets(top: 10, leading: 30, bottom: 60, trailing: 30))
+                .sheet(isPresented: $isModalShowing) {
+                    PokemonMoveModalView(isModalShowing: $isModalShowing, enName: pokemonMoveData[tappedMoveIndex].moveDetail.name, endPoint: pokemonMoveData[tappedMoveIndex].moveDetail.url)
+                        .presentationDetents([.medium])
+                }
             }
             .frame(maxWidth: .infinity, minHeight: 700, maxHeight: .infinity, alignment: .leading)
             .background(Color("detailViewSheetBackground"))
             .clipShape(.rect(topLeadingRadius: 50, topTrailingRadius: 50, style: .continuous))
-            .onAppear {
-                Task {
-                    try await viewModel.fetch(urlString: endpoint)
-                }
-            }
         }
         .opacity(opacity)
         .offset(x: 0, y: offsetY)
@@ -237,7 +132,21 @@ struct PokemonDetailView: View {
                 .aspectRatio(contentMode: .fill)
         )
         .ignoresSafeArea()
-        .onAppear {
+        .safeAreaInset(edge: .top, content: {
+            Color.clear
+        })
+        .task {
+            do {
+                try await viewModel.fetch(urlString: endpoint)
+                if let moveData = viewModel.pokemonData?.moves {
+                    pokemonMoveData = moveData
+                } else {
+                    pokemonMoveData = []
+                }
+            } catch {
+                print("ㅜㅜ")
+            }
+            
             withAnimation(.easeOut(duration: 0.25).delay(0.3)) {
                 offsetY = 0
                 opacity = 1
@@ -285,80 +194,6 @@ struct PokemonDetailView: View {
         }
     }
     
-}
-
-//MARK: Functions
-extension PokemonDetailView {
-    //오디오 플레이백
-    func playDecodedOGGFromDownloadedLocation(localFileLocation localURLString: String) async throws -> () {
-        let url = try await viewModel.downloadFromURL(urlString: localURLString)
-        let oggDecoder = OGGDecoder()
-        let decodedOGG = await oggDecoder.decode(url)
-        if let tempWavFile = decodedOGG {
-            print("tempWavFile: \(tempWavFile)")
-            let documentsURL = try FileManager.default.url(for: .documentDirectory,
-                                                           in: .userDomainMask,
-                                                           appropriateFor: nil,
-                                                           create: false)
-            let savedURL = documentsURL
-                .appendingPathComponent(tempWavFile.lastPathComponent)
-            
-            do {
-                try? FileManager.default.removeItem(at: savedURL)
-                try FileManager.default.moveItem(at: tempWavFile, to: savedURL)
-                print("savedURL: \(savedURL)")
-                audioPlayer = try! AVAudioPlayer(contentsOf: savedURL)
-                audioPlayer.play()
-            } catch {
-                print("play error: \(error)")
-            }
-        }
-    }
-    
-    /// 포켓몬 타입 별 아이콘과 타입 별 색상을 튜플로 리턴
-    func getPokemonTypeImageAndColor(type: String) -> (typeIconName: String, typeColor: UIColor) {
-        
-        switch type {
-            case "normal":
-                return (type, UIColor(red: 150/255, green: 150/255, blue: 150/255, alpha: 1))
-            case "bug":
-                return (type, UIColor(red: 132/255, green: 177/255, blue: 20/255, alpha: 1))
-            case "dark":
-                return (type, UIColor(red: 71/255, green: 69/255, blue: 79/255, alpha: 1))
-            case "dragon":
-                return (type, UIColor(red: 17/255, green: 85/255, blue: 190/255, alpha: 1))
-            case "electric":
-                return (type, UIColor(red: 250/255, green: 170/255, blue: 51/255, alpha: 1))
-            case "fairy":
-                return (type, UIColor(red: 228/255, green: 120/255, blue: 226/255, alpha: 1))
-            case "fighting":
-                return (type, UIColor(red: 194/255, green: 42/255, blue: 77/255, alpha: 1))
-            case "fire":
-                return (type, UIColor(red: 245/255, green: 17/255, blue: 54/255, alpha: 1))
-            case "flying":
-                return (type, UIColor(red: 145/255, green: 173/255, blue: 233/255, alpha: 1))
-            case "ghost":
-                return (type, UIColor(red: 76/255, green: 88/255, blue: 177/255, alpha: 1))
-            case "grass":
-                return (type, UIColor(red: 88/255, green: 179/255, blue: 64/255, alpha: 1))
-            case "ground":
-                return (type, UIColor(red: 189/255, green: 174/255, blue: 117/255, alpha: 1))
-            case "ice":
-                return (type, UIColor(red: 107/255, green: 200/255, blue: 180/255, alpha: 1))
-            case "poison":
-                return (type, UIColor(red: 163/255, green: 74/255, blue: 199/255, alpha: 1))
-            case "psychic":
-                return (type, UIColor(red: 143/255, green: 145/255, blue: 141/255, alpha: 1))
-            case "rock":
-                return (type, UIColor(red: 204/255, green: 102/255, blue: 58/255, alpha: 1))
-            case "steel":
-                return (type, UIColor(red: 74/255, green: 132/255, blue: 146/255, alpha: 1))
-            case "water":
-                return (type, UIColor(red: 71/255, green: 139/255, blue: 218/255, alpha: 1))
-            default:
-                return (type, UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1))
-        }
-    }
 }
 
 #Preview {
