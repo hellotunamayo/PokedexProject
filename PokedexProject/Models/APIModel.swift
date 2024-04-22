@@ -21,16 +21,30 @@ struct PokemonListObject: Codable, Hashable {
     var url: String
 }
 
-//MARK: 일반정보 상세 - https://pokeapi.co/api/v2/pokemon/2/
+//MARK: 일반정보 상세 - https://pokeapi.co/api/v2/pokemon/25/
 struct PokemonDetailData: Identifiable, Codable {
     let id: Int
     let height: Int
     let weight: Int
     let name: String
+    let moves: [PokemonMoveData]
     let cries: PokemonCries
     let sprites: PokemonSprite
     let stats: [PokemonStat]
     let types: [PokemonTypeData]
+}
+
+struct PokemonMoveData: Codable {
+    let moveDetail: PokemonMoveDetail
+    
+    enum CodingKeys: String, CodingKey {
+        case moveDetail = "move"
+    }
+}
+
+struct PokemonMoveDetail: Codable {
+    let name: String
+    let url: String
 }
 
 struct PokemonTypeData: Codable {
@@ -100,4 +114,27 @@ struct PokemonGlobalName: Codable {
 
 struct PokemonGenera: Codable {
     let genus: String
+}
+
+//MARK: 폭행몬 기술 상세 https://pokeapi.co/api/v2/move/5/
+struct PokemonMoveDetailExtended: Codable {
+    let accuracy: Int?
+    let damageClass: PokemonDamageClass?
+    let power: Int?
+    let pp: Int?
+    let names: [PokemonMoveName?]
+    
+    enum CodingKeys: String, CodingKey {
+        case names, accuracy, power, pp
+        case damageClass = "damage_class"
+    }
+}
+
+struct PokemonDamageClass: Codable {
+    let name: String
+    let url: String
+}
+
+struct PokemonMoveName: Codable {
+    let name: String?
 }
