@@ -140,9 +140,12 @@ extension EntryViewCell {
                        bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
                        format: .RGBA8,
                        colorSpace: nil)
-        backgroundColor = UIColor(red: CGFloat(bitmap[0]) / 25.5,
-                                  green: CGFloat(bitmap[1]) / 25.5,
-                                  blue: CGFloat(bitmap[2]) / 25.5,
+        let redColor: CGFloat = CGFloat(bitmap[0]) / 25.5
+        let greenColor: CGFloat = CGFloat(bitmap[1]) / 25.5
+        let blueColor: CGFloat = CGFloat(bitmap[2]) / 25.5
+        backgroundColor = UIColor(red: redColor > 1.0 ? 1.0 : redColor,
+                                  green: greenColor > 1.0 ? 1.0 : greenColor,
+                                  blue: blueColor > 1.0 ? 1.0 : blueColor,
                                   alpha: 1)
         //CGFloat(bitmap[3]) / 255
 //        print(backgroundColor)
