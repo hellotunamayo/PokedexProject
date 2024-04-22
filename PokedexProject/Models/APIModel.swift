@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK: 리스트 - https://pokeapi.co/api/v2/pokemon?limit=649&offset=0
 struct PokemonList: Codable {
     var count: Int
     var next: String
@@ -20,7 +21,8 @@ struct PokemonListObject: Codable, Hashable {
     var url: String
 }
 
-struct PokemonDetailData: Codable {
+//MARK: 일반정보 상세 - https://pokeapi.co/api/v2/pokemon/2/
+struct PokemonDetailData: Identifiable, Codable {
     let id: Int
     let height: Int
     let weight: Int
@@ -76,16 +78,17 @@ struct PokemonSprite: Codable {
     }
 }
 
-//https://pokeapi.co/api/v2/pokemon-species/1/
+//MARK: 포켓몬 종 상세 - https://pokeapi.co/api/v2/pokemon-species/1/
 struct PokemonSpeciesData: Identifiable, Codable {
     let id: Int
     let baseHappiness: Int
     let captureRate: Int
     let name: String
     let names: [PokemonGlobalName]
+    let genera: [PokemonGenera]
     
     enum CodingKeys: String, CodingKey {
-        case id, name, names
+        case id, name, names, genera
         case baseHappiness = "base_happiness"
         case captureRate = "capture_rate"
     }
@@ -93,4 +96,8 @@ struct PokemonSpeciesData: Identifiable, Codable {
 
 struct PokemonGlobalName: Codable {
     let name: String
+}
+
+struct PokemonGenera: Codable {
+    let genus: String
 }
