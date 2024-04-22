@@ -48,7 +48,7 @@ struct PokemonDetailView: View {
                     ProgressView()
                 }
             }
-            .padding(.top, 120)
+            .padding(.top, 80)
             .padding(.bottom, 30)
             
             //Content
