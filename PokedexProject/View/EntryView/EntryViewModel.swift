@@ -14,15 +14,21 @@ class EntryViewModel {
     private(set) var pokeList: [PokemonListObject] = []
     private(set) var initialFetchedResult: [PokemonListObject] = []
     
-    var urlString: String = ""
+    var urlString: String
     var limit: Int
+    var offset: Int
     
-    init(limit: Int) {
+    init(urlString: String = "", limit: Int, offset: Int) {
         self.limit = limit
-        self.urlString = "https://pokeapi.co/api/v2/pokemon?limit=\(limit)&offset=0"
+        self.offset = offset
+        self.urlString = "https://pokeapi.co/api/v2/pokemon?limit=\(limit)&offset=\(offset)"
+        
+        Task {
+            try await initialFetch()
+        }
     }
     
-    func initialFetch() async throws -> [PokemonListObject] {
+    @MainActor func initialFetch() async throws -> [PokemonListObject] {
         guard let url = URL(string: urlString) else { return [] }
         let (data, _) = try await URLSession.shared.data(from: url)
         

@@ -19,7 +19,8 @@ struct PokemonSpriteView: View {
                 image
             }
         } placeholder: {
-            ProgressView()
+            Rectangle()
+                .foregroundStyle(Color.clear)
         }
         .frame(width: viewWidth, height: viewWidth, alignment: .center)
         .background(Color("detailViewSheetBackground"))

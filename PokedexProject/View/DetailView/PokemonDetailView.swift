@@ -10,7 +10,7 @@ import SwiftUI
 struct PokemonDetailView: View {
     
     @State private var isModalShowing: Bool = false
-    @State private var localizationIndex: (nameIndex: Int, nickIndex: Int) = (8, 7)
+    @State private var localizationIndex: (nameIndex: Int, nickIndex: Int?) = (8, 7)
     @State private var pokemonMoveData = [PokemonMoveData]()
     @State private var showingIrochiPortrait: Bool = false
     @State private var selectedMove: PokemonMoveDetail?
@@ -33,14 +33,10 @@ struct PokemonDetailView: View {
             HStack {
                 if let frontURL = URL(string: showingIrochiPortrait ? viewModel.pokemonData?.sprites.frontShiny ?? "" : viewModel.pokemonData?.sprites.frontDefault ?? "") {
                     PokemonSpriteView(imageUrl: frontURL, viewWidth: 100)
-                } else {
-                    ProgressView()
                 }
                 
                 if let backURL = URL(string: showingIrochiPortrait ? viewModel.pokemonData?.sprites.backShiny ?? "" : viewModel.pokemonData?.sprites.backDefault ?? "") {
                     PokemonSpriteView(imageUrl: backURL, viewWidth: 100)
-                } else {
-                    ProgressView()
                 }
             }
             .padding(.top, 100)
@@ -95,20 +91,27 @@ struct PokemonDetailView: View {
                     //기술 리스트
                     LazyVGrid(columns: gridItem) {
                         ForEach(0..<pokemonMoveData.count, id: \.self) { i in
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(maxWidth: .infinity, minHeight: 40, maxHeight: 60, alignment: .leading)
-                                .foregroundStyle(Color(UIColor.pokeBrightGray))
-                                .overlay {
-                                    Text("\(pokemonMoveData[i].moveDetail.name.capitalized)")
-                                        .foregroundStyle(Color.black)
-                                        .fontWeight(.bold)
-                                        .font(.system(size: 14))
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding()
-                                }
-                                .onTapGesture {
-                                    selectedMove = pokemonMoveData[i].moveDetail
-                                }
+                            ZStack {
+                                Rectangle()
+                                    .foregroundStyle(Color(UIColor.pokeBrightGray))
+                                Rectangle()
+                                    .foregroundStyle(Color(UIColor.lightGray).opacity(0.2))
+                                    .frame(height: 100)
+                                    .rotationEffect(.degrees(70))
+                                    .offset(x: 90, y: -10)
+                                    
+                                Text("\(pokemonMoveData[i].moveDetail.name.capitalized)")
+                                    .foregroundStyle(Color.black)
+                                    .fontWeight(.bold)
+                                    .font(.system(size: 14))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding()
+                            }
+                            .frame(height: 50)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .onTapGesture {
+                                selectedMove = pokemonMoveData[i].moveDetail
+                            }
                         }
                     }
                     .padding(.top, 10)

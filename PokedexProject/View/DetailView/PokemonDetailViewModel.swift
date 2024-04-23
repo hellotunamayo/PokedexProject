@@ -20,28 +20,33 @@ class PokemonDataViewModel {
     }
     
     @MainActor func fetch(urlString: String) async throws -> () {
-        //fetch default data
-        guard let url = URL(string: urlString) else { return }
-        let (data, _) = try await URLSession.shared.data(from: url)
-        
-        let decodedData = try? JSONDecoder().decode(PokemonDetailData.self, from: data)
-        pokemonData = decodedData
-        pokemonMoveData = decodedData?.moves
-        
-        //fetch spicies data
-        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
-        try await fetchSpicies(urlString: speciesURLString)
+        do {
+            //fetch default data
+            guard let url = URL(string: urlString) else { return }
+            let (data, _) = try await URLSession.shared.data(from: url)
+            
+            let decodedData = try JSONDecoder().decode(PokemonDetailData.self, from: data)
+            pokemonData = decodedData
+            pokemonMoveData = decodedData.moves
+            
+            //fetch spicies data
+            let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
+            try await fetchSpicies(urlString: speciesURLString)
+        } catch {
+            print("fetchError: \(error)")
+        }
     }
     
     func fetchSpicies(urlString: String) async throws -> () {
-        guard let speciesURL = URL(string: urlString) else {
-            return }
-        let(data, _) = try await URLSession.shared.data(from: speciesURL)
-        guard let decodedData = try? JSONDecoder().decode(PokemonSpeciesData.self, from: data) else {
-            print("could not decode localized data")
-            return
+        do {
+            guard let speciesURL = URL(string: urlString) else {
+                return }
+            let(data, _) = try await URLSession.shared.data(from: speciesURL)
+            let decodedData = try JSONDecoder().decode(PokemonSpeciesData.self, from: data)
+            pokemonSpeciesData = decodedData
+        } catch {
+            print("fetchSpiciesError: \(error)")
         }
-        pokemonSpeciesData = decodedData
     }
     
     func downloadFromURL(urlString: String) async throws -> URL {

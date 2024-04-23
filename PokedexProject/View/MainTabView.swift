@@ -12,43 +12,43 @@ struct MainTabView: View {
     var body: some View {
         NavigationStack {
             TabView {
-                Group {
-                    EntryView()
-                        .tabItem {
-                            Label(
-                                title: {
-                                    Text("1-649")
-                                },
-                                icon: {
-                                    Image(systemName: "circle.bottomhalf.filled")
-                                }
-                            )
-                        }
-                    
-                    Text("Under development")
-                        .tabItem {
-                            Label(
-                                title: {
-                                    Text("650-1000")
-                                },
-                                icon: {
-                                    Image(systemName: "circle.bottomhalf.filled")
-                                }
-                            )
-                        }
-                    
-                    Text("Under development")
-                        .tabItem {
-                            Label(
-                                title: {
-                                    Text("Search")
-                                },
-                                icon: {
-                                    Image(systemName: "magnifyingglass.circle")
-                                }
-                            )
-                        }
-                }
+                EntryView(viewModel: EntryViewModel(limit: 650, offset: 0),
+                          startFrom: 0)
+                    .tabItem {
+                        Label(
+                            title: {
+                                Text("1-649")
+                            },
+                            icon: {
+                                Image(systemName: "circle.bottomhalf.filled")
+                            }
+                        )
+                    }
+                
+                EntryView(viewModel: EntryViewModel(limit: 1000, offset: 650),
+                          startFrom: 650)
+                    .tabItem {
+                        Label(
+                            title: {
+                                Text("650-")
+                            },
+                            icon: {
+                                Image(systemName: "circle.bottomhalf.filled")
+                            }
+                        )
+                    }
+                
+                Text("Under development")
+                    .tabItem {
+                        Label(
+                            title: {
+                                Text("Search")
+                            },
+                            icon: {
+                                Image(systemName: "magnifyingglass.circle")
+                            }
+                        )
+                    }
             }
         }
     }

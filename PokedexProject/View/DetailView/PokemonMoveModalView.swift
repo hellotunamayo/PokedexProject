@@ -20,68 +20,119 @@ struct PokemonMoveModalView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                Group {
-                    Text("Names")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(Font.system(size: 30))
-                        .fontWeight(.black)
-                    
-                    Rectangle()
-                        .frame(width: 30, height: 3)
-                        .padding(.bottom, 5)
-                    
-                    LazyVGrid(columns: gridItem) {
-                        if let moveNames = moveData?.names {
-                            let compactedMoveName = Array(Set(moveNames.compactMap{$0}))
-                            ForEach(compactedMoveName, id: \.self) { moveName in
-                                Text("\(moveName.name ?? "...")")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .font(Font.system(size: 20))
-                                    .fontWeight(.bold)
-                                    .padding(.vertical, 1)
+            ScrollView {
+                VStack {
+                    Group {
+                        Text("Names")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(Font.system(size: 30))
+                            .fontWeight(.black)
+                        
+                        Rectangle()
+                            .frame(width: 30, height: 3)
+                            .padding(.bottom, 5)
+                        
+                        LazyVGrid(columns: gridItem) {
+                            if let moveNames = moveData?.names {
+                                let compactedMoveName = Array(Set(moveNames.compactMap{$0}))
+                                ForEach(compactedMoveName, id: \.self) { moveName in
+                                    Text("\(moveName.name ?? "...")")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .font(Font.system(size: 20))
+                                        .fontWeight(.bold)
+                                        .padding(.vertical, 1)
+                                }
                             }
                         }
                     }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Divider()
-                    .padding(.vertical, 10)
-                
-                Text("\(moveData?.damageClass?.name.capitalized ?? "...")")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(Font.system(size: 30))
-                    .fontWeight(.black)
-                
-                Text("Accuracy: \(moveData?.accuracy ?? 0)")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(Font.system(size: 30))
-                    .fontWeight(.black)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                        Text("Close")
-                    })
+                    
+                    PokemonMoveModalDivider()
+                    
+                    LazyVGrid(columns: gridItem) {
+                        Text("Damage Class")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.title3)
+                            .fontWeight(.black)
+                        
+                        Text("\(moveData?.damageClass?.name.capitalized ?? "...")")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.body)
+                    }
+                    
+                    PokemonMoveModalDivider()
+                    
+                    LazyVGrid(columns: gridItem) {
+                        Text("Power")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.title3)
+                            .fontWeight(.black)
+                        
+                        Text("\(moveData?.power ?? 0)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.body)
+                    }
+                    
+                    PokemonMoveModalDivider()
+                    
+                    LazyVGrid(columns: gridItem) {
+                        Text("PP")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.title3)
+                            .fontWeight(.black)
+                        
+                        Text("\(moveData?.pp ?? 0)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.body)
+                    }
+                    
+                    PokemonMoveModalDivider()
+                    
+                    LazyVGrid(columns: gridItem) {
+                        Text("Accuracy")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.title3)
+                            .fontWeight(.black)
+                        
+                        Text("\(moveData?.accuracy ?? 0)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.body)
+                    }
                 }
-            }
-            .task {
-                do {
-                    guard let url = URL(string: moveDetail.url) else { return }
-                    let (data, _) = try await URLSession.shared.data(from: url)
-                    let jsonData = try! JSONDecoder().decode(PokemonMoveDetailExtended.self, from: data)
-                    moveData = jsonData
-                } catch {
-                    moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [])
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .padding()
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: {
+                            dismiss()
+                        }, label: {
+                            Text("Close")
+                        })
+                    }
                 }
+                .task {
+                    do {
+                        guard let url = URL(string: moveDetail.url) else { return }
+                        let (data, _) = try await URLSession.shared.data(from: url)
+                        let jsonData = try! JSONDecoder().decode(PokemonMoveDetailExtended.self, from: data)
+                        moveData = jsonData
+                    } catch {
+                        moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [])
+                    }
+            }
             }
         }
     }
+    
+}
+
+struct PokemonMoveModalDivider: View {
+    
+    var body: some View {
+        Divider()
+            .padding(.vertical, 10)
+    }
+    
 }
 
 #Preview {

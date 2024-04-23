@@ -10,7 +10,7 @@ import Foundation
 //MARK: 리스트 - https://pokeapi.co/api/v2/pokemon?limit=649&offset=0
 struct PokemonList: Codable {
     var count: Int
-    var next: String
+    var next: String?
     var previous: String?
     var defaultPrevious: String { previous ?? "" }
     var results: [PokemonListObject]
@@ -78,14 +78,13 @@ struct PokemonStatType: Codable {
 
 struct PokemonCries: Codable {
     let latest: String
-    let legacy: String
 }
 
 struct PokemonSprite: Codable {
     let frontDefault: String
-    let backDefault: String
-    let frontShiny: String
-    let backShiny: String
+    let backDefault: String?
+    let frontShiny: String?
+    let backShiny: String?
     
     enum CodingKeys: String, CodingKey {
         case frontDefault = "front_default"

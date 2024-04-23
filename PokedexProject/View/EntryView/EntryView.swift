@@ -14,7 +14,9 @@ struct EntryView: View {
     @State private var searchedPokemon: [PokemonListObject]?
     @State private var isSearching: Bool = false
     
-    var viewModel: EntryViewModel = EntryViewModel(limit: 649)
+    var viewModel: EntryViewModel
+    let startFrom: Int
+    
     let gridItems: [GridItem] = [GridItem(.adaptive(minimum: 100, maximum: .infinity))]
     
     var body: some View {
@@ -53,7 +55,7 @@ struct EntryView: View {
                                 NavigationLink {
                                     PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
                                 } label: {
-                                    EntryViewCell(index: i, pokemonName: viewModel.pokeList[i].name)
+                                    EntryViewCell(index: i + startFrom, pokemonName: viewModel.pokeList[i].name)
                                         .frame(height: 140)
                                 }
                                 .backgroundStyle(Color("backgroundColor"))
@@ -71,10 +73,12 @@ struct EntryView: View {
                 getSearchResult()
                 isSearching = true
             }
-            .onAppear {
-                Task{
-                    try await viewModel.initialFetch()
-                }
+        }
+        .task {
+            do {
+                let _ = try await viewModel.initialFetch()
+            } catch {
+                print("WTF")
             }
         }
     }
@@ -130,5 +134,5 @@ extension EntryView {
 }
 
 #Preview {
-    EntryView(viewModel: EntryViewModel(limit: 30))
+    EntryView(viewModel: EntryViewModel(limit: 30, offset: 0), startFrom: 0)
 }
