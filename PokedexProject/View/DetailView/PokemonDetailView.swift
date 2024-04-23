@@ -223,6 +223,8 @@ struct PokemonDetailView: View {
 }
 
 #Preview {
-    PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/25/"),
-                                endpoint: "https://pokeapi.co/api/v2/pokemon/25/")
+    NavigationStack {
+        PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/25/"),
+                                    endpoint: "https://pokeapi.co/api/v2/pokemon/25/")
+    }
 }
