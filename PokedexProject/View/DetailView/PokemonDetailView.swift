@@ -11,9 +11,9 @@ struct PokemonDetailView: View {
     
     @State private var isModalShowing: Bool = false
     @State private var localizationIndex: (nameIndex: Int, nickIndex: Int) = (8, 7)
-    @State private var pokemonMoveData: [PokemonMoveData] = []
+    @State private var pokemonMoveData = [PokemonMoveData]()
     @State private var showingIrochiPortrait: Bool = false
-    @State private var tappedMoveIndex: Int = 0
+    @State private var selectedMove: PokemonMoveDetail?
     
     var viewModel: PokemonDataViewModel = PokemonDataViewModel()
     let pokeData: PokemonListObject
@@ -107,17 +107,15 @@ struct PokemonDetailView: View {
                                         .padding()
                                 }
                                 .onTapGesture {
-                                    tappedMoveIndex = i
-                                    isModalShowing.toggle()
+                                    selectedMove = pokemonMoveData[i].moveDetail
                                 }
                         }
                     }
                     .padding(.top, 10)
                 }
                 .padding(EdgeInsets(top: 10, leading: 30, bottom: 60, trailing: 30))
-                .sheet(isPresented: $isModalShowing) {
-                    PokemonMoveModalView(isModalShowing: $isModalShowing, enName: pokemonMoveData[tappedMoveIndex].moveDetail.name, endPoint: pokemonMoveData[tappedMoveIndex].moveDetail.url)
-                        .presentationDetents([.medium])
+                .sheet(item: $selectedMove) { move in
+                    PokemonMoveModalView(moveDetail: move)
                 }
             }
             .frame(maxWidth: .infinity, minHeight: 700, maxHeight: .infinity, alignment: .leading)
@@ -144,7 +142,7 @@ struct PokemonDetailView: View {
                     pokemonMoveData = []
                 }
             } catch {
-                print("ㅜㅜ")
+                pokemonMoveData = []
             }
             
             withAnimation(.easeOut(duration: 0.25).delay(0.3)) {

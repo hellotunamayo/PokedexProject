@@ -42,7 +42,10 @@ struct PokemonMoveData: Codable {
     }
 }
 
-struct PokemonMoveDetail: Codable {
+struct PokemonMoveDetail: Identifiable, Codable {
+    var id: UUID {
+        return UUID()
+    }
     let name: String
     let url: String
 }
@@ -135,6 +138,6 @@ struct PokemonDamageClass: Codable {
     let url: String
 }
 
-struct PokemonMoveName: Codable {
+struct PokemonMoveName: Hashable, Codable {
     let name: String?
 }

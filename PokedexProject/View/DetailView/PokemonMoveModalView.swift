@@ -9,21 +9,47 @@ import SwiftUI
 
 struct PokemonMoveModalView: View {
     
-    @Binding var isModalShowing: Bool
+    @Environment (\.dismiss) var dismiss
     @State var moveData: PokemonMoveDetailExtended?
     
-    let enName: String
-    let endPoint: String
+    let moveDetail: PokemonMoveDetail
+    let gridItem: [GridItem] = [
+        GridItem(.flexible(minimum: 50)),
+        GridItem(.flexible(minimum: 50)),
+    ]
     
     var body: some View {
         NavigationStack {
             VStack {
-                Text("\(enName.capitalized)")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(Font.system(size: 30))
-                    .fontWeight(.black)
+                Group {
+                    Text("Names")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(Font.system(size: 30))
+                        .fontWeight(.black)
+                    
+                    Rectangle()
+                        .frame(width: 30, height: 3)
+                        .padding(.bottom, 5)
+                    
+                    LazyVGrid(columns: gridItem) {
+                        if let moveNames = moveData?.names {
+                            let compactedMoveName = Array(Set(moveNames.compactMap{$0}))
+                            ForEach(compactedMoveName, id: \.self) { moveName in
+                                Text("\(moveName.name ?? "...")")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(Font.system(size: 20))
+                                    .fontWeight(.bold)
+                                    .padding(.vertical, 1)
+                            }
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Text("\(moveData?.damageClass?.name.capitalized ?? "N/A")")
+                Divider()
+                    .padding(.vertical, 10)
+                
+                Text("\(moveData?.damageClass?.name.capitalized ?? "...")")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .font(Font.system(size: 30))
                     .fontWeight(.black)
@@ -38,7 +64,7 @@ struct PokemonMoveModalView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
-                        isModalShowing.toggle()
+                        dismiss()
                     }, label: {
                         Text("Close")
                     })
@@ -46,12 +72,12 @@ struct PokemonMoveModalView: View {
             }
             .task {
                 do {
-                    guard let url = URL(string: endPoint) else { return }
+                    guard let url = URL(string: moveDetail.url) else { return }
                     let (data, _) = try await URLSession.shared.data(from: url)
                     let jsonData = try! JSONDecoder().decode(PokemonMoveDetailExtended.self, from: data)
                     moveData = jsonData
                 } catch {
-                    moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "", url: ""), power: 0, pp: 0, names: [])
+                    moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [])
                 }
             }
         }
@@ -59,5 +85,5 @@ struct PokemonMoveModalView: View {
 }
 
 #Preview {
-    PokemonMoveModalView(isModalShowing: .constant(true), enName: "mol?lu", endPoint: "https://pokeapi.co/api/v2/move/5")
+    PokemonMoveModalView(moveDetail: PokemonMoveDetail(name: "mega-punch",  url: "https://pokeapi.co/api/v2/move/5/"))
 }
