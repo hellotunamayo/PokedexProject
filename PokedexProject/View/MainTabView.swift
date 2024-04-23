@@ -25,12 +25,12 @@ struct MainTabView: View {
                         )
                     }
                 
-                EntryView(viewModel: EntryViewModel(limit: 1000, offset: 650),
+                EntryView(viewModel: EntryViewModel(limit: 375, offset: 650),
                           startFrom: 650)
                     .tabItem {
                         Label(
                             title: {
-                                Text("650-")
+                                Text("650-1025")
                             },
                             icon: {
                                 Image(systemName: "circle.bottomhalf.filled")
