@@ -10,8 +10,6 @@ import AVFoundation
 import OggDecoder
 
 struct PokemonDetailOverviewView: View {
-    
-    @Binding var localizationIndex: (nameIndex: Int, nickIndex: Int)
     @Binding var showingIrochiPortrait: Bool
     let localization: Locale
     
@@ -103,16 +101,6 @@ struct PokemonDetailOverviewView: View {
             })
         }
         
-        //MARK: 별명
-//        if let genus = viewModel.pokemonSpeciesData?.genera[safe: localizationIndex.nickIndex]?.genus {
-//            Text("\(genus)")
-//                .font(.system(size: 12))
-//                .fontWeight(.bold)
-//                .foregroundStyle(Color.gray)
-//                .padding(EdgeInsets(top: -10, leading: 0, bottom: 10, trailing: 0))
-//        }
-        
-        
         Rectangle()
             .frame(width: 20, height: 3, alignment: .center)
             .offset(y: -2)
@@ -194,8 +182,9 @@ extension PokemonDetailOverviewView {
 }
 
 #Preview {
-    PokemonDetailOverviewView(localizationIndex: .constant((nameIndex: 1, nickIndex: 1)),
-                              showingIrochiPortrait: .constant(false),
-                              localization: .ko,
-                              viewModel: PokemonDataViewModel())
+    PokemonDetailOverviewView(
+        showingIrochiPortrait: .constant(false),
+        localization: .ko,
+        viewModel: PokemonDataViewModel()
+    )
 }

@@ -10,7 +10,6 @@ import SwiftUI
 struct PokemonDetailView: View {
     
     @State private var isModalShowing: Bool = false
-    @State private var localizationIndex: (nameIndex: Int, nickIndex: Int) = (8, 7)
     @State private var pokemonMoveData = [PokemonMoveData]()
     @State private var showingIrochiPortrait: Bool = false
     @State private var selectedMove: PokemonMoveDetail?
@@ -46,11 +45,11 @@ struct PokemonDetailView: View {
             //Content
             VStack {
                 //MARK: 넘버, 타입, 이름, 별명, 체중, 신장
-                PokemonDetailOverviewView(localizationIndex: $localizationIndex,
-                                          showingIrochiPortrait: $showingIrochiPortrait,
-                                          localization: selectedLocale,
-                                          viewModel: viewModel)
-                
+                PokemonDetailOverviewView(
+                    showingIrochiPortrait: $showingIrochiPortrait,
+                    localization: selectedLocale,
+                    viewModel: viewModel
+                )
                 
                 Divider()
                     .padding(.bottom, 10)
@@ -180,46 +179,6 @@ struct PokemonDetailView: View {
                 }
             }
         }
-//        .toolbar {
-//            ToolbarItem(placement: .topBarTrailing) {
-//                //다국어 이름정보
-//                Picker(selection: $localizationIndex.nameIndex) {
-//                    Text("English")
-//                        .tag(8)
-//                    Text("日本語")
-//                        .tag(0)
-//                    Text("한국어")
-//                        .tag(2)
-//                    Text("繁体字")
-//                        .tag(3)
-//                    Text("简体字")
-//                        .tag(10)
-//                    Text("Français")
-//                        .tag(4)
-//                    Text("Deutsch")
-//                        .tag(5)
-//                    Text("Español")
-//                        .tag(6)
-//                    Text("Italiano")
-//                        .tag(7)
-//                } label: {
-//                    Image(systemName: "globe")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .foregroundStyle(Color("textColor"))
-//                        .frame(width: 22, height: 22)
-//                        .offset(x: 5, y: 2)
-//                }
-//                .onChange(of: localizationIndex.nameIndex) { oldValue, newValue in
-//                    switch newValue {
-//                        case 0: //일본어
-//                            localizationIndex.nickIndex = 0
-//                        default: //그외 언어
-//                            localizationIndex.nickIndex = newValue - 1
-//                    }
-//                }
-//            }
-//        }
     }
     
 }
