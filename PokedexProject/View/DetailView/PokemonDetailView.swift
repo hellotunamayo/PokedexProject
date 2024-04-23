@@ -10,7 +10,7 @@ import SwiftUI
 struct PokemonDetailView: View {
     
     @State private var isModalShowing: Bool = false
-    @State private var localizationIndex: (nameIndex: Int, nickIndex: Int?) = (8, 7)
+    @State private var localizationIndex: (nameIndex: Int, nickIndex: Int) = (8, 7)
     @State private var pokemonMoveData = [PokemonMoveData]()
     @State private var showingIrochiPortrait: Bool = false
     @State private var selectedMove: PokemonMoveDetail?
