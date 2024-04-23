@@ -15,6 +15,14 @@ class PokemonDataViewModel {
     private(set) var pokemonSpeciesData: PokemonSpeciesData?
     private(set) var pokemonMoveData: [PokemonMoveData]?
     
+    private var pokemonNames: [PokemonGlobalName] {
+        pokemonSpeciesData?.names ?? []
+    }
+    
+    private var pokemonGenera: [PokemonGenera] {
+        pokemonSpeciesData?.genera ?? []
+    }
+    
     var pokemonId: Int {
         pokemonData?.id ?? 1
     }
