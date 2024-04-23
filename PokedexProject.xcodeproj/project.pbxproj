@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8386645D2BD813DB00DA3D37 /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8386645C2BD813DB00DA3D37 /* Locale.swift */; };
 		E10EE6A02BD1FE7B00022EE7 /* OggDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = E10EE69F2BD1FE7B00022EE7 /* OggDecoder */; };
 		E10EE6A22BD258F700022EE7 /* PokemonSpriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10EE6A12BD258F700022EE7 /* PokemonSpriteView.swift */; };
 		E16ACA0D2BD7F70800F9A1BC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16ACA0C2BD7F70800F9A1BC /* Extensions.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8386645C2BD813DB00DA3D37 /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
 		E10EE6A12BD258F700022EE7 /* PokemonSpriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSpriteView.swift; sourceTree = "<group>"; };
 		E16ACA0C2BD7F70800F9A1BC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E16ACA0E2BD7FCD400F9A1BC /* Comments */ = {isa = PBXFileReference; lastKnownFileType = text; path = Comments; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				E1D43A8C2BD1480100DF5ADB /* APIModel.swift */,
+				8386645C2BD813DB00DA3D37 /* Locale.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 				E1D43A8D2BD1480100DF5ADB /* APIModel.swift in Sources */,
 				E1D43A992BD157DE00DF5ADB /* Singletones.swift in Sources */,
 				E1D43A972BD1495200DF5ADB /* EntryViewModel.swift in Sources */,
+				8386645D2BD813DB00DA3D37 /* Locale.swift in Sources */,
 				E1A7B3C72BD6468F001D914B /* PokemonMoveModalView.swift in Sources */,
 				E1BDEB732BD4F5CE004E0921 /* MainTabView.swift in Sources */,
 				E10EE6A22BD258F700022EE7 /* PokemonSpriteView.swift in Sources */,
