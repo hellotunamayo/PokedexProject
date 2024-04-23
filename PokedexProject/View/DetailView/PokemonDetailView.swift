@@ -47,8 +47,10 @@ struct PokemonDetailView: View {
             VStack {
                 //MARK: 넘버, 타입, 이름, 별명, 체중, 신장
                 PokemonDetailOverviewView(localizationIndex: $localizationIndex,
-                                          showingIrochiPortrait: $showingIrochiPortrait, 
+                                          showingIrochiPortrait: $showingIrochiPortrait,
+                                          localization: selectedLocale,
                                           viewModel: viewModel)
+                
                 
                 Divider()
                     .padding(.bottom, 10)
