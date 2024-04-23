@@ -13,6 +13,7 @@ struct PokemonDetailOverviewView: View {
     
     @Binding var localizationIndex: (nameIndex: Int, nickIndex: Int)
     @Binding var showingIrochiPortrait: Bool
+    let localization: Locale
     
     @State var audioPlayer: AVAudioPlayer!
     
@@ -63,12 +64,13 @@ struct PokemonDetailOverviewView: View {
         
         //MARK: 이름, 울음소리, 이로치전환
         HStack {
-            //이름
-//            Text(String(viewModel.pokemonSpeciesData?.names[localizationIndex.nameIndex].name.capitalized ?? ""))
-            Text(String(viewModel.pokemonSpeciesData?.names[7].name.capitalized ?? ""))
-                .fontWeight(.heavy)
-                .font(Font.system(size: 28))
-                .baselineOffset(localizationIndex.nameIndex < 4 || localizationIndex.nameIndex == 10 ? -2.0 : 0.0)
+            VStack {
+                //이름
+                Text(viewModel.retrieveLocalName(from: localization) ?? "N/A")
+                
+                // 별칭
+                Text(viewModel.retrieveLocalGenus(from: localization) ?? "Sorry, we could not make it.")
+            }
             
             //울음소리
             Button(action: {
@@ -194,5 +196,6 @@ extension PokemonDetailOverviewView {
 #Preview {
     PokemonDetailOverviewView(localizationIndex: .constant((nameIndex: 1, nickIndex: 1)),
                               showingIrochiPortrait: .constant(false),
+                              localization: .ko,
                               viewModel: PokemonDataViewModel())
 }
