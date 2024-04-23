@@ -1,0 +1,22 @@
+# 로컬라이즈 에러 해결 아이디어?
+(https://discord.com/channels/1182258024769916978/1222833141883076670/1232335819205775442)
+
+enum Localization: String, CaseIterable, Identifiable {
+    case ko
+    
+    var id: Self { self }
+}
+
+@State private var localization: Localization
+
+Picker("", selection: $localization) {
+    
+    Text("한국어").tag(Localization.ko)
+}
+
+if let genus = genera.first { $0.langauge.name == localization.rawValue } {
+    
+    Text(genus)
+}
+
+---
