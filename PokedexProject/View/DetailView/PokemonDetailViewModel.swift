@@ -139,3 +139,17 @@ class PokemonDataViewModel {
         }
     }
 }
+
+extension PokemonDataViewModel {
+    func retrieveLocalName(from locale: Locale) -> String? {
+        pokemonNames
+            .first { $0.language.name == locale.accessName }?
+            .name
+    }
+    
+    func retrieveLocalGenus(from locale: Locale) -> String? {
+        pokemonGenera
+            .first { $0.language.name == locale.accessName }?
+            .genus
+    }
+}
