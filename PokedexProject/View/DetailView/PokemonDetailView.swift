@@ -154,6 +154,30 @@ struct PokemonDetailView: View {
                 opacity = 1
             }
         }
+        .toolbar {
+            ToolbarItem {
+                Picker(selection: $selectedLocale) {
+                    Text("한국어")
+                        .tag(Locale.ko)
+                    Text("일본어")
+                        .tag(Locale.jp)
+                    Text("영어")
+                        .tag(Locale.en)
+                    Text("중국어")
+                        .tag(Locale.cn)
+                    Text("독일어")
+                        .tag(Locale.de)
+                } label: {
+                    Image(systemName: "globe")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundStyle(Color("textColor"))
+                        .frame(width: 22, height: 22)
+                        .offset(x: 5, y: 2)
+
+                }
+            }
+        }
 //        .toolbar {
 //            ToolbarItem(placement: .topBarTrailing) {
 //                //다국어 이름정보
