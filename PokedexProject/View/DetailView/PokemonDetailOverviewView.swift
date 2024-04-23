@@ -101,12 +101,14 @@ struct PokemonDetailOverviewView: View {
         }
         
         //MARK: 별명
-        //TODO: 908번 포켓몬 out of index 라서 일단 주석... 나중에 처리하자
-//        Text("\(viewModel.pokemonSpeciesData?.genera[localizationIndex.nickIndex].genus ?? "")")
-//            .font(.system(size: 12))
-//            .fontWeight(.bold)
-//            .foregroundStyle(Color.gray)
-//            .padding(EdgeInsets(top: -10, leading: 0, bottom: 10, trailing: 0))
+        if let genus = viewModel.pokemonSpeciesData?.genera[safe: localizationIndex.nickIndex]?.genus {
+            Text("\(genus)")
+                .font(.system(size: 12))
+                .fontWeight(.bold)
+                .foregroundStyle(Color.gray)
+                .padding(EdgeInsets(top: -10, leading: 0, bottom: 10, trailing: 0))
+        }
+        
         
         Rectangle()
             .frame(width: 20, height: 3, alignment: .center)
