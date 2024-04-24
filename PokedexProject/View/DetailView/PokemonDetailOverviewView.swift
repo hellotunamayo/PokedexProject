@@ -65,9 +65,8 @@ struct PokemonDetailOverviewView: View {
             VStack {
                 //이름
                 Text(viewModel.retrieveLocalName(from: localization) ?? "N/A")
-                
-                // 별칭
-                Text(viewModel.retrieveLocalGenus(from: localization) ?? "Sorry, we could not make it.")
+                    .fontWeight(.heavy)
+                    .font(Font.system(size: 28))
             }
             
             //울음소리
@@ -100,6 +99,14 @@ struct PokemonDetailOverviewView: View {
                     .offset(x: 10, y: 2)
             })
         }
+        
+        // 별칭
+        Text(viewModel.retrieveLocalGenus(from: localization) ?? "테스트별명")
+            .font(.system(size: 12))
+            .fontWeight(.bold)
+            .foregroundStyle(Color.gray)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 15, trailing: 0))
+            .offset(y: 7)
         
         Rectangle()
             .frame(width: 20, height: 3, alignment: .center)
