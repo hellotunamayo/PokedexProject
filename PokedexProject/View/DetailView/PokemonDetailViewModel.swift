@@ -15,6 +15,14 @@ class PokemonDataViewModel {
     private(set) var pokemonSpeciesData: PokemonSpeciesData?
     private(set) var pokemonMoveData: [PokemonMoveData]?
     
+    private var pokemonNames: [PokemonGlobalName] {
+        pokemonSpeciesData?.names ?? []
+    }
+    
+    private var pokemonGenera: [PokemonGenera] {
+        pokemonSpeciesData?.genera ?? []
+    }
+    
     var pokemonId: Int {
         pokemonData?.id ?? 1
     }
@@ -129,5 +137,19 @@ class PokemonDataViewModel {
             default:
                 return (type, UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1))
         }
+    }
+}
+
+extension PokemonDataViewModel {
+    func retrieveLocalName(from locale: Locale) -> String? {
+        pokemonNames
+            .first { $0.language.name == locale.accessName }?
+            .name
+    }
+    
+    func retrieveLocalGenus(from locale: Locale) -> String? {
+        pokemonGenera
+            .first { $0.language.name == locale.accessName }?
+            .genus
     }
 }

@@ -112,11 +112,19 @@ struct PokemonSpeciesData: Identifiable, Codable {
 
 struct PokemonGlobalName: Codable {
     let name: String
+    let language: Language
 }
 
 struct PokemonGenera: Codable {
     let genus: String
+    let language: Language
 }
+
+struct Language: Codable {
+    let name: String
+    let url: String
+}
+
 
 //MARK: 폭행몬 기술 상세 https://pokeapi.co/api/v2/move/5/
 struct PokemonMoveDetailExtended: Codable {
