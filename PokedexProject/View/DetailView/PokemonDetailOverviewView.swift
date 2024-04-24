@@ -101,7 +101,7 @@ struct PokemonDetailOverviewView: View {
         }
         
         // 별칭
-        Text(viewModel.retrieveLocalGenus(from: localization) ?? "테스트별명")
+        Text(viewModel.retrieveLocalGenus(from: localization) ?? "-")
             .font(.system(size: 12))
             .fontWeight(.bold)
             .foregroundStyle(Color.gray)
