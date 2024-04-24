@@ -13,7 +13,7 @@ struct PokemonDetailView: View {
     @State private var pokemonMoveData = [PokemonMoveData]()
     @State private var showingIrochiPortrait: Bool = false
     @State private var selectedMove: PokemonMoveDetail?
-    @State private var selectedLocale: Locale = .ko
+    @State private var selectedLocale: Locale = .en
     
     var viewModel: PokemonDataViewModel = PokemonDataViewModel()
     let pokeData: PokemonListObject
