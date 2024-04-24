@@ -117,13 +117,15 @@ struct PokemonDetailView: View {
                         }
                     }
                     .padding(.top, 10)
+                    
+                    Spacer()
                 }
                 .padding(EdgeInsets(top: 10, leading: 30, bottom: 60, trailing: 30))
                 .sheet(item: $selectedMove) { move in
                     PokemonMoveModalView(moveDetail: move)
                 }
             }
-            .frame(maxWidth: .infinity, minHeight: 700, maxHeight: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, minHeight: UIWindow().frame.height, maxHeight: .infinity, alignment: .leading)
             .background(Color("detailViewSheetBackground"))
             .clipShape(.rect(topLeadingRadius: 50, topTrailingRadius: 50, style: .continuous))
         }
