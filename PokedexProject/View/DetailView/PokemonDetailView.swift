@@ -158,15 +158,15 @@ struct PokemonDetailView: View {
         .toolbar {
             ToolbarItem {
                 Picker(selection: $selectedLocale) {
+                    Text("English")
+                        .tag(Locale.en)
+                    Text("日本語")
+                        .tag(Locale.jp)
                     Text("한국어")
                         .tag(Locale.ko)
-                    Text("일본어")
-                        .tag(Locale.jp)
-                    Text("영어")
-                        .tag(Locale.en)
-                    Text("중국어")
+                    Text("Chinese-Traditional")
                         .tag(Locale.cn)
-                    Text("독일어")
+                    Text("Deutsch")
                         .tag(Locale.de)
                 } label: {
                     Image(systemName: "globe")
