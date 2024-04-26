@@ -117,6 +117,7 @@ struct PokemonDetailView: View {
                         }
                     }
                     .padding(.top, 10)
+                    .padding(.bottom, 60)
                     
                     Spacer()
                 }
