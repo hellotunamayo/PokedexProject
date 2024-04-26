@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainTabView: View {
+struct MainGridView: View {
     
     private var gridItems: [GridItem] = [
         GridItem(.flexible(minimum: 100, maximum: .infinity)),
@@ -151,5 +151,5 @@ struct GenerationCellView: View {
 }
 
 #Preview {
-    MainTabView()
+    MainGridView()
 }
