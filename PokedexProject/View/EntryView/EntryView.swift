@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-//import ColorKit
 
 struct EntryView: View {
     
@@ -21,17 +20,6 @@ struct EntryView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Image("pokedexIcon")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24, alignment: .center)
-                
-                Text("PokeDex Project")
-                    .font(Font.custom("Silkscreen-Regular", size: 24))
-                
-            }
-            
             VStack {
                 if isSearching {
                     Button(action: {
@@ -63,16 +51,28 @@ struct EntryView: View {
                             .padding(.vertical, -4)
                         }
                     }
-                    .navigationTitle("")
-                    .toolbar(.hidden, for: .navigationBar)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            HStack {
+                                Image("pokedexIcon")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20, alignment: .center)
+                                
+                                Text("\(startFrom + 1) - \(startFrom + viewModel.pokeList.count)")
+                                    .font(Font.custom("Silkscreen-Regular", size: 18))
+                                    
+                            }
+                        }
+                    }
                 }
             }
-            .padding(.bottom, 0.5)
-            .searchable(text: $searchKeyword, prompt: "Search Pokémon")
-            .onSubmit(of: .search) {
-                getSearchResult()
-                isSearching = true
-            }
+//            .searchable(text: $searchKeyword, prompt: "Search Pokémon")
+//            .onSubmit(of: .search) {
+//                getSearchResult()
+//                isSearching = true
+//            }
         }
         .task {
             do {
