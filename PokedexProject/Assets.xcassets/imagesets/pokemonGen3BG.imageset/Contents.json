@@ -1,15 +1,16 @@
 {
   "images" : [
     {
-      "filename" : "pokemonGen3BG.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "pokemonGen3BG 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "pokemonGen3BG 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
