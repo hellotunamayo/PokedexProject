@@ -44,12 +44,16 @@ Pokémon is a trademark and copyright of Nintendo Inc., Game Freak, and Creature
                     }
                 }
                 
-                Section("Software License") {
-                    Text("Apache 2.0 License")
-                }
-                
-                Section("software version") {
-                    Text("0.1 - For user test only")
+                Section("Software Information") {
+                    NavigationLink("Show on GitHub") {
+                        GitHubView()
+                    }
+                    HStack {
+                        Text("Version")
+                        Spacer()
+                        Text("\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown Build")")
+                    }
+                    
                 }
             }
         }

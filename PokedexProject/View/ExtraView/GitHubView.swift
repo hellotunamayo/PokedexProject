@@ -6,11 +6,28 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct GitHubView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        WebViewRepresentable()
     }
+}
+
+struct WebViewRepresentable: UIViewRepresentable {
+    func makeUIView(context: Context) -> WKWebView {
+        let webView: WKWebView = WKWebView()
+        guard let requestURL: URL = URL(string: "https://github.com/hellotunamayo/PokeDexProject") else { return WKWebView() }
+        let request: URLRequest = URLRequest(url: requestURL)
+        webView.load(request)
+        return webView
+    }
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        
+    }
+    
+    typealias UIViewType = WKWebView
 }
 
 #Preview {
