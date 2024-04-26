@@ -1,15 +1,6 @@
 {
-  "originHash" : "b17dca911255bd3bd3cdde05364721d3bb19d65711093b9574095346e89cc5c4",
+  "originHash" : "edf2b4d6d790b8810c86442f4b144c0ea8d816f0ecf48efa8ef24d5432665f66",
   "pins" : [
-    {
-      "identity" : "colorkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Boris-Em/ColorKit.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "6e4375a6126eac0a29893c607ae318bdbe33310c"
-      }
-    },
     {
       "identity" : "oggdecoder",
       "kind" : "remoteSourceControl",
