@@ -22,6 +22,18 @@ struct MainView: View {
                     )
                 }
             
+            SearchView()
+                .tabItem {
+                    Label(
+                        title: {
+                            Text("Search")
+                        },
+                        icon: {
+                            Image(systemName: "magnifyingglass")
+                        }
+                    )
+                }
+            
             ExtraViewList()
                 .tabItem {
                     Label(
