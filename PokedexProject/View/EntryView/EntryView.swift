@@ -20,59 +20,36 @@ struct EntryView: View {
     
     var body: some View {
         VStack {
-            VStack {
-                if isSearching {
-                    Button(action: {
-                        isSearching = false
-                    }, label: {
-                        Text("Dismiss Search")
-                    })
-                    
-                    List(searchedPokemon ?? [], id: \.self) { result in
-                        LazyVStack {
-                            NavigationLink(result.name) {
-                                PokemonDetailView(pokeData: result, endpoint: result.url)
-                            }
+            //MARK: 비검색중 화면
+            ScrollView {
+                ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
+                    LazyVStack {
+                        NavigationLink {
+                            PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
+                        } label: {
+                            EntryViewCell(index: i + startFrom, pokemonName: viewModel.pokeList[i].name)
+                                .frame(height: 140)
                         }
+                        .backgroundStyle(Color("backgroundColor"))
                     }
-                } else {
-                    //MARK: 비검색중 화면
-                    ScrollView {
-                        ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
-                            LazyVStack {
-                                NavigationLink {
-                                    PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
-                                } label: {
-                                    EntryViewCell(index: i + startFrom, pokemonName: viewModel.pokeList[i].name)
-                                        .frame(height: 140)
-                                }
-                                .backgroundStyle(Color("backgroundColor"))
-                            }
-                            .padding(.vertical, -4)
-                        }
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            HStack {
-                                Image("pokedexIcon")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20, alignment: .center)
-                                
-                                Text("\(startFrom + 1) - \(startFrom + viewModel.pokeList.count)")
-                                    .font(Font.custom("Silkscreen-Regular", size: 18))
-                                    
-                            }
-                        }
+                    .padding(.vertical, -4)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Image("pokedexIcon")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20, alignment: .center)
+                        
+                        Text("\(startFrom + 1) - \(startFrom + viewModel.pokeList.count)")
+                            .font(Font.custom("Silkscreen-Regular", size: 18))
+                        
                     }
                 }
             }
-//            .searchable(text: $searchKeyword, prompt: "Search Pokémon")
-//            .onSubmit(of: .search) {
-//                getSearchResult()
-//                isSearching = true
-//            }
         }
         .task {
             do {
@@ -87,21 +64,6 @@ struct EntryView: View {
 
 //MARK: 함수
 extension EntryView {
-    func getSearchResult() {
-        if !searchKeyword.isEmpty {
-            var result: [PokemonListObject] = []
-            var _ = viewModel.pokeList.filter {
-                if $0.name.lowercased().localizedStandardContains(searchKeyword) { //true면
-                    result.append($0)
-                    return true
-                } else {
-                    return false
-                }
-            }
-            searchedPokemon = result
-        }
-    }
-    
     func getPokemonPortrait(urlString url: String) async throws -> URL {
         enum PortraitFetchError: String, Error {
             case urlNotFound = "URL not found"
