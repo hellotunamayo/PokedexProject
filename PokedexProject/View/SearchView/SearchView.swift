@@ -45,6 +45,7 @@ struct SearchView: View {
             }
         }
         .searchable(text: $searchKeyword, prompt: Text("Search Pokémon by name"))
+        .autocorrectionDisabled()
         .onSubmit(of: .search) {
             searchViewModel.search(searchKeyword: "", pokemonList: viewModel.pokeList)
             if !searchKeyword.isEmpty {
