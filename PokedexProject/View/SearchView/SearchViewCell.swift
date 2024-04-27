@@ -50,7 +50,6 @@ struct SearchViewCell: View {
         }
         .frame(maxWidth: .infinity, minHeight: 120, maxHeight: 120)
         .background(dominantColor?.opacity(0.2) ?? Color.background.opacity(0.2))
-        .padding()
         .task {
             do {
                 try await loadData()
