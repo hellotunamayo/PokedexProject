@@ -96,20 +96,29 @@ struct PokemonDetailView: View {
                             ZStack {
                                 Rectangle()
                                     .foregroundStyle(Color(UIColor.pokeBrightGray))
+                                    
                                 Rectangle()
                                     .foregroundStyle(Color(UIColor.lightGray).opacity(0.2))
-                                    .frame(height: 100)
-                                    .rotationEffect(.degrees(70))
-                                    .offset(x: 90, y: -10)
-                                    
-                                Text("\(pokemonMoveData[i].moveDetail.name.capitalized)")
-                                    .foregroundStyle(Color.black)
-                                    .fontWeight(.bold)
-                                    .font(.system(size: 14))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding()
+                                    .frame(height: 50)
+//                                    .rotationEffect(.degrees(70))
+                                    .offset(x: 130, y: 0)
+                                
+                                HStack {
+                                    Text("\(pokemonMoveData[i].moveDetail.name.capitalized)")
+                                        .font(.system(size: 14))
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                                        .padding()
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 12))
+                                        .padding(.trailing, 12)
+                                }
+                                .foregroundStyle(Color.black)
+                                .fontWeight(.bold)
+                                
                             }
                             .frame(height: 50)
+                            .clipped()
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .onTapGesture {
                                 selectedMove = pokemonMoveData[i].moveDetail
