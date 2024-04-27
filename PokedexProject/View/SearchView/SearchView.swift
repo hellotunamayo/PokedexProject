@@ -10,39 +10,12 @@ import SwiftUI
 struct SearchView: View {
     
     @State private var searchKeyword: String = ""
+    @FocusState private var searchFocused
     let searchViewModel: SearchViewModel = SearchViewModel()
     let viewModel: EntryViewModel = EntryViewModel(limit: 1100, offset: 0)
     
     var body: some View {
         NavigationStack {
-            HStack {
-                TextField("Search by Pokémon's name", text: $searchKeyword)
-                    .textFieldStyle(.roundedBorder)
-                    .onAppear {
-                        UITextField.appearance().clearButtonMode = .always
-                    }
-                
-                Button(action: {
-                    searchViewModel.search(searchKeyword: "", pokemonList: viewModel.pokeList)
-                    if !searchKeyword.isEmpty {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            searchViewModel.search(searchKeyword: searchKeyword, pokemonList: viewModel.pokeList)
-                        }
-                    } else {
-                        searchViewModel.emptyResult()
-                    }
-                }, label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 6)
-                            .foregroundStyle(Color(UIColor.systemBlue))
-                        Image(systemName: "magnifyingglass")
-                            .foregroundStyle(Color.white)
-                    }
-                    .frame(width: 60, height: 34, alignment: .center)
-                })
-            }
-            .padding()
-            
             if searchViewModel.searchResult.isEmpty {
                 VStack {
                     Image("allpokemons")
@@ -69,6 +42,17 @@ struct SearchView: View {
                         }
                     }
                 }
+            }
+        }
+        .searchable(text: $searchKeyword, prompt: Text("Search Pokémon by name"))
+        .onSubmit(of: .search) {
+            searchViewModel.search(searchKeyword: "", pokemonList: viewModel.pokeList)
+            if !searchKeyword.isEmpty {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    searchViewModel.search(searchKeyword: searchKeyword, pokemonList: viewModel.pokeList)
+                }
+            } else {
+                searchViewModel.emptyResult()
             }
         }
     }
