@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct EntryViewCell: View {
-    
-    @State var backgroundColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+    @StateObject var pokemonPortraitDispatcher = PokemonPortraitDispatcher()
     @State var portraitOffsetX: CGFloat = 50.0
     @State var cellOpacity: CGFloat = 0.0
     
@@ -20,7 +19,7 @@ struct EntryViewCell: View {
             s: CGFloat = 0.0,
             b: CGFloat = 0.0,
             a: CGFloat = 0.0
-        if backgroundColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+        if pokemonPortraitDispatcher.backgroundColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
             b += 0.9
             b = max(min(b, 1.0), 0.0)
             return UIColor(hue: h, saturation: s, brightness: b, alpha: a)
@@ -34,7 +33,7 @@ struct EntryViewCell: View {
                 Rectangle()
                     .frame(width: 600, height: 300)
                     .foregroundStyle(
-                        Color(backgroundColor)
+                        Color(pokemonPortraitDispatcher.backgroundColor)
                             .opacity(0.2)
                     )
                     .rotationEffect(Angle(degrees: 60))
@@ -67,9 +66,9 @@ struct EntryViewCell: View {
                 }
                 
                 //MARK: 포켓몬 이미지
-                AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(index+1).png")) { phase in
-                    if let image = phase.image {
-                        image
+                Group {
+                    if let image = pokemonPortraitDispatcher.image {
+                        Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 140, height: 140)
@@ -80,23 +79,17 @@ struct EntryViewCell: View {
                             }
                     } else {
                         ProgressView()
-                            .frame(width: 10, height: 140)
                     }
                 }
+                .onAppear {
+                    pokemonPortraitDispatcher.load(with: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(index+1).png")
+                }
                 .offset(x: proxy.frame(in: .local).maxX - (140 - portraitOffsetX), y: proxy.frame(in: .local).maxY - 140)
-                
             }
             .frame(minWidth: 200, maxWidth: .infinity)
             .clipShape(.rect)
-            .backgroundStyle(Color(backgroundColor))
-            .background(Color(backgroundColor).opacity(0.1))
-            .task {
-                do {
-                    backgroundColor = try await getColorFromImage(urlString: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(index+1).png")
-                } catch {
-                    print(error)
-                }
-            }
+            .backgroundStyle(Color(pokemonPortraitDispatcher.backgroundColor))
+            .background(Color(pokemonPortraitDispatcher.backgroundColor).opacity(0.1))
         }
         .opacity(cellOpacity)
         .background(Color.black)
