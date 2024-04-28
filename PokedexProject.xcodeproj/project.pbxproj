@@ -18,6 +18,7 @@
 		8327346A2BDE1A9900E48303 /* OggDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = 832734692BDE1A9900E48303 /* OggDecoder */; };
 		8327346D2BDE1BED00E48303 /* EntryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8327346C2BDE1BED00E48303 /* EntryUseCase.swift */; };
 		8327346F2BDE1CAB00E48303 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8327346E2BDE1CAB00E48303 /* Endpoint.swift */; };
+		832734712BDE308E00E48303 /* PokemonDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832734702BDE308E00E48303 /* PokemonDataUseCase.swift */; };
 		8386645D2BD813DB00DA3D37 /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8386645C2BD813DB00DA3D37 /* Locale.swift */; };
 		E10EE6A22BD258F700022EE7 /* PokemonSpriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10EE6A12BD258F700022EE7 /* PokemonSpriteView.swift */; };
 		E11832292BDE070C00764E55 /* pokemonLocalNames.json in Resources */ = {isa = PBXBuildFile; fileRef = E11832282BDE070C00764E55 /* pokemonLocalNames.json */; };
@@ -58,6 +59,7 @@
 		832734662BDE19A200E48303 /* PokemonAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonAPIService.swift; sourceTree = "<group>"; };
 		8327346C2BDE1BED00E48303 /* EntryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryUseCase.swift; sourceTree = "<group>"; };
 		8327346E2BDE1CAB00E48303 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		832734702BDE308E00E48303 /* PokemonDataUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDataUseCase.swift; sourceTree = "<group>"; };
 		8386645C2BD813DB00DA3D37 /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
 		E10EE6A12BD258F700022EE7 /* PokemonSpriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSpriteView.swift; sourceTree = "<group>"; };
 		E11832282BDE070C00764E55 /* pokemonLocalNames.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pokemonLocalNames.json; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				8327346C2BDE1BED00E48303 /* EntryUseCase.swift */,
+				832734702BDE308E00E48303 /* PokemonDataUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				E1BDEB732BD4F5CE004E0921 /* MainGridView.swift in Sources */,
 				8327345A2BDE125500E48303 /* Responsable.swift in Sources */,
 				832734672BDE19A200E48303 /* PokemonAPIService.swift in Sources */,
+				832734712BDE308E00E48303 /* PokemonDataUseCase.swift in Sources */,
 				E17DCB762BDBEB9A00236BD6 /* GitHubView.swift in Sources */,
 				E10EE6A22BD258F700022EE7 /* PokemonSpriteView.swift in Sources */,
 				E17DCB712BDBE0D500236BD6 /* MainView.swift in Sources */,
