@@ -10,7 +10,7 @@ import Observation
 
 @Observable
 class EntryViewModel {
-    
+    private let apiUseCase: some EntryUseCase = PokemonAPIService()
     private(set) var pokeList: [PokemonListObject] = []
     private(set) var initialFetchedResult: [PokemonListObject] = []
     
@@ -24,18 +24,15 @@ class EntryViewModel {
         self.urlString = "https://pokeapi.co/api/v2/pokemon?limit=\(limit)&offset=\(offset)"
         
         Task {
-            try await initialFetch()
+            await initialFetch()
         }
     }
     
-    @MainActor func initialFetch() async throws -> [PokemonListObject] {
-        guard let url = URL(string: urlString) else { return [] }
-        let (data, _) = try await URLSession.shared.data(from: url)
+    @MainActor func initialFetch() async {
+        let result = await apiUseCase.fetch(with: urlString)
         
-        guard let decodedData = try? JSONDecoder().decode(PokemonList.self, from: data) else { return [] }
-        pokeList = decodedData.results
-        initialFetchedResult = decodedData.results
-        return pokeList
+        pokeList = result
+        initialFetchedResult = result
     }
     
     func search(searchKeyword: String) -> [PokemonListObject] {
