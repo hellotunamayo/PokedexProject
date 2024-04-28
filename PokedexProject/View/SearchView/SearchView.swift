@@ -60,10 +60,6 @@ struct SearchView: View {
     }
 }
 
-extension SearchView {
-    
-}
-
 #Preview {
     SearchView()
 }

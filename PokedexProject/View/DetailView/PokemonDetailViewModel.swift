@@ -10,10 +10,10 @@ import SwiftUI
 
 @Observable
 class PokemonDataViewModel {
-    
+    private let apiService: some PokemonDetailUseCase = PokemonAPIService()
     private(set) var pokemonData: PokemonDetailData?
     private(set) var pokemonSpeciesData: PokemonSpeciesData?
-    private(set) var pokemonMoveData: [PokemonMoveData]?
+    private(set) var pokemonMoveData: [PokemonMoveData] = []
     
     private var pokemonNames: [PokemonGlobalName] {
         pokemonSpeciesData?.names ?? []
@@ -27,34 +27,12 @@ class PokemonDataViewModel {
         pokemonData?.id ?? 1
     }
     
-    @MainActor func fetch(urlString: String) async throws -> () {
-        do {
-            //fetch default data
-            guard let url = URL(string: urlString) else { return }
-            let (data, _) = try await URLSession.shared.data(from: url)
-            
-            let decodedData = try JSONDecoder().decode(PokemonDetailData.self, from: data)
-            pokemonData = decodedData
-            pokemonMoveData = decodedData.moves
-            
-            //fetch spicies data
-            let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
-            try await fetchSpicies(urlString: speciesURLString)
-        } catch {
-            print("fetchError: \(error)")
-        }
-    }
-    
-    func fetchSpicies(urlString: String) async throws -> () {
-        do {
-            guard let speciesURL = URL(string: urlString) else {
-                return }
-            let(data, _) = try await URLSession.shared.data(from: speciesURL)
-            let decodedData = try JSONDecoder().decode(PokemonSpeciesData.self, from: data)
-            pokemonSpeciesData = decodedData
-        } catch {
-            print("fetchSpiciesError: \(error)")
-        }
+    @MainActor func fetch(urlString: String) async -> () {
+        let result = await apiService.fetch(urlString: urlString)
+        pokemonData = result
+        pokemonMoveData = result?.moves ?? []
+        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
+        pokemonSpeciesData = await apiService.fetchSpicies(urlString: speciesURLString)
     }
     
     func downloadFromURL(urlString: String) async throws -> URL {
