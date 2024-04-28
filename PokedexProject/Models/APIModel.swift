@@ -102,12 +102,38 @@ struct PokemonSpeciesData: Identifiable, Codable {
     let name: String
     let names: [PokemonGlobalName]
     let genera: [PokemonGenera]
+    let flavorTextEntries: [FlavorText]
     
     enum CodingKeys: String, CodingKey {
         case id, name, names, genera
         case baseHappiness = "base_happiness"
         case captureRate = "capture_rate"
+        case flavorTextEntries = "flavor_text_entries"
     }
+}
+
+struct FlavorText: Identifiable, Codable {
+    var id: UUID {
+        return UUID()
+    }
+    let flavorText: String
+    let language: FlavorTextLanguage
+    let version: FlavorTextVersion
+    
+    enum CodingKeys: String, CodingKey {
+        case language, version
+        case flavorText = "flavor_text"
+    }
+}
+
+struct FlavorTextVersion: Codable {
+    let name: String
+    let url: String
+}
+
+struct FlavorTextLanguage: Codable {
+    let name: String
+    let url: String
 }
 
 struct PokemonGlobalName: Codable {
