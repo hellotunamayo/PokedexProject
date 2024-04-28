@@ -27,3 +27,25 @@ extension PokemonAPIService: EntryUseCase {
         }
     }
 }
+
+extension PokemonAPIService: PokemonDetailUseCase {
+    func fetch(urlString: String) async -> PokemonDetailData? {
+        let endpoint: Endpoint<PokemonDetailData> = Endpoint(urlString: urlString)
+        do {
+            return try await request(with: endpoint)
+        } catch {
+            debugPrint("‼️: ", error)
+            return nil
+        }
+    }
+    
+    func fetchSpicies(urlString: String) async -> PokemonSpeciesData? {
+        let endpoint: Endpoint<PokemonSpeciesData> = Endpoint(urlString: urlString)
+        do {
+            return try await request(with: endpoint)
+        } catch {
+            debugPrint("‼️: ", error)
+            return nil
+        }
+    }
+}
