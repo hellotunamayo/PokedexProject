@@ -14,3 +14,16 @@ final class PokemonAPIService: APIService {
         self.session = session
     }
 }
+
+extension PokemonAPIService: EntryUseCase {
+    func fetch(with urlString: String) async -> [PokemonListObject] {
+        let endpoint: Endpoint<PokemonList> = Endpoint(urlString: urlString)
+        do {
+            let data = try await request(with: endpoint)
+            return data.results
+        } catch {
+            debugPrint("‼️: ", error)
+            return []
+        }
+    }
+}
