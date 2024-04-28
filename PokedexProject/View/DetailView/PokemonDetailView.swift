@@ -12,7 +12,7 @@ struct PokemonDetailView: View {
     @State private var isModalShowing: Bool = false
     @State private var pokemonMoveData = [PokemonMoveData]()
     @State private var showingIrochiPortrait: Bool = false
-    @State private var selectedMove: PokemonMoveDetail?
+    
     @State private var selectedLocale: Locale = .en
     
     var viewModel: PokemonDataViewModel = PokemonDataViewModel()
@@ -91,20 +91,14 @@ struct PokemonDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
                     //기술 리스트
-                    LazyVGrid(columns: gridItem) {
-                        ForEach(0..<pokemonMoveData.count, id: \.self) { i in
-                            ZStack {
-                                Rectangle()
-                                    .foregroundStyle(Color(UIColor.pokeBrightGray))
-                                    
-                                Rectangle()
-                                    .foregroundStyle(Color(UIColor.lightGray).opacity(0.2))
-                                    .frame(height: 50)
-//                                    .rotationEffect(.degrees(70))
-                                    .offset(x: 130, y: 0)
-                                
+                    NavigationLink {
+                        PokemonMoveView(pokemonName: viewModel.pokemonData?.name ?? "",pokemonMoveData: pokemonMoveData)
+                    } label: {
+                        RoundedRectangle(cornerRadius: 10.0)
+                            .foregroundStyle(Color("pokeBrightGray"))
+                            .overlay {
                                 HStack {
-                                    Text("\(pokemonMoveData[i].moveDetail.name.capitalized)")
+                                    Text("Show all movesets")
                                         .font(.system(size: 14))
                                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                                         .padding()
@@ -115,25 +109,14 @@ struct PokemonDetailView: View {
                                 }
                                 .foregroundStyle(Color.black)
                                 .fontWeight(.bold)
-                                
                             }
                             .frame(height: 50)
-                            .clipped()
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .onTapGesture {
-                                selectedMove = pokemonMoveData[i].moveDetail
-                            }
-                        }
                     }
-                    .padding(.top, 10)
-                    .padding(.bottom, 60)
-                    
+                    .padding(.top, 5)
+
                     Spacer()
                 }
                 .padding(EdgeInsets(top: 10, leading: 30, bottom: 60, trailing: 30))
-                .sheet(item: $selectedMove) { move in
-                    PokemonMoveModalView(moveDetail: move)
-                }
             }
             .frame(maxWidth: .infinity, minHeight: UIWindow().frame.height, maxHeight: .infinity, alignment: .leading)
             .background(Color("detailViewSheetBackground"))
