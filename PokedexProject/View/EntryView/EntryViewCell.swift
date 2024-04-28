@@ -82,7 +82,12 @@ struct EntryViewCell: View {
                     }
                 }
                 .onAppear {
-                    pokemonPortraitDispatcher.load(with: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(index+1).png")
+                    if pokemonPortraitDispatcher.image == nil {
+                        pokemonPortraitDispatcher.load(with: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(index+1).png")
+                    }
+                }
+                .onDisappear {
+                    pokemonPortraitDispatcher.cancel()
                 }
                 .offset(x: proxy.frame(in: .local).maxX - (140 - portraitOffsetX), y: proxy.frame(in: .local).maxY - 140)
             }
