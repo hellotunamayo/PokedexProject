@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-class PokemonDataViewModel {
+class PokemonDetailViewModel {
     private let apiService: some PokemonDetailUseCase = PokemonAPIService()
     private(set) var pokemonData: PokemonDetailData?
     private(set) var pokemonSpeciesData: PokemonSpeciesData?
@@ -114,7 +114,7 @@ class PokemonDataViewModel {
     }
 }
 
-extension PokemonDataViewModel {
+extension PokemonDetailViewModel {
     func retrieveLocalName(from locale: Locale) -> String? {
         pokemonNames
             .first { $0.language.name == locale.accessName }?
