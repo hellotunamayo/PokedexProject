@@ -10,7 +10,6 @@ import SwiftUI
 struct PokemonDetailView: View {
     
     @State private var isModalShowing: Bool = false
-    @State private var pokemonMoveData = [PokemonMoveData]()
     @State private var showingIrochiPortrait: Bool = false
     @State private var selectedMove: PokemonMoveDetail?
     @State private var selectedLocale: Locale = .en
@@ -92,7 +91,7 @@ struct PokemonDetailView: View {
                     
                     //기술 리스트
                     LazyVGrid(columns: gridItem) {
-                        ForEach(0..<pokemonMoveData.count, id: \.self) { i in
+                        ForEach(0..<viewModel.pokemonMoveData.count, id: \.self) { i in
                             ZStack {
                                 Rectangle()
                                     .foregroundStyle(Color(UIColor.pokeBrightGray))
@@ -104,7 +103,7 @@ struct PokemonDetailView: View {
                                     .offset(x: 130, y: 0)
                                 
                                 HStack {
-                                    Text("\(pokemonMoveData[i].moveDetail.name.capitalized)")
+                                    Text("\(viewModel.pokemonMoveData[i].moveDetail.name.capitalized)")
                                         .font(.system(size: 14))
                                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                                         .padding()
@@ -121,7 +120,7 @@ struct PokemonDetailView: View {
                             .clipped()
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .onTapGesture {
-                                selectedMove = pokemonMoveData[i].moveDetail
+                                selectedMove = viewModel.pokemonMoveData[i].moveDetail
                             }
                         }
                     }
@@ -151,15 +150,8 @@ struct PokemonDetailView: View {
             Color.clear
         })
         .task {
-            do {
-                try await viewModel.fetch(urlString: endpoint)
-                if let moveData = viewModel.pokemonData?.moves {
-                    pokemonMoveData = moveData
-                } else {
-                    pokemonMoveData = []
-                }
-            } catch {
-                pokemonMoveData = []
+            if viewModel.pokemonMoveData.isEmpty {
+                await viewModel.fetch(urlString: endpoint)
             }
             
             withAnimation(.easeOut(duration: 0.25).delay(0.3)) {
