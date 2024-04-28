@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct PokemonLocalNameModel: Codable, Identifiable {
+    let id: Int
+    let name: PokemonNameByLocale
+}
+
+struct PokemonNameByLocale: Codable {
+    let en: String
+    let kr: String
+    let jp: String
+}
