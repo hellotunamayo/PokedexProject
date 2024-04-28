@@ -28,10 +28,10 @@ class PokemonDataViewModel {
     }
     
     @MainActor func fetch(urlString: String) async -> () {
-        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
         let result = await apiService.fetch(urlString: urlString)
         pokemonData = result
         pokemonMoveData = result?.moves ?? []
+        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
         pokemonSpeciesData = await apiService.fetchSpicies(urlString: speciesURLString)
     }
     
