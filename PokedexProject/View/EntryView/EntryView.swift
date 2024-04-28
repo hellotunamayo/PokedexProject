@@ -51,13 +51,6 @@ struct EntryView: View {
                 }
             }
         }
-        .task {
-            do {
-                let _ = try await viewModel.initialFetch()
-            } catch {
-                print("WTF")
-            }
-        }
     }
     
 }

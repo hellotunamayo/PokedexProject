@@ -10,7 +10,6 @@ import SwiftUI
 struct PokemonDetailView: View {
     
     @State private var isModalShowing: Bool = false
-    @State private var pokemonMoveData = [PokemonMoveData]()
     @State private var showingIrochiPortrait: Bool = false
     
     @State private var selectedLocale: Locale = .en
@@ -92,7 +91,7 @@ struct PokemonDetailView: View {
                     
                     //기술 리스트
                     NavigationLink {
-                        PokemonMoveView(pokemonName: viewModel.pokemonData?.name ?? "",pokemonMoveData: pokemonMoveData)
+                        PokemonMoveView(pokemonName: viewModel.pokemonData?.name ?? "",pokemonMoveData: viewModel.pokemonMoveData)
                     } label: {
                         RoundedRectangle(cornerRadius: 10.0)
                             .foregroundStyle(Color("pokeBrightGray"))
@@ -134,15 +133,8 @@ struct PokemonDetailView: View {
             Color.clear
         })
         .task {
-            do {
-                try await viewModel.fetch(urlString: endpoint)
-                if let moveData = viewModel.pokemonData?.moves {
-                    pokemonMoveData = moveData
-                } else {
-                    pokemonMoveData = []
-                }
-            } catch {
-                pokemonMoveData = []
+            if viewModel.pokemonMoveData.isEmpty {
+                await viewModel.fetch(urlString: endpoint)
             }
             
             withAnimation(.easeOut(duration: 0.25).delay(0.3)) {
