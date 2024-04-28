@@ -11,12 +11,13 @@ struct SearchView: View {
     
     @State private var searchKeyword: String = ""
     @FocusState private var searchFocused
-    let searchViewModel: SearchViewModel = SearchViewModel()
+    let localedSearchViewModel: LocaledSearchViewModel = LocaledSearchViewModel()
+//    let searchViewModel: SearchViewModel = SearchViewModel()
     let viewModel: EntryViewModel = EntryViewModel(limit: 1100, offset: 0)
     
     var body: some View {
         NavigationStack {
-            if searchViewModel.searchResult.isEmpty {
+            if localedSearchViewModel.searchResult.isEmpty {
                 VStack {
                     Image("allpokemons")
                         .resizable()
@@ -28,13 +29,13 @@ struct SearchView: View {
                 .frame(maxHeight: .infinity)
             } else {
                 ScrollView {
-                    ForEach(Array(searchViewModel.searchResultViewCell.enumerated()), id: \.offset) { index, element in
+                    ForEach(Array(localedSearchViewModel.searchResultViewCell.enumerated()), id: \.offset) { index, element in
                         NavigationLink {
-                            if let searchResult = searchViewModel.searchResult[safe: index] {
+                            if let searchResult = localedSearchViewModel.searchResult[safe: index] {
                                 PokemonDetailView(pokeData: searchResult, endpoint: searchResult.url)
                             }
                         } label: {
-                            if let searchResultViewCell = searchViewModel.searchResultViewCell[safe: index] {
+                            if let searchResultViewCell = localedSearchViewModel.searchResultViewCell[safe: index] {
                                 searchResultViewCell
                                     .frame(height: 140)
                                     .padding(.vertical, -10)
@@ -44,15 +45,16 @@ struct SearchView: View {
                 }
             }
         }
-        .searchable(text: $searchKeyword, prompt: Text("Search Pokémon by name"))
+        .searchable(text: $searchKeyword, prompt: Text("Pokémon name or index number"))
+        .autocorrectionDisabled()
         .onSubmit(of: .search) {
-            searchViewModel.search(searchKeyword: "", pokemonList: viewModel.pokeList)
+            localedSearchViewModel.search(searchKeyword: "", pokemonList: viewModel.pokeList)
             if !searchKeyword.isEmpty {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    searchViewModel.search(searchKeyword: searchKeyword, pokemonList: viewModel.pokeList)
+                    localedSearchViewModel.search(searchKeyword: searchKeyword, pokemonList: viewModel.pokeList)
                 }
             } else {
-                searchViewModel.emptyResult()
+                localedSearchViewModel.emptyResult()
             }
         }
     }
