@@ -23,15 +23,11 @@ class PokemonDataViewModel {
         pokemonSpeciesData?.genera ?? []
     }
     
-    var pokemonId: Int {
-        pokemonData?.id ?? 1
-    }
-    
     @MainActor func fetch(urlString: String) async -> () {
         let result = await apiService.fetch(urlString: urlString)
         pokemonData = result
         pokemonMoveData = result?.moves ?? []
-        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
+        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(result?.id ?? 1)"
         pokemonSpeciesData = await apiService.fetchSpicies(urlString: speciesURLString)
     }
     
