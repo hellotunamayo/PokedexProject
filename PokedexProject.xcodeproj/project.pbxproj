@@ -17,6 +17,8 @@
 		8386645D2BD813DB00DA3D37 /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8386645C2BD813DB00DA3D37 /* Locale.swift */; };
 		E10EE6A02BD1FE7B00022EE7 /* OggDecoder in Frameworks */ = {isa = PBXBuildFile; productRef = E10EE69F2BD1FE7B00022EE7 /* OggDecoder */; };
 		E10EE6A22BD258F700022EE7 /* PokemonSpriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10EE6A12BD258F700022EE7 /* PokemonSpriteView.swift */; };
+		E11832292BDE070C00764E55 /* pokemonLocalNames.json in Resources */ = {isa = PBXBuildFile; fileRef = E11832282BDE070C00764E55 /* pokemonLocalNames.json */; };
+		E118322B2BDE07CC00764E55 /* PokemonLocalNameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E118322A2BDE07CC00764E55 /* PokemonLocalNameModel.swift */; };
 		E16ACA0D2BD7F70800F9A1BC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16ACA0C2BD7F70800F9A1BC /* Extensions.swift */; };
 		E17DCB712BDBE0D500236BD6 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17DCB702BDBE0D500236BD6 /* MainView.swift */; };
 		E17DCB742BDBE5AC00236BD6 /* ExtraViewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17DCB732BDBE5AC00236BD6 /* ExtraViewList.swift */; };
@@ -52,6 +54,8 @@
 		8327345B2BDE139A00E48303 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		8386645C2BD813DB00DA3D37 /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
 		E10EE6A12BD258F700022EE7 /* PokemonSpriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonSpriteView.swift; sourceTree = "<group>"; };
+		E11832282BDE070C00764E55 /* pokemonLocalNames.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pokemonLocalNames.json; sourceTree = "<group>"; };
+		E118322A2BDE07CC00764E55 /* PokemonLocalNameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonLocalNameModel.swift; sourceTree = "<group>"; };
 		E16ACA0C2BD7F70800F9A1BC /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E16ACA0E2BD7FCD400F9A1BC /* Comments */ = {isa = PBXFileReference; lastKnownFileType = text; path = Comments; sourceTree = "<group>"; };
 		E17DCB702BDBE0D500236BD6 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 			children = (
 				E1D43A8C2BD1480100DF5ADB /* APIModel.swift */,
 				8386645C2BD813DB00DA3D37 /* Locale.swift */,
+				E118322A2BDE07CC00764E55 /* PokemonLocalNameModel.swift */,
+				E11832282BDE070C00764E55 /* pokemonLocalNames.json */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -311,6 +317,7 @@
 			files = (
 				E1BDEB712BD4F185004E0921 /* Silkscreen-Regular.ttf in Resources */,
 				E1D43A852BD147C800DF5ADB /* Preview Assets.xcassets in Resources */,
+				E11832292BDE070C00764E55 /* pokemonLocalNames.json in Resources */,
 				E1D43A822BD147C800DF5ADB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,6 +347,7 @@
 				E17DCB762BDBEB9A00236BD6 /* GitHubView.swift in Sources */,
 				E10EE6A22BD258F700022EE7 /* PokemonSpriteView.swift in Sources */,
 				E17DCB712BDBE0D500236BD6 /* MainView.swift in Sources */,
+				E118322B2BDE07CC00764E55 /* PokemonLocalNameModel.swift in Sources */,
 				E1BDEB652BD35CA1004E0921 /* PokemonDetailGraphView.swift in Sources */,
 				8327345C2BDE139A00E48303 /* HttpError.swift in Sources */,
 				E1A7B3C92BD67E34001D914B /* PokemonDetailOverviewView.swift in Sources */,
@@ -482,7 +490,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"PokedexProject/Preview Content\"";
 				DEVELOPMENT_TEAM = 8AN6CGLLC6;
 				ENABLE_PREVIEWS = YES;
@@ -518,7 +526,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"PokedexProject/Preview Content\"";
 				DEVELOPMENT_TEAM = 8AN6CGLLC6;
 				ENABLE_PREVIEWS = YES;
