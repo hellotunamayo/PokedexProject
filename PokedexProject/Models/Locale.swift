@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Locale: String, Identifiable {
+enum Locale: String, Identifiable, CaseIterable {
     var id: Self { self }
     
     case ko
