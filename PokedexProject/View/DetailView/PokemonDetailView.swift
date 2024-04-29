@@ -122,7 +122,9 @@ struct PokemonDetailView: View {
                     
                     //기술 리스트
                     NavigationLink {
-                        PokemonDetailFlavorTextView()
+                        PokemonDetailFlavorTextView(flavorTextData: viewModel.pokemonSpeciesData?.flavorTextEntries ?? [], pokemonName: viewModel.pokemonData?.name ?? "",
+                                                    pokemonPortraitURLString: viewModel.pokemonData?.sprites.frontDefault ?? "",
+                                                    pokemonTypeData: viewModel.getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal"))
                     } label: {
                         PoekmonDetailViewNavigationButton(titleText: "Show Flavor Text")
                     }
