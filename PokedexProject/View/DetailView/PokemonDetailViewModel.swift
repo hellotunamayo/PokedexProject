@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-class PokemonDataViewModel {
+class PokemonDetailViewModel {
     private let apiService: some PokemonDetailUseCase = PokemonAPIService()
     private(set) var pokemonData: PokemonDetailData?
     private(set) var pokemonSpeciesData: PokemonSpeciesData?
@@ -23,15 +23,11 @@ class PokemonDataViewModel {
         pokemonSpeciesData?.genera ?? []
     }
     
-    var pokemonId: Int {
-        pokemonData?.id ?? 1
-    }
-    
     @MainActor func fetch(urlString: String) async -> () {
         let result = await apiService.fetch(urlString: urlString)
         pokemonData = result
         pokemonMoveData = result?.moves ?? []
-        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(pokemonId)"
+        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(result?.id ?? 1)"
         pokemonSpeciesData = await apiService.fetchSpicies(urlString: speciesURLString)
     }
     
@@ -118,7 +114,7 @@ class PokemonDataViewModel {
     }
 }
 
-extension PokemonDataViewModel {
+extension PokemonDetailViewModel {
     func retrieveLocalName(from locale: Locale) -> String? {
         pokemonNames
             .first { $0.language.name == locale.accessName }?

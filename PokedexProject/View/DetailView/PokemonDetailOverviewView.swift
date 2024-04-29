@@ -15,7 +15,7 @@ struct PokemonDetailOverviewView: View {
     
     @State var audioPlayer: AVAudioPlayer!
     
-    let viewModel: PokemonDataViewModel
+    let viewModel: PokemonDetailViewModel
     
     var body: some View {
         HStack {
@@ -192,6 +192,6 @@ extension PokemonDetailOverviewView {
     PokemonDetailOverviewView(
         showingIrochiPortrait: .constant(false),
         localization: .ko,
-        viewModel: PokemonDataViewModel()
+        viewModel: PokemonDetailViewModel()
     )
 }

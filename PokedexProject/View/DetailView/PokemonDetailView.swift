@@ -14,7 +14,7 @@ struct PokemonDetailView: View {
     
     @State private var selectedLocale: Locale = .en
     
-    var viewModel: PokemonDataViewModel = PokemonDataViewModel()
+    var viewModel: PokemonDetailViewModel = PokemonDetailViewModel()
     let pokeData: PokemonListObject
     let endpoint: String
     let gridItem: [GridItem] = [
