@@ -91,7 +91,10 @@ struct PokemonDetailView: View {
                     
                     //기술 리스트
                     NavigationLink {
-                        PokemonMoveView(pokemonName: viewModel.pokemonData?.name ?? "",pokemonMoveData: viewModel.pokemonMoveData)
+                        PokemonMoveView(pokemonName: viewModel.pokemonData?.name ?? "", 
+                                        pokemonPortraitURLString: viewModel.pokemonData?.sprites.frontDefault ?? "",
+                                        pokemonTypeData: viewModel.getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal"),
+                                        pokemonMoveData: viewModel.pokemonMoveData)
                     } label: {
                         RoundedRectangle(cornerRadius: 10.0)
                             .foregroundStyle(Color("pokeBrightGray"))
