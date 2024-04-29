@@ -17,6 +17,7 @@ struct PokemonDetailFlavorTextView: View {
     let pokemonTypeData: (typeIconName: String, typeColor: UIColor)
     let gridItem: [GridItem] = [
         GridItem(.flexible(minimum: 30, maximum: 300)),
+        GridItem(.flexible(minimum: 30, maximum: 300)),
         GridItem(.flexible(minimum: 30, maximum: 300))
     ]
     
@@ -62,34 +63,45 @@ struct PokemonDetailFlavorTextView: View {
         .frame(height: 60)
         
         ScrollView {
-            LazyVGrid(columns: gridItem, content: {
-                Button(action: {
-                    selectedLocale = .en
-                }, label: {
-                    Text("en")
-                })
-                .sheet(item: $selectedLocale) { view in
-                    PokemonFlavorTextSheetView(locale: $selectedLocale, flavorText: flavorTextData)
-                }
-                
-                Button(action: {
-                    selectedLocale = .jp
-                }, label: {
-                    Text("jp")
-                })
-                .sheet(item: $selectedLocale) { view in
-                    PokemonFlavorTextSheetView(locale: $selectedLocale, flavorText: flavorTextData)
-                }
-                
-                Button(action: {
-                    selectedLocale = .ko
-                }, label: {
-                    Text("ko")
-                })
-                .sheet(item: $selectedLocale) { view in
-                    PokemonFlavorTextSheetView(locale: $selectedLocale, flavorText: flavorTextData)
-                }
-            })
+            ForEach(Locale.allCases) { locale in
+                RoundedRectangle(cornerRadius: 8)
+                    .foregroundStyle(Color(pokemonTypeData.typeColor).opacity(0.2))
+                    .overlay {
+                        HStack {
+                            Group {
+                                switch locale {
+                                    case .en:
+                                        Text("English")
+                                    case .jp:
+                                        Text("日本語")
+                                    case .ko:
+                                        Text("한국어")
+                                    case .cn:
+                                        Text("Chinese-Traditional")
+                                    case .de:
+                                        Text("Deutsch")
+                                }
+                            }
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .onTapGesture {
+                                selectedLocale = locale
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .padding(.trailing)
+                        }
+                    }
+                    .frame(height: 50)
+                    .padding(.horizontal)
+                    .onTapGesture {
+                        selectedLocale = locale
+                    }
+                    .sheet(item: $selectedLocale) { view in
+                        PokemonFlavorTextSheetView(locale: $selectedLocale, flavorText: flavorTextData)
+                    }
+            }
         }
     }
     
