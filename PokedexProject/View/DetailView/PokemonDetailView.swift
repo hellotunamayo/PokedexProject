@@ -77,6 +77,7 @@ struct PokemonDetailView: View {
                 Divider()
                     .padding(.vertical, 10)
                 
+                //TODO: 반복되는 뷰코드 단축할 방법을 찾을것..
                 //MARK: 기술일람
                 VStack {
                     Group {
@@ -102,7 +103,34 @@ struct PokemonDetailView: View {
 
                     Spacer()
                 }
-                .padding(EdgeInsets(top: 10, leading: 30, bottom: 60, trailing: 30))
+                .padding(EdgeInsets(top: 10, leading: 30, bottom: 5, trailing: 30))
+                
+                Divider()
+                    .padding(.vertical, 10)
+                
+                //MARK: 플레이버 텍스트
+                VStack {
+                    Group {
+                        Text("Flavor Texts")
+                            .font(.title2)
+                            .fontWeight(.black)
+                        
+                        Rectangle()
+                            .frame(width: 20, height: 3)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    //기술 리스트
+                    NavigationLink {
+                        PokemonDetailFlavorTextView()
+                    } label: {
+                        PoekmonDetailViewNavigationButton(titleText: "Show Flavor Text")
+                    }
+                    .padding(.top, 5)
+                    
+                    Spacer()
+                }
+                .padding(EdgeInsets(top: 5, leading: 30, bottom: 120, trailing: 30))
             }
             .frame(maxWidth: .infinity, minHeight: UIWindow().frame.height, maxHeight: .infinity, alignment: .leading)
             .background(Color("detailViewSheetBackground"))
@@ -159,7 +187,9 @@ struct PokemonDetailView: View {
 
 //MARK: NavigationLink 회색 버튼
 struct PoekmonDetailViewNavigationButton: View {
+    
     let titleText: String
+    
     var body: some View {
         RoundedRectangle(cornerRadius: 10.0)
             .foregroundStyle(Color("pokeBrightGray"))
@@ -179,6 +209,7 @@ struct PoekmonDetailViewNavigationButton: View {
             }
             .frame(height: 50)
     }
+    
 }
 
 #Preview {
