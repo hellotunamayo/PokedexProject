@@ -96,23 +96,7 @@ struct PokemonDetailView: View {
                                         pokemonTypeData: viewModel.getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal"),
                                         pokemonMoveData: viewModel.pokemonMoveData)
                     } label: {
-                        RoundedRectangle(cornerRadius: 10.0)
-                            .foregroundStyle(Color("pokeBrightGray"))
-                            .overlay {
-                                HStack {
-                                    Text("Show all movesets")
-                                        .font(.system(size: 14))
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                                        .padding()
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .font(.system(size: 12))
-                                        .padding(.trailing, 12)
-                                }
-                                .foregroundStyle(Color.black)
-                                .fontWeight(.bold)
-                            }
-                            .frame(height: 50)
+                        PoekmonDetailViewNavigationButton(titleText: "Show all movesets")
                     }
                     .padding(.top, 5)
 
@@ -171,6 +155,30 @@ struct PokemonDetailView: View {
         }
     }
     
+}
+
+//MARK: NavigationLink 회색 버튼
+struct PoekmonDetailViewNavigationButton: View {
+    let titleText: String
+    var body: some View {
+        RoundedRectangle(cornerRadius: 10.0)
+            .foregroundStyle(Color("pokeBrightGray"))
+            .overlay {
+                HStack {
+                    Text("\(titleText)")
+                        .font(.system(size: 14))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        .padding()
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12))
+                        .padding(.trailing, 12)
+                }
+                .foregroundStyle(Color.black)
+                .fontWeight(.bold)
+            }
+            .frame(height: 50)
+    }
 }
 
 #Preview {
