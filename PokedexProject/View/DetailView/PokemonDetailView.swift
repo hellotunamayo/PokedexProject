@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PokemonDetailView: View {
     
+    @Query var favoritedPokemon: [FavoriteModel]
     @State private var isModalShowing: Bool = false
     @State private var showingIrochiPortrait: Bool = false
-    
+    @State private var isFavorite: Bool = false
     @State private var selectedLocale: Locale = .en
     
     var viewModel: PokemonDetailViewModel = PokemonDetailViewModel()
@@ -45,7 +47,8 @@ struct PokemonDetailView: View {
             VStack {
                 //MARK: 넘버, 타입, 이름, 별명, 체중, 신장
                 PokemonDetailOverviewView(
-                    showingIrochiPortrait: $showingIrochiPortrait,
+                    showingIrochiPortrait: $showingIrochiPortrait, 
+                    isFavorite: $isFavorite,
                     localization: selectedLocale,
                     viewModel: viewModel
                 )
@@ -152,6 +155,9 @@ struct PokemonDetailView: View {
         .task {
             if viewModel.pokemonMoveData.isEmpty {
                 await viewModel.fetch(urlString: endpoint)
+                isPokemonFavorited()
+            } else {
+                isPokemonFavorited()
             }
             
             withAnimation(.easeOut(duration: 0.25).delay(0.3)) {
@@ -187,6 +193,20 @@ struct PokemonDetailView: View {
     
 }
 
+//MARK: 익스텐션
+extension PokemonDetailView {
+    func isPokemonFavorited() {
+        guard let pokemonData = viewModel.pokemonData else {
+            print("pokedata empty")
+            return
+        }
+        let isPokemonFavorited: Bool = favoritedPokemon.contains { favorite in
+            favorite.pokemonIndex == pokemonData.id
+        }
+        isFavorite = isPokemonFavorited
+    }
+}
+
 //MARK: NavigationLink 회색 버튼
 struct PoekmonDetailViewNavigationButton: View {
     
@@ -216,7 +236,7 @@ struct PoekmonDetailViewNavigationButton: View {
 
 #Preview {
     NavigationStack {
-        PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/25/"),
-                                    endpoint: "https://pokeapi.co/api/v2/pokemon/25/")
+        PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/908/"),
+                                    endpoint: "https://pokeapi.co/api/v2/pokemon/908/")
     }
 }
