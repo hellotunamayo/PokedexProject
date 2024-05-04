@@ -22,6 +22,18 @@ struct MainView: View {
                     )
                 }
             
+            FavoriteView()
+                .tabItem {
+                    Label(
+                        title: {
+                            Text("Favorite")
+                        },
+                        icon: {
+                            Image(systemName: "heart")
+                        }
+                    )
+                }
+            
             SearchView()
                 .tabItem {
                     Label(
