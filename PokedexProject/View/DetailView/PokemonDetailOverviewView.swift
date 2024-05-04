@@ -8,9 +8,13 @@
 import SwiftUI
 import AVFoundation
 import OggDecoder
+import SwiftData
 
 struct PokemonDetailOverviewView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var favoritedPokemon: [FavoriteModel]
     @Binding var showingIrochiPortrait: Bool
+    @Binding var isFavorite: Bool
     let localization: Locale
     
     @State var audioPlayer: AVAudioPlayer!
@@ -62,6 +66,21 @@ struct PokemonDetailOverviewView: View {
         
         //MARK: 이름, 울음소리, 이로치전환
         HStack {
+            //MARK: 즐겨찾기 버튼
+            Button(action: {
+                do {
+                    try toggleFavorite()
+                } catch {
+                    print(error)
+                }
+            }, label: {
+                Image(systemName: "heart.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundStyle(isFavorite ? Color(UIColor.systemRed) : Color(UIColor.systemGray2))
+            })
+            .frame(width: 24, height: 24, alignment: .center)
+            
             VStack {
                 //이름
                 Text(viewModel.retrieveLocalName(from: localization) ?? "N/A")
@@ -186,11 +205,56 @@ extension PokemonDetailOverviewView {
             }
         }
     }
+    
+    //즐겨찾기 추가
+    //TODO: 이 함수는 코드가 드러우니 언젠가 꼭 정리를 하자
+    func toggleFavorite() throws {
+        if isFavorite {
+            //delete from favorite
+            guard let pokemonData = viewModel.pokemonData else {
+                print("An error occurred while delete from favorite.")
+                return
+            }
+            do {
+                try modelContext.delete(model: FavoriteModel.self,
+                                        where: #Predicate{ $0.pokemonIndex == pokemonData.id })
+            } catch {
+                print("Error occurred while delete from favorite: \(error)")
+            }
+        } else {
+            //add to favorite
+            guard let pokemonData = viewModel.pokemonData else {
+                print("An error occurred while add to favorite.")
+                return
+            }
+            
+            let pokemonListObject = PokemonListObject(name: pokemonData.name,
+                                                      url: "https://pokeapi.co/api/v2/pokemon/\(pokemonData.id)/")
+            
+            let pokemonFavoriteData = FavoriteModel(pokemonName: pokemonData.name,
+                                                    pokemonIndex: pokemonData.id,
+                                                    pokemonFrontPortraitURLString: pokemonData.sprites.frontDefault,
+                                                    pokemonType: pokemonData.types[0].type,
+                                                    pokemonListObject: pokemonListObject)
+            
+            let isContains: Bool = favoritedPokemon.contains { model in
+                model.pokemonIndex == pokemonData.id
+            }
+            
+            switch isContains {
+                case false:
+                    modelContext.insert(pokemonFavoriteData)
+                default:
+                    break
+            }
+        }
+        isFavorite.toggle()
+    }
 }
 
 #Preview {
     PokemonDetailOverviewView(
-        showingIrochiPortrait: .constant(false),
+        showingIrochiPortrait: .constant(false), isFavorite: .constant(true),
         localization: .ko,
         viewModel: PokemonDetailViewModel()
     )
