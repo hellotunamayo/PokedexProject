@@ -25,7 +25,7 @@ struct PokemonFlavorTextSheetView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 3)
                     
-                    Text(getEmptySpaceTrimmed(string: text.flavorText))
+                    Text(getEmptySpaceTrimmed(string: text.flavorText.convertFullwidthToHalfwidth()))
                         .lineSpacing(locale == .jp ? 9 : 7)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
