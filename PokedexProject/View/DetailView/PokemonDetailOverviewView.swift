@@ -233,8 +233,6 @@ extension PokemonDetailOverviewView {
             
             let pokemonFavoriteData = FavoriteModel(pokemonName: pokemonData.name,
                                                     pokemonIndex: pokemonData.id,
-                                                    pokemonFrontPortraitURLString: pokemonData.sprites.frontDefault,
-                                                    pokemonType: pokemonData.types[0].type,
                                                     pokemonListObject: pokemonListObject)
             
             let isContains: Bool = favoritedPokemon.contains { model in
