@@ -3,8 +3,8 @@
 ## Download on App Store
 <a href="https://apps.apple.com/us/app/pokedexproject/id6499054516" target="_blank"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"></a>
 
-## Support Page
-[PokedexProject Support](https://minyoungyoo.com/apps/pokedexproject/)
+## Introduction Page
+[PokedexProject](https://minyoungyoo.com/apps/pokedexproject/)
 
 ## Privacy Policy & Legal Notice
 [Privacy Policy & Legal Notice](https://minyoungyoo.com/apps/pokedexproject/privacypolicy.html)
