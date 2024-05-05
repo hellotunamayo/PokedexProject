@@ -22,30 +22,57 @@ struct PokemonMoveModalView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    Group {
-                        Text("Names")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(Font.system(size: 30))
-                            .fontWeight(.black)
+                    LazyVGrid(columns: gridItem) {
+                        VStack {
+                            Text("Names")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .font(.title3)
+                                .fontWeight(.black)
+                            Spacer()
+                        }
                         
-                        Rectangle()
-                            .frame(width: 30, height: 3)
-                            .padding(.bottom, 5)
-                        
-                        LazyVGrid(columns: gridItem) {
+                        VStack {
                             if let moveNames = moveData?.names {
                                 let compactedMoveName = Array(Set(moveNames.compactMap{$0}))
                                 ForEach(compactedMoveName, id: \.self) { moveName in
                                     Text("\(moveName.name ?? "...")")
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .font(Font.system(size: 20))
+                                        .font(.body)
                                         .fontWeight(.bold)
-                                        .padding(.vertical, 1)
+                                        .padding(.vertical, 0.03)
                                 }
                             }
                         }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    PokemonMoveModalDivider()
+                    
+                    LazyVGrid(columns: gridItem) {
+                        Text("Damage Type")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.title3)
+                            .fontWeight(.black)
+                        
+                        VStack {
+                            Capsule()
+                                .foregroundStyle(Color(getPokemonTypeImageAndColor(type: moveData?.type.name ?? "normal").typeColor))
+                                .frame(width: 130, height: 36, alignment: .leading)
+                                .overlay {
+                                    HStack {
+                                        Image(getPokemonTypeImageAndColor(type: moveData?.type.name ?? "normal").typeIconName)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 20, alignment: .center)
+                                            .foregroundStyle(.white)
+                                        Text(moveData?.type.name.capitalized ?? "-")
+                                            .foregroundStyle(.white)
+                                            .fontWeight(.bold)
+                                    }
+                                    .offset(x: -3)
+                                }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                     
                     PokemonMoveModalDivider()
                     
@@ -117,7 +144,7 @@ struct PokemonMoveModalView: View {
                         let jsonData = try! JSONDecoder().decode(PokemonMoveDetailExtended.self, from: data)
                         moveData = jsonData
                     } catch {
-                        moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [])
+                        moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [], type: PokemonMoveType(name: "", url: ""))
                     }
             }
             }

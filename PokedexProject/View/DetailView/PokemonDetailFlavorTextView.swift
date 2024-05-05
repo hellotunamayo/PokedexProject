@@ -99,7 +99,7 @@ struct PokemonDetailFlavorTextView: View {
                         selectedLocale = locale
                     }
                     .sheet(item: $selectedLocale) { view in
-                        PokemonFlavorTextSheetView(locale: $selectedLocale, flavorText: flavorTextData)
+                        PokemonFlavorTextSheetView(locale: $selectedLocale, flavorText: flavorTextData, typeColor: pokemonTypeData.typeColor)
                     }
             }
         }

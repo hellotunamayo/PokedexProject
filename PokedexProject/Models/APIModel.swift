@@ -159,9 +159,10 @@ struct PokemonMoveDetailExtended: Codable {
     let power: Int?
     let pp: Int?
     let names: [PokemonMoveName?]
+    let type: PokemonMoveType
     
     enum CodingKeys: String, CodingKey {
-        case names, accuracy, power, pp
+        case names, accuracy, power, pp, type
         case damageClass = "damage_class"
     }
 }
@@ -173,4 +174,9 @@ struct PokemonDamageClass: Codable {
 
 struct PokemonMoveName: Hashable, Codable {
     let name: String?
+}
+
+struct PokemonMoveType: Codable {
+    let name: String
+    let url: String
 }

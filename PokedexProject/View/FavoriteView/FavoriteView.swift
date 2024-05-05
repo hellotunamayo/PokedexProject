@@ -10,6 +10,7 @@ import SwiftData
 
 struct FavoriteView: View {
     @Query var favoritedPokemon: [FavoriteModel]
+    @Environment(\.modelContext) var modelContext
     
     var body: some View {
         NavigationStack {
@@ -37,12 +38,30 @@ struct FavoriteView: View {
                                     .frame(height: 140)
                             }
                             .backgroundStyle(Color("backgroundColor"))
+                            .contextMenu {
+                                Button("Remove from favorite", 
+                                       systemImage: "trash",
+                                       role: .destructive) {
+                                    do {
+                                        try removeFavorite(pokemonIdx: pokemon.pokemonIndex)
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
+                            }
                         }
                         .padding(.vertical, -4)
                     }
                 }
             }
         }
+    }
+}
+
+extension FavoriteView {
+    func removeFavorite(pokemonIdx: Int) throws {
+        try modelContext.delete(model: FavoriteModel.self,
+                                where: #Predicate{ $0.pokemonIndex == pokemonIdx })
     }
 }
 

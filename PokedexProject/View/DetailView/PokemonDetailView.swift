@@ -97,7 +97,7 @@ struct PokemonDetailView: View {
                     NavigationLink {
                         PokemonMoveView(pokemonName: viewModel.pokemonData?.name ?? "", 
                                         pokemonPortraitURLString: viewModel.pokemonData?.sprites.frontDefault ?? "",
-                                        pokemonTypeData: viewModel.getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal"),
+                                        pokemonTypeData: getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal"),
                                         pokemonMoveData: viewModel.pokemonMoveData)
                     } label: {
                         PoekmonDetailViewNavigationButton(titleText: "Show all movesets")
@@ -127,7 +127,7 @@ struct PokemonDetailView: View {
                     NavigationLink {
                         PokemonDetailFlavorTextView(flavorTextData: viewModel.pokemonSpeciesData?.flavorTextEntries ?? [], pokemonName: viewModel.pokemonData?.name ?? "",
                                                     pokemonPortraitURLString: viewModel.pokemonData?.sprites.frontDefault ?? "",
-                                                    pokemonTypeData: viewModel.getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal"))
+                                                    pokemonTypeData: getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal"))
                     } label: {
                         PoekmonDetailViewNavigationButton(titleText: "Show Flavor Text")
                     }
