@@ -14,26 +14,36 @@ struct PokemonFlavorTextSheetView: View {
     @Binding var locale: Locale?
     
     let flavorText: [FlavorText]
+    let typeColor: UIColor
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 ForEach(showingFlavorText) { text in
-                    Text(text.version.name.capitalized)
-                        .fontWeight(.black)
-                        .font(.title3)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 3)
-                    
-                    Text(getEmptySpaceTrimmed(string: text.flavorText.convertFullwidthToHalfwidth()))
-                        .lineSpacing(locale == .jp ? 9 : 7)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Group {
+                        Text(text.version.name.capitalized)
+                            .fontWeight(.bold)
+                            .font(.caption)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .foregroundStyle(Color.white)
+                            .background(Color(typeColor))
+                            .clipShape(Capsule())
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .offset(x: -3)
+                        
+                        Text(getEmptySpaceTrimmed(string: text.flavorText.convertFullwidthToHalfwidth()))
+                            .lineSpacing(locale == .jp ? 9 : 7)
+                            .font(.body)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 5)
+                    }
+                    .padding(.horizontal)
                     
                     Divider()
                         .padding(.vertical, 10)
                 }
             }
-            .padding()
             .toolbar(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -94,6 +104,6 @@ struct PokemonFlavorTextSheetView: View {
 }
 
 #Preview {
-//    PokemonFlavorTextSheetView(locale: .constant(.jp), flavorText: [FlavorText(flavorText: "うまれたときから　せなかに ふしぎな　タネが　うえてあって からだと　ともに　そだつという。", language: FlavorTextLanguage(name: "ja", url: ""), version: FlavorTextVersion(name: "red", url: ""))])
-    PokemonFlavorTextSheetView(locale: .constant(.jp), flavorText: [])
+    PokemonFlavorTextSheetView(locale: .constant(.jp), flavorText: [FlavorText(flavorText: "うまれたときから　せなかに ふしぎな　タネが　うえてあって からだと　ともに　そだつという。", language: FlavorTextLanguage(name: "ja", url: ""), version: FlavorTextVersion(name: "Lets-Go-Pikachu", url: ""))], typeColor: UIColor.systemGreen)
+//    PokemonFlavorTextSheetView(locale: .constant(.jp), flavorText: [], typeColor: UIColor.systemGreen)
 }
