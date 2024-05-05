@@ -28,6 +28,19 @@ struct SearchView: View {
                 .padding(.top, -40)
                 .frame(maxHeight: .infinity)
             } else {
+                VStack {
+                    Button(action: {
+                        localedSearchViewModel.emptyResult()
+                    }, label: {
+                        Label("Clear result", systemImage: "xmark")
+                    })
+                    .tint(Color(UIColor.systemGray))
+                    .buttonStyle(BorderedButtonStyle())
+                    .clipShape(Capsule())
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
+                
                 ScrollView {
                     ForEach(Array(localedSearchViewModel.searchResultViewCell.enumerated()), id: \.offset) { index, element in
                         NavigationLink {
@@ -58,6 +71,7 @@ struct SearchView: View {
             }
         }
     }
+    
 }
 
 #Preview {
