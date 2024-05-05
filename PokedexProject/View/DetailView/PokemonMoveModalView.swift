@@ -117,7 +117,7 @@ struct PokemonMoveModalView: View {
                         let jsonData = try! JSONDecoder().decode(PokemonMoveDetailExtended.self, from: data)
                         moveData = jsonData
                     } catch {
-                        moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [])
+                        moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [], type: PokemonMoveType(name: "", url: ""))
                     }
             }
             }

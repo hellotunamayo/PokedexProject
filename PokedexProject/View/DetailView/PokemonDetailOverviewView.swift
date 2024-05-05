@@ -40,14 +40,14 @@ struct PokemonDetailOverviewView: View {
             Rectangle()
                 .frame(width: 110, height: 30)
                 .foregroundStyle(
-                    Color(viewModel.getPokemonTypeImageAndColor(type: viewModel
+                    Color(getPokemonTypeImageAndColor(type: viewModel
                         .pokemonData?.types[0]
                         .type.name ?? "normal").typeColor)
                 )
                 .clipShape(.capsule)
                 .overlay {
                     HStack {
-                        Image("\(viewModel.getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal").0)")
+                        Image("\(getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal").0)")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 16, height: 16, alignment: .center)
