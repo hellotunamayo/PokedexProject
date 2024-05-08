@@ -22,7 +22,7 @@ struct PokemonMoveModalView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    LazyVGrid(columns: gridItem) {
+                    VStack{
                         VStack {
                             Text("Names")
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -31,7 +31,7 @@ struct PokemonMoveModalView: View {
                             Spacer()
                         }
                         
-                        VStack {
+                        LazyVGrid(columns: gridItem) {
                             if let moveNames = moveData?.names {
                                 let compactedMoveName = Array(Set(moveNames.compactMap{$0}))
                                 ForEach(compactedMoveName, id: \.self) { moveName in
@@ -149,6 +149,7 @@ struct PokemonMoveModalView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding()
+                .padding(.bottom, 60)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(action: {
