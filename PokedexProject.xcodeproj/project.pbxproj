@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		830D725C2BF3B9CB00D04E1E /* PokemonAPIServiceEnvironmentKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830D725B2BF3B9CB00D04E1E /* PokemonAPIServiceEnvironmentKey.swift */; };
 		8327344E2BDE0DCC00E48303 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8327344D2BDE0DCC00E48303 /* APIService.swift */; };
 		832734502BDE0E0200E48303 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8327344F2BDE0E0200E48303 /* Requestable.swift */; };
 		832734532BDE0E5700E48303 /* MIMEType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832734522BDE0E5700E48303 /* MIMEType.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		830D725B2BF3B9CB00D04E1E /* PokemonAPIServiceEnvironmentKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonAPIServiceEnvironmentKey.swift; sourceTree = "<group>"; };
 		8327344D2BDE0DCC00E48303 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		8327344F2BDE0E0200E48303 /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		832734522BDE0E5700E48303 /* MIMEType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIMEType.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				832734662BDE19A200E48303 /* PokemonAPIService.swift */,
+				830D725B2BF3B9CB00D04E1E /* PokemonAPIServiceEnvironmentKey.swift */,
 			);
 			path = Impl;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				E1BDEB672BD3F741004E0921 /* EntryViewCell.swift in Sources */,
 				E15B90212BE654F70037FC7C /* FavoriteView.swift in Sources */,
 				8327346F2BDE1CAB00E48303 /* Endpoint.swift in Sources */,
+				830D725C2BF3B9CB00D04E1E /* PokemonAPIServiceEnvironmentKey.swift in Sources */,
 				E16ACA0D2BD7F70800F9A1BC /* Extensions.swift in Sources */,
 				832734772BDEB6A800E48303 /* PokemonPortraitDispatcher.swift in Sources */,
 				E1666AF32BDFB6BF00D5EEFA /* PokemonDetailFlavorTextView.swift in Sources */,
