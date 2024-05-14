@@ -11,6 +11,7 @@ struct EntryView: View {
     @State private var searchKeyword: String = ""
     @State private var searchedPokemon: [PokemonListObject]?
     @State private var isSearching: Bool = false
+    @State private var isLoading = false
     
     private let viewModel: EntryViewModel
     private let startFrom: Int
@@ -29,17 +30,21 @@ struct EntryView: View {
         VStack {
             //MARK: 비검색중 화면
             ScrollView {
-                ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
-                    LazyVStack {
-                        NavigationLink {
-                            PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
-                        } label: {
-                            EntryViewCell(index: i + startFrom, pokemonName: viewModel.pokeList[i].name)
-                                .frame(height: 140)
+                if isLoading {
+                    ProgressView()
+                } else {
+                    ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
+                        LazyVStack {
+                            NavigationLink {
+                                PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
+                            } label: {
+                                EntryViewCell(index: i + startFrom, pokemonName: viewModel.pokeList[i].name)
+                                    .frame(height: 140)
+                            }
+                            .backgroundStyle(Color("backgroundColor"))
                         }
-                        .backgroundStyle(Color("backgroundColor"))
+                        .padding(.vertical, -4)
                     }
-                    .padding(.vertical, -4)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -59,7 +64,9 @@ struct EntryView: View {
             }
             .task {
                 if viewModel.initialFetchedResult.isEmpty {
+                    isLoading = true
                     await viewModel.fetch()
+                    isLoading = false
                 }
             }
         }
