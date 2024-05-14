@@ -9,7 +9,7 @@ import SwiftUI
 import CoreMotion
 
 struct MainGridView: View {
-    
+    @Environment(\.pokemonAPIService) private var service
     private var gridItems: [GridItem] = [
         GridItem(.flexible(minimum: 100, maximum: .infinity)),
         GridItem(.flexible(minimum: 100, maximum: .infinity))
@@ -30,7 +30,7 @@ struct MainGridView: View {
             ScrollView {
                 LazyVGrid(columns: gridItems) {
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 151, offset: 0),
+                        EntryView(viewModel: EntryViewModel(limit: 151, offset: 0, service: service),
                                   startFrom: 0)
                     } label: {
                         GenerationCellView(listRangeText: "0001-\n0151",
@@ -41,7 +41,7 @@ struct MainGridView: View {
                     }
                     
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 100, offset: 151),
+                        EntryView(viewModel: EntryViewModel(limit: 100, offset: 151, service: service),
                                   startFrom: 151)
                     } label: {
                         GenerationCellView(listRangeText: "0152-\n0251",
@@ -52,7 +52,7 @@ struct MainGridView: View {
                     }
                     
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 135, offset: 251),
+                        EntryView(viewModel: EntryViewModel(limit: 135, offset: 251, service: service),
                                   startFrom: 251)
                     } label: {
                         GenerationCellView(listRangeText: "0252-\n0386",
@@ -63,7 +63,7 @@ struct MainGridView: View {
                     }
                     
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 107, offset: 386),
+                        EntryView(viewModel: EntryViewModel(limit: 107, offset: 386, service: service),
                                   startFrom: 386)
                     } label: {
                         GenerationCellView(listRangeText: "0387-\n0493",
@@ -74,7 +74,7 @@ struct MainGridView: View {
                     }
                     
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 156, offset: 493),
+                        EntryView(viewModel: EntryViewModel(limit: 156, offset: 493, service: service),
                                   startFrom: 493)
                     } label: {
                         GenerationCellView(listRangeText: "0494-\n0649",
@@ -85,7 +85,7 @@ struct MainGridView: View {
                     }
                     
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 72, offset: 649),
+                        EntryView(viewModel: EntryViewModel(limit: 72, offset: 649, service: service),
                                   startFrom: 649)
                     } label: {
                         GenerationCellView(listRangeText: "0650-\n0721",
@@ -96,7 +96,7 @@ struct MainGridView: View {
                     }
                     
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 88, offset: 721),
+                        EntryView(viewModel: EntryViewModel(limit: 88, offset: 721, service: service),
                                   startFrom: 721)
                     } label: {
                         GenerationCellView(listRangeText: "0722-\n0809",
@@ -107,7 +107,7 @@ struct MainGridView: View {
                     }
                     
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 96, offset: 809),
+                        EntryView(viewModel: EntryViewModel(limit: 96, offset: 809, service: service),
                                   startFrom: 809)
                     } label: {
                         GenerationCellView(listRangeText: "0810-\n0905",
@@ -118,7 +118,7 @@ struct MainGridView: View {
                     }
                     
                     NavigationLink {
-                        EntryView(viewModel: EntryViewModel(limit: 120, offset: 905),
+                        EntryView(viewModel: EntryViewModel(limit: 120, offset: 905, service: service),
                                   startFrom: 905)
                     } label: {
                         GenerationCellView(listRangeText: "0906-\n1025",
