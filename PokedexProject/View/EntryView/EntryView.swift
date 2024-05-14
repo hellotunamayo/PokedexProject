@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct EntryView: View {
-    
     @State private var searchKeyword: String = ""
     @State private var searchedPokemon: [PokemonListObject]?
     @State private var isSearching: Bool = false
@@ -50,6 +49,11 @@ struct EntryView: View {
                     }
                 }
             }
+            .task {
+                if viewModel.initialFetchedResult.isEmpty {
+                    await viewModel.fetch()
+                }
+            }
         }
     }
     
@@ -89,5 +93,5 @@ extension EntryView {
 }
 
 #Preview {
-    EntryView(viewModel: EntryViewModel(limit: 30, offset: 0), startFrom: 0)
+    EntryView(viewModel: EntryViewModel(limit: 30, offset: 0, service: PokemonAPIService()), startFrom: 0)
 }
