@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
+    @Environment(\.pokemonAPIService) private var service
+    
     var body: some View {
         TabView {
             MainGridView()
@@ -34,7 +36,7 @@ struct MainView: View {
                     )
                 }
             
-            SearchView()
+            SearchView(viewModel: EntryViewModel(limit: 1100, offset: 0, service: service))
                 .tabItem {
                     Label(
                         title: {
