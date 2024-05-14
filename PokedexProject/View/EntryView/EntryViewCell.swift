@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct EntryViewCell: View {
-    @StateObject var pokemonPortraitDispatcher = PokemonPortraitDispatcher()
-    @State var portraitOffsetX: CGFloat = 50.0
-    @State var cellOpacity: CGFloat = 0.0
+    @StateObject private var pokemonPortraitDispatcher = PokemonPortraitDispatcher()
+    @State private var portraitOffsetX: CGFloat = 50.0
+    @State private var cellOpacity: CGFloat = 0.0
     
-    let index: Int
-    let pokemonName: String
-    var adjustedTextColor: UIColor {
+    private var adjustedTextColor: UIColor {
         var h: CGFloat = 0.0,
             s: CGFloat = 0.0,
             b: CGFloat = 0.0,
@@ -26,6 +24,9 @@ struct EntryViewCell: View {
         }
         return UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
+    
+    let index: Int
+    let pokemonName: String
     
     var body: some View {
         ZStack {

@@ -13,9 +13,10 @@ struct PokemonSpriteView: View {
     @State private var roll: Double = 0.0
     @State private var pitch: Double = 0.0
     
-    let motionManager: CMMotionManager = CMMotionManager()
+    private let motionManager: CMMotionManager = CMMotionManager()
     let imageUrl: URL
     let viewWidth: CGFloat
+    
     var body: some View {
         AsyncImage(url: imageUrl) { image in
             ZStack {

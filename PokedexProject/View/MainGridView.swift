@@ -188,7 +188,6 @@ struct GenerationCellView: View {
                 guard let validMotion = motion else { return }
                 roll = validMotion.attitude.roll
                 pitch = validMotion.attitude.pitch
-//                print("roll: \(roll * 20) / pitch: \(pitch * 20)")
             }
         }
     }

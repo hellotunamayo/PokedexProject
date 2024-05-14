@@ -11,13 +11,13 @@ import OggDecoder
 import SwiftData
 
 struct PokemonDetailOverviewView: View {
-    @Environment(\.modelContext) var modelContext
-    @Query var favoritedPokemon: [FavoriteModel]
+    @Environment(\.modelContext) private var modelContext
+    @Query private var favoritedPokemon: [FavoriteModel]
     @Binding var showingIrochiPortrait: Bool
     @Binding var isFavorite: Bool
     let localization: Locale
     
-    @State var audioPlayer: AVAudioPlayer!
+    @State private var audioPlayer: AVAudioPlayer!
     
     let viewModel: PokemonDetailViewModel
     

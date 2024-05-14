@@ -16,11 +16,12 @@ struct PokemonDetailGraphView: View {
     @State private var offsetY: CGFloat = 30.0
     @State private var opacity: CGFloat = 0.0
     
-    let pokeStats: [PokemonStat]
-    let gridItem: [GridItem] = [
+    private let gridItem: [GridItem] = [
         GridItem(.flexible(minimum: 30, maximum: 300)),
         GridItem(.flexible(minimum: 30, maximum: 300))
     ]
+    
+    let pokeStats: [PokemonStat]
     
     var body: some View {
         LazyVGrid(columns: gridItem){

@@ -12,10 +12,18 @@ struct EntryView: View {
     @State private var searchedPokemon: [PokemonListObject]?
     @State private var isSearching: Bool = false
     
-    var viewModel: EntryViewModel
-    let startFrom: Int
+    private let viewModel: EntryViewModel
+    private let startFrom: Int
     
-    let gridItems: [GridItem] = [GridItem(.adaptive(minimum: 100, maximum: .infinity))]
+    private let gridItems: [GridItem] = [GridItem(.adaptive(minimum: 100, maximum: .infinity))]
+    
+    init(
+        viewModel: EntryViewModel,
+        startFrom: Int
+    ) {
+        self.viewModel = viewModel
+        self.startFrom = startFrom
+    }
     
     var body: some View {
         VStack {

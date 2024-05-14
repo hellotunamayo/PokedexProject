@@ -8,7 +8,7 @@
 import SwiftUI
 
 @Observable
-class LocaledSearchViewModel {
+final class LocaledSearchViewModel {
     private(set) var searchResult: [PokemonListObject] = []
     private(set) var searchResultViewCell: [SearchViewCell] = []
     private(set) var pokemonLocaleList: [PokemonLocalNameModel] = []

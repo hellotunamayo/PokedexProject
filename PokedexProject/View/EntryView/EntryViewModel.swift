@@ -9,14 +9,14 @@ import Foundation
 import Observation
 
 @Observable
-class EntryViewModel {
+final class EntryViewModel {
     private let service: any EntryUseCase
     private(set) var pokeList: [PokemonListObject] = []
     private(set) var initialFetchedResult: [PokemonListObject] = []
     
-    var urlString: String
-    var limit: Int
-    var offset: Int
+    private let urlString: String
+    private let limit: Int
+    private let offset: Int
     
     init(
         urlString: String = "",
