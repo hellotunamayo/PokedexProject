@@ -160,10 +160,12 @@ struct PokemonMoveDetailExtended: Codable {
     let pp: Int?
     let names: [PokemonMoveName?]
     let type: PokemonMoveType
+    let effectEntries: [PokemonMoveEffect]
     
     enum CodingKeys: String, CodingKey {
         case names, accuracy, power, pp, type
         case damageClass = "damage_class"
+        case effectEntries = "effect_entries"
     }
 }
 
@@ -179,4 +181,12 @@ struct PokemonMoveName: Hashable, Codable {
 struct PokemonMoveType: Codable {
     let name: String
     let url: String
+}
+
+struct PokemonMoveEffect: Identifiable, Codable {
+    var id: UUID {
+        return UUID()
+    }
+    let effect: String?
+    let language: Language
 }

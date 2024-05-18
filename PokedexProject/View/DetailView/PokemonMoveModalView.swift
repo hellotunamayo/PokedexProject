@@ -22,7 +22,7 @@ struct PokemonMoveModalView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    LazyVGrid(columns: gridItem) {
+                    VStack{
                         VStack {
                             Text("Names")
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -31,7 +31,7 @@ struct PokemonMoveModalView: View {
                             Spacer()
                         }
                         
-                        VStack {
+                        LazyVGrid(columns: gridItem) {
                             if let moveNames = moveData?.names {
                                 let compactedMoveName = Array(Set(moveNames.compactMap{$0}))
                                 ForEach(compactedMoveName, id: \.self) { moveName in
@@ -46,6 +46,27 @@ struct PokemonMoveModalView: View {
                     }
                     
                     PokemonMoveModalDivider()
+                    
+                    if let effectEntriesArr = moveData?.effectEntries {
+                        LazyVStack {
+                            VStack {
+                                Text("Effect")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .font(.title3)
+                                    .fontWeight(.black)
+                                Spacer()
+                            }
+                            
+                            ForEach(effectEntriesArr) { entry in
+                                Text(entry.effect ?? "-")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .multilineTextAlignment(.leading)
+                                    .padding(.leading, 1)
+                            }
+                        }
+                        
+                        PokemonMoveModalDivider()
+                    }
                     
                     LazyVGrid(columns: gridItem) {
                         Text("Damage Type")
@@ -128,6 +149,7 @@ struct PokemonMoveModalView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding()
+                .padding(.bottom, 60)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button(action: {
@@ -141,10 +163,11 @@ struct PokemonMoveModalView: View {
                     do {
                         guard let url = URL(string: moveDetail.url) else { return }
                         let (data, _) = try await URLSession.shared.data(from: url)
-                        let jsonData = try! JSONDecoder().decode(PokemonMoveDetailExtended.self, from: data)
+                        let jsonData = try JSONDecoder().decode(PokemonMoveDetailExtended.self, from: data)
                         moveData = jsonData
                     } catch {
-                        moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [], type: PokemonMoveType(name: "", url: ""))
+                        print(error)
+                        moveData = PokemonMoveDetailExtended(accuracy: 0, damageClass: PokemonDamageClass(name: "...", url: ""), power: 0, pp: 0, names: [], type: PokemonMoveType(name: "", url: ""), effectEntries: [PokemonMoveEffect(effect: "", language: Language(name: "", url: ""))])
                     }
             }
             }
@@ -163,5 +186,5 @@ struct PokemonMoveModalDivider: View {
 }
 
 #Preview {
-    PokemonMoveModalView(moveDetail: PokemonMoveDetail(name: "mega-punch",  url: "https://pokeapi.co/api/v2/move/5/"))
+    PokemonMoveModalView(moveDetail: PokemonMoveDetail(name: "mega-punch",  url: "https://pokeapi.co/api/v2/move/12/"))
 }
