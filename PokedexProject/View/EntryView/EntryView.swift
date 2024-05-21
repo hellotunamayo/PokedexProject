@@ -8,31 +8,43 @@
 import SwiftUI
 
 struct EntryView: View {
-    
     @State private var searchKeyword: String = ""
     @State private var searchedPokemon: [PokemonListObject]?
     @State private var isSearching: Bool = false
+    @State private var isLoading = false
     
-    var viewModel: EntryViewModel
-    let startFrom: Int
+    private let viewModel: EntryViewModel
+    private let startFrom: Int
     
-    let gridItems: [GridItem] = [GridItem(.adaptive(minimum: 100, maximum: .infinity))]
+    private let gridItems: [GridItem] = [GridItem(.adaptive(minimum: 100, maximum: .infinity))]
+    
+    init(
+        viewModel: EntryViewModel,
+        startFrom: Int
+    ) {
+        self.viewModel = viewModel
+        self.startFrom = startFrom
+    }
     
     var body: some View {
         VStack {
             //MARK: 비검색중 화면
             ScrollView {
-                ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
-                    LazyVStack {
-                        NavigationLink {
-                            PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
-                        } label: {
-                            EntryViewCell(index: i + startFrom, pokemonName: viewModel.pokeList[i].name)
-                                .frame(height: 140)
+                if isLoading {
+                    ProgressView()
+                } else {
+                    ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
+                        LazyVStack {
+                            NavigationLink {
+                                PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
+                            } label: {
+                                EntryViewCell(index: i + startFrom, pokemonName: viewModel.pokeList[i].name)
+                                    .frame(height: 140)
+                            }
+                            .backgroundStyle(Color("backgroundColor"))
                         }
-                        .backgroundStyle(Color("backgroundColor"))
+                        .padding(.vertical, -4)
                     }
-                    .padding(.vertical, -4)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -48,6 +60,13 @@ struct EntryView: View {
                             .font(Font.custom("Silkscreen-Regular", size: 18))
                         
                     }
+                }
+            }
+            .task {
+                if viewModel.initialFetchedResult.isEmpty {
+                    isLoading = true
+                    await viewModel.fetch()
+                    isLoading = false
                 }
             }
         }
@@ -89,5 +108,5 @@ extension EntryView {
 }
 
 #Preview {
-    EntryView(viewModel: EntryViewModel(limit: 30, offset: 0), startFrom: 0)
+    EntryView(viewModel: EntryViewModel(limit: 30, offset: 0, service: PokemonAPIService()), startFrom: 0)
 }

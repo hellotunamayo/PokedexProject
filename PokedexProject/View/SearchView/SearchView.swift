@@ -13,7 +13,7 @@ struct SearchView: View {
     @FocusState private var searchFocused
     let localedSearchViewModel: LocaledSearchViewModel = LocaledSearchViewModel()
 //    let searchViewModel: SearchViewModel = SearchViewModel()
-    let viewModel: EntryViewModel = EntryViewModel(limit: 1100, offset: 0)
+    let viewModel: EntryViewModel
     
     var body: some View {
         NavigationStack {
@@ -75,5 +75,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    SearchView()
+    SearchView(viewModel: EntryViewModel(limit: 1100, offset: 0, service: PokemonAPIService()))
 }

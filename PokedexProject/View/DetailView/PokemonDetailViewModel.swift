@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-class PokemonDetailViewModel {
+final class PokemonDetailViewModel {
     private let apiService: some PokemonDetailUseCase = PokemonAPIService()
     private(set) var pokemonData: PokemonDetailData?
     private(set) var pokemonSpeciesData: PokemonSpeciesData?

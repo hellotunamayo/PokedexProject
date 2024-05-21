@@ -9,8 +9,8 @@ import SwiftUI
 
 struct PokemonMoveModalView: View {
     
-    @Environment (\.dismiss) var dismiss
-    @State var moveData: PokemonMoveDetailExtended?
+    @Environment (\.dismiss) private var dismiss
+    @State private var moveData: PokemonMoveDetailExtended?
     
     let moveDetail: PokemonMoveDetail
     let gridItem: [GridItem] = [

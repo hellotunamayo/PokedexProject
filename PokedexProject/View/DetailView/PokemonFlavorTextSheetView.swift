@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PokemonFlavorTextSheetView: View {
     
-    @Environment (\.dismiss) var dismiss
+    @Environment (\.dismiss) private var dismiss
     @State private var showingFlavorText: [FlavorText] = []
     @Binding var locale: Locale?
     

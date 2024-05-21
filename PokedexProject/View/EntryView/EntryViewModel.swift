@@ -9,27 +9,29 @@ import Foundation
 import Observation
 
 @Observable
-class EntryViewModel {
-    private let apiUseCase: some EntryUseCase = PokemonAPIService()
+final class EntryViewModel {
+    private let service: any EntryUseCase
     private(set) var pokeList: [PokemonListObject] = []
     private(set) var initialFetchedResult: [PokemonListObject] = []
     
-    var urlString: String
-    var limit: Int
-    var offset: Int
+    private let urlString: String
+    private let limit: Int
+    private let offset: Int
     
-    init(urlString: String = "", limit: Int, offset: Int) {
+    init(
+        urlString: String = "",
+        limit: Int,
+        offset: Int,
+        service: any EntryUseCase
+    ) {
         self.limit = limit
         self.offset = offset
         self.urlString = "https://pokeapi.co/api/v2/pokemon?limit=\(limit)&offset=\(offset)"
-        
-        Task {
-            await initialFetch()
-        }
+        self.service = service
     }
     
-    @MainActor func initialFetch() async {
-        let result = await apiUseCase.fetch(with: urlString)
+    func fetch() async {
+        let result = await service.fetch(with: urlString)
         
         pokeList = result
         initialFetchedResult = result
