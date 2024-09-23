@@ -9,10 +9,10 @@ import Foundation
 import Observation
 
 @Observable
-final class EntryViewModel {
+final class EntryViewModel: Sendable {
     private let service: any EntryUseCase
-    private(set) var pokeList: [PokemonListObject] = []
-    private(set) var initialFetchedResult: [PokemonListObject] = []
+    @MainActor private(set) var pokeList: [PokemonListObject] = []
+    @MainActor private(set) var initialFetchedResult: [PokemonListObject] = []
     
     private let urlString: String
     private let limit: Int
@@ -30,6 +30,7 @@ final class EntryViewModel {
         self.service = service
     }
     
+    @MainActor
     func fetch() async {
         let result = await service.fetch(with: urlString)
         
@@ -37,6 +38,7 @@ final class EntryViewModel {
         initialFetchedResult = result
     }
     
+    @MainActor
     func search(searchKeyword: String) -> [PokemonListObject] {
         return initialFetchedResult.filter{ $0.name.contains(searchKeyword.lowercased()) }
     }

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct PokemonAPIServiceEnvironmentKey: EnvironmentKey {
-    static var defaultValue: PokemonAPIService = .init()
+struct PokemonAPIServiceEnvironmentKey: @preconcurrency EnvironmentKey, Sendable {
+    @MainActor static let defaultValue: PokemonAPIService = .init()
 }
 
 extension EnvironmentValues {

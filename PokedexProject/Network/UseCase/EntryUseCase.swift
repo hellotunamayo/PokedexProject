@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol EntryUseCase {
+protocol EntryUseCase: Sendable {
     func fetch(with urlString: String) async -> [PokemonListObject]
 }

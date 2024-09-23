@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PokemonMoveModalView: View {
     
-    @Environment (\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss
     @State private var moveData: PokemonMoveDetailExtended?
     
     let moveDetail: PokemonMoveDetail

@@ -7,11 +7,12 @@
 
 import Foundation
 
-protocol APIService {
-    var session: URLSession { get }
+protocol APIService: Sendable {
+    @MainActor var session: URLSession { get }
 }
 
 extension APIService {
+    @MainActor
     func request<R: Decodable, E: Requestable & Responsable>(
         with endpoint: E
     ) async throws -> R where E.Response == R {

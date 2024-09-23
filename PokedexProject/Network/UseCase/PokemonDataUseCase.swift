@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol PokemonDetailUseCase {
+protocol PokemonDetailUseCase: Sendable {
     func fetch(urlString: String) async -> PokemonDetailData?
     func fetchSpicies(urlString: String) async -> PokemonSpeciesData?
 }

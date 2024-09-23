@@ -23,7 +23,8 @@ final class PokemonDetailViewModel {
         pokemonSpeciesData?.genera ?? []
     }
     
-    @MainActor func fetch(urlString: String) async -> () {
+    @MainActor
+    func fetch(urlString: String) async -> () {
         let result = await apiService.fetch(urlString: urlString)
         pokemonData = result
         pokemonMoveData = result?.moves ?? []
@@ -31,6 +32,7 @@ final class PokemonDetailViewModel {
         pokemonSpeciesData = await apiService.fetchSpicies(urlString: speciesURLString)
     }
     
+    @MainActor
     func downloadFromURL(urlString: String) async throws -> URL {
         
         enum DownloadError: String, Error {

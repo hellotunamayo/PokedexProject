@@ -8,15 +8,18 @@
 import SwiftUI
 
 @Observable
-final class LocaledSearchViewModel {
-    private(set) var searchResult: [PokemonListObject] = []
-    private(set) var searchResultViewCell: [SearchViewCell] = []
-    private(set) var pokemonLocaleList: [PokemonLocalNameModel] = []
+final class LocaledSearchViewModel: Sendable {
+    nonisolated(unsafe) private(set) var searchResult: [PokemonListObject] = []
+    nonisolated(unsafe) private(set) var searchResultViewCell: [SearchViewCell] = []
+    nonisolated(unsafe) private(set) var pokemonLocaleList: [PokemonLocalNameModel] = []
     
     init() {
-        getFullLocaleList()
+        Task {
+            await getFullLocaleList()
+        }
     }
     
+    @MainActor
     func search(searchKeyword: String, pokemonList: [PokemonListObject]) {
         var viewCells: [SearchViewCell] = []
         searchResult = []
@@ -38,54 +41,21 @@ final class LocaledSearchViewModel {
         searchResultViewCell = viewCells
     }
     
-    func getFullLocaleList() {
+    func getFullLocaleList() async -> () {
         let url = Bundle.main.url(forResource: "pokemonLocalNames", withExtension: "json")!
         let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            do {
-                guard let data = data else {
-                    print("data not found")
-                    return
-                }
-                let jsonData = try JSONDecoder().decode([PokemonLocalNameModel].self, from: data)
-                self?.pokemonLocaleList = jsonData
-//                print(self?.pokemonLocaleList)
-            } catch {
-                print(error)
-            }
-            
-        }.resume()
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let jsonData = try JSONDecoder().decode([PokemonLocalNameModel].self, from: data)
+            self.pokemonLocaleList = jsonData
+        } catch {
+            print(error)
+        }
     }
     
+    @MainActor
     func emptyResult() {
         searchResult = []
         searchResultViewCell = []
     }
 }
-//
-//@Observable
-//class SearchViewModel {
-//    private(set) var searchResult: [PokemonListObject] = []
-//    private(set) var searchResultViewCell: [SearchViewCell] = []
-//    
-//    init() {
-//        emptyResult()
-//    }
-//    
-//    func search(searchKeyword: String, pokemonList: [PokemonListObject]) {
-//        var viewCells: [SearchViewCell] = []
-//        searchResult = []
-//        searchResultViewCell = []
-//        
-//        searchResult = pokemonList.filter{ $0.name.lowercased().localizedStandardContains(searchKeyword) }
-//        searchResult.forEach { listObject in
-//            viewCells.append(SearchViewCell(endpoint: listObject.url))
-//        }
-//        searchResultViewCell = viewCells
-//    }
-//    
-//    func emptyResult() {
-//        searchResult = []
-//        searchResultViewCell = []
-//    }
-//}
