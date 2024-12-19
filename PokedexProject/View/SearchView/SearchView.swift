@@ -12,7 +12,7 @@ struct SearchView: View {
     @State private var searchKeyword: String = ""
     @FocusState private var searchFocused
     let localedSearchViewModel: LocaledSearchViewModel = LocaledSearchViewModel()
-//    let searchViewModel: SearchViewModel = SearchViewModel()
+    //    let searchViewModel: SearchViewModel = SearchViewModel()
     let viewModel: EntryViewModel
     
     var body: some View {
@@ -45,7 +45,7 @@ struct SearchView: View {
                     ForEach(Array(localedSearchViewModel.searchResultViewCell.enumerated()), id: \.offset) { index, element in
                         NavigationLink {
                             if let searchResult = localedSearchViewModel.searchResult[safe: index] {
-                                PokemonDetailView(pokeData: searchResult, endpoint: searchResult.url)
+                                PokemonDetailView(pokeData: searchResult)
                             }
                         } label: {
                             if let searchResultViewCell = localedSearchViewModel.searchResultViewCell[safe: index] {

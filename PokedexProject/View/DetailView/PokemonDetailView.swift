@@ -18,7 +18,6 @@ struct PokemonDetailView: View {
     
     var viewModel: PokemonDetailViewModel = PokemonDetailViewModel()
     let pokeData: PokemonListObject
-    let endpoint: String
     let gridItem: [GridItem] = [
         GridItem(.flexible(minimum: 30, maximum: 300)),
         GridItem(.flexible(minimum: 30, maximum: 300))
@@ -47,7 +46,7 @@ struct PokemonDetailView: View {
             VStack {
                 //MARK: 넘버, 타입, 이름, 별명, 체중, 신장
                 PokemonDetailOverviewView(
-                    showingIrochiPortrait: $showingIrochiPortrait, 
+                    showingIrochiPortrait: $showingIrochiPortrait,
                     isFavorite: $isFavorite,
                     localization: selectedLocale,
                     viewModel: viewModel
@@ -62,7 +61,7 @@ struct PokemonDetailView: View {
                         Text("Basic Status")
                             .font(.title2)
                             .fontWeight(.black)
-                            
+                        
                         Rectangle()
                             .frame(width: 20, height: 3)
                     }
@@ -95,7 +94,7 @@ struct PokemonDetailView: View {
                     
                     //기술 리스트
                     NavigationLink {
-                        PokemonMoveView(pokemonName: viewModel.pokemonData?.name ?? "", 
+                        PokemonMoveView(pokemonName: viewModel.pokemonData?.name ?? "",
                                         pokemonPortraitURLString: viewModel.pokemonData?.sprites.frontDefault ?? "",
                                         pokemonTypeData: getPokemonTypeImageAndColor(type: viewModel.pokemonData?.types[0].type.name ?? "normal"),
                                         pokemonMoveData: viewModel.pokemonMoveData)
@@ -103,7 +102,7 @@ struct PokemonDetailView: View {
                         PoekmonDetailViewNavigationButton(titleText: "Show all movesets")
                     }
                     .padding(.top, 5)
-
+                    
                     Spacer()
                 }
                 .padding(EdgeInsets(top: 10, leading: 30, bottom: 5, trailing: 30))
@@ -154,7 +153,7 @@ struct PokemonDetailView: View {
         })
         .task {
             if viewModel.pokemonMoveData.isEmpty {
-                await viewModel.fetch(urlString: endpoint)
+                await viewModel.fetch(with: pokeData)
                 isPokemonFavorited()
             } else {
                 isPokemonFavorited()
@@ -174,7 +173,7 @@ struct PokemonDetailView: View {
                         .tag(Locale.jp)
                     Text("한국어")
                         .tag(Locale.ko)
-                    Text("Chinese-Traditional")
+                    Text("繁體中文")
                         .tag(Locale.cn)
                     Text("Deutsch")
                         .tag(Locale.de)
@@ -185,7 +184,7 @@ struct PokemonDetailView: View {
                         .foregroundStyle(Color("textColor"))
                         .frame(width: 22, height: 22)
                         .offset(x: 5, y: 2)
-
+                    
                 }
             }
         }
@@ -236,7 +235,6 @@ struct PoekmonDetailViewNavigationButton: View {
 
 #Preview {
     NavigationStack {
-        PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/908/"),
-                                    endpoint: "https://pokeapi.co/api/v2/pokemon/908/")
+        PokemonDetailView(pokeData: PokemonListObject(name: "pikachu", url: "https://pokeapi.co/api/v2/pokemon/908/"))
     }
 }

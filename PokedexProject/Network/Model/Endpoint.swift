@@ -7,33 +7,33 @@
 
 import Foundation
 
-struct Endpoint<R: Decodable>: Requestable, Responsable {
+protocol RequestResponsable: Requestable, Responsable { }
+
+struct Endpoint<R>: RequestResponsable {
     typealias Response = R
     
     var baseURL: String
     var path: String
     var method: HttpMethod
+    var queryParams: (any Encodable)?
+    var bodyParams: (any Encodable)?
     var headers: [HttpHeader]?
-    var body: Data?
+    var sampleData: Data?
     
-    
-    init(
-        baseURL: String,
-        path: String,
-        method: HttpMethod,
-        headers: [HttpHeader]? = nil,
-        body: Data? = nil
-    ) {
+    init(baseURL: String,
+         path: String = "",
+         method: HttpMethod = .get,
+         queryParams: (any Encodable)? = nil,
+         bodyParams: (any Encodable)? = nil,
+         headers: [HttpHeader]? = nil,
+         sampleData: Data? = nil) {
+        
         self.baseURL = baseURL
         self.path = path
         self.method = method
+        self.queryParams = queryParams
+        self.bodyParams = bodyParams
         self.headers = headers
-        self.body = body
-    }
-    
-    init(urlString: String) {
-        self.baseURL = urlString
-        self.path = ""
-        self.method = .get
+        self.sampleData = sampleData
     }
 }

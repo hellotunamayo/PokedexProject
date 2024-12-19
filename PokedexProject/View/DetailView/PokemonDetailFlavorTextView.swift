@@ -70,16 +70,16 @@ struct PokemonDetailFlavorTextView: View {
                         HStack {
                             Group {
                                 switch locale {
-                                    case .en:
-                                        Text("English")
-                                    case .jp:
-                                        Text("日本語")
-                                    case .ko:
-                                        Text("한국어")
-                                    case .cn:
-                                        Text("Chinese-Traditional")
-                                    case .de:
-                                        Text("Deutsch")
+                                case .en:
+                                    Text("English")
+                                case .jp:
+                                    Text("日本語")
+                                case .ko:
+                                    Text("한국어")
+                                case .cn:
+                                    Text("繁體中文")
+                                case .de:
+                                    Text("Deutsch")
                                 }
                             }
                             .fontWeight(.bold)

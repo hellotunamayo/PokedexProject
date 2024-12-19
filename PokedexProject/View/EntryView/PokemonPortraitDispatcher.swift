@@ -18,6 +18,7 @@ final class PokemonPortraitDispatcher: ObservableObject {
         return URLSession(configuration: configuration)
     }()
     
+    private var apiService: APIService?
     private var cancellable: AnyCancellable?
     
     func load(with imageUrlString: String) {
@@ -27,23 +28,18 @@ final class PokemonPortraitDispatcher: ObservableObject {
         }
         self.cancellable = session.dataTaskPublisher(for: imageUrl)
             .tryMap { data, response in
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    throw HttpError.badResponse
-                }
-                guard httpResponse.statusCode == 200 else {
-                    throw HttpError.errorWith(code: httpResponse.statusCode, data: data)
-                }
-
+                try self.apiService?.checkError(with: response)
+                
                 return data
             }
             .map(combineImageAndColor(from:))
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 switch completion {
-                    case .finished:
-                        break
-                    case let .failure(error):
-                        debugPrint(error)
+                case .finished:
+                    break
+                case let .failure(error):
+                    debugPrint(error)
                 }
             } receiveValue: { [weak self] color, image in
                 self?.backgroundColor = color
