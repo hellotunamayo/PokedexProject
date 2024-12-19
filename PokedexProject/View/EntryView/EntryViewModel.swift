@@ -14,24 +14,22 @@ final class EntryViewModel {
     private(set) var pokeList: [PokemonListObject] = []
     private(set) var initialFetchedResult: [PokemonListObject] = []
     
-    private let urlString: String
     private let limit: Int
     private let offset: Int
     
     init(
-        urlString: String = "",
         limit: Int,
         offset: Int,
         service: any EntryUseCase
     ) {
         self.limit = limit
         self.offset = offset
-        self.urlString = "https://pokeapi.co/api/v2/pokemon?limit=\(limit)&offset=\(offset)"
         self.service = service
     }
     
+    @MainActor
     func fetch() async {
-        let result = await service.fetch(with: urlString)
+        let result = await service.fetch(with: limit, offset: offset)
         
         pokeList = result
         initialFetchedResult = result

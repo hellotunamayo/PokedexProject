@@ -8,6 +8,6 @@
 import Foundation
 
 protocol PokemonDetailUseCase {
-    func fetch(urlString: String) async -> PokemonDetailData?
-    func fetchSpicies(urlString: String) async -> PokemonSpeciesData?
+    func fetch(with pokemonListObject: PokemonListObject) async -> PokemonDetailData?
+    func fetch_Spicies(with pokemonDetailData: PokemonDetailData) async -> PokemonSpeciesData?
 }
