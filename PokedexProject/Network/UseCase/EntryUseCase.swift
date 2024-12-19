@@ -8,5 +8,5 @@
 import Foundation
 
 protocol EntryUseCase {
-    func fetch(with urlString: String) async -> [PokemonListObject]
+    func fetch(with limit: Int, offset: Int) async -> [PokemonListObject]
 }

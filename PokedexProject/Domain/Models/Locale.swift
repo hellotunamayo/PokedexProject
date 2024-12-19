@@ -18,16 +18,16 @@ enum Locale: String, Identifiable, CaseIterable {
     
     var accessName: String {
         switch self {
-            case .ko:
-                return "ko"
-            case .jp:
-                return "ja-Hrkt"
-            case .cn:
-                return "zh-Hant"
-            case .de:
-                return "de"
-            case .en:
-                return "en"
+        case .ko:
+            return "ko"
+        case .jp:
+            return "ja-Hrkt"
+        case .cn:
+            return "zh-Hant"
+        case .de:
+            return "de"
+        case .en:
+            return "en"
         }
     }
 }
