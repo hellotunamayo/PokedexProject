@@ -10,7 +10,7 @@ import SwiftUI
 
 @Observable
 final class PokemonDetailViewModel {
-    private let apiService: some PokemonDetailUseCase = PokemonAPIService()
+    private let service: some PokemonDetailUseCase = PokemonAPIService()
     private(set) var pokemonData: PokemonDetailData?
     private(set) var pokemonSpeciesData: PokemonSpeciesData?
     private(set) var pokemonMoveData: [PokemonMoveData] = []
@@ -24,12 +24,14 @@ final class PokemonDetailViewModel {
     }
     
     @MainActor
-    func fetch(urlString: String) async -> () {
-        let result = await apiService.fetch(urlString: urlString)
+    func fetch(with pokeData: PokemonListObject) async -> Void {
+        let result = await service.fetch(with: pokeData)
         pokemonData = result
         pokemonMoveData = result?.moves ?? []
-        let speciesURLString = "https://pokeapi.co/api/v2/pokemon-species/\(result?.id ?? 1)"
-        pokemonSpeciesData = await apiService.fetchSpicies(urlString: speciesURLString)
+        
+        if let result = result {
+            pokemonSpeciesData = await service.fetch_Spicies(with: result)
+        }
     }
     
     @MainActor

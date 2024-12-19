@@ -77,7 +77,7 @@ struct PokemonDetailFlavorTextView: View {
                                     case .ko:
                                         Text("한국어")
                                     case .cn:
-                                        Text("Chinese-Traditional")
+                                        Text("繁體中文")
                                     case .de:
                                         Text("Deutsch")
                                 }

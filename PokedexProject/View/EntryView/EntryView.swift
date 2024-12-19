@@ -36,7 +36,7 @@ struct EntryView: View {
                     ForEach(0..<viewModel.pokeList.count, id: \.self) { i in
                         LazyVStack {
                             NavigationLink {
-                                PokemonDetailView(pokeData: viewModel.pokeList[i], endpoint: viewModel.pokeList[i].url)
+                                PokemonDetailView(pokeData: viewModel.pokeList[i])
                             } label: {
                                 EntryViewCell(index: i + startFrom, pokemonName: viewModel.pokeList[i].name)
                                     .frame(height: 140)
