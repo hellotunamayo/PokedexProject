@@ -32,14 +32,14 @@ struct FavoriteView: View {
                     ForEach(favoritedPokemon) { pokemon in
                         LazyVStack {
                             NavigationLink {
-                                PokemonDetailView(pokeData: pokemon.pokemonListObject, endpoint: "https://pokeapi.co/api/v2/pokemon/\(pokemon.pokemonIndex)/")
+                                PokemonDetailView(pokeData: pokemon.pokemonListObject)
                             } label: {
                                 EntryViewCell(index: pokemon.pokemonIndex - 1, pokemonName: pokemon.pokemonName)
                                     .frame(height: 140)
                             }
                             .backgroundStyle(Color("backgroundColor"))
                             .contextMenu {
-                                Button("Remove from favorite", 
+                                Button("Remove from favorite",
                                        systemImage: "trash",
                                        role: .destructive) {
                                     do {

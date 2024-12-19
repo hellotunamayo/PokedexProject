@@ -7,29 +7,45 @@
 
 import Foundation
 
-protocol APIService: Sendable {
-    @MainActor var session: URLSession { get }
+protocol APIService: Provider, Sendable {
+//    @MainActor var session: URLSessionable { get }
+    var session: URLSessionable { get }
 }
 
 extension APIService {
-    @MainActor
-    func request<R: Decodable, E: Requestable & Responsable>(
-        with endpoint: E
-    ) async throws -> R where E.Response == R {
-        let request = try endpoint.buildRequest()
-        let (data, response) = try await session.data(for: request)
+//    @MainActor
+    func request<R, E>(with endpoint: E) async throws -> R where R : Decodable, R == E.Response, E : Requestable, E : Responsable {
+        let urlRequest: URLRequest = try endpoint.getURLRequest()
+        let (data, response): (Data, URLResponse) = try await session.data(for: urlRequest)
         
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw HttpError.badResponse
-        }
-        guard httpResponse.statusCode == 200 else {
-            throw HttpError.errorWith(code: httpResponse.statusCode, data: data)
-        }
+        try self.checkError(with: response)
         
-        return try decode(data: data)
+        return try self.decode(data: data)
     }
     
-    private func decode<T: Decodable>(data: Data) throws -> T {
-        try JSONDecoder().decode(T.self, from: data)
+    // MARK: - PRIVATE Methods
+    func checkError(with response: URLResponse) throws -> Void {
+        
+        guard let response: HTTPURLResponse = response as? HTTPURLResponse else { throw HttpError.unknownError }
+        
+        guard (200..<300) ~= response.statusCode else {
+            switch response.statusCode {
+            case (400..<500):   //  Client Error 처리
+                throw HttpError.httpStatusError(.clientError(HttpError.StatusError.ClientError(rawValue: response.statusCode)!))
+            case (500..<600):   //  Server Error 처리
+                throw HttpError.httpStatusError(.serverError(HttpError.StatusError.ServerError(rawValue: response.statusCode)!))
+            default:
+                throw HttpError.unknownError
+            }
+        }
+    }
+    
+    private func decode<T>(data: Data) throws -> T where T: Decodable {
+        
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            throw HttpError.emptyData
+        }
     }
 }
